@@ -1,0 +1,25 @@
+{
+    "name": "bahjaat/daisycon",
+    "description": "",
+    "authors": [
+        {
+            "name": "Edwin Heij",
+            "email": "bahjaat@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "prewk/xml-string-streamer-guzzle": "~0.0.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "Bahjaat\\Daisycon": "src/"
+        },
+        "classmap": [
+            "src/database/migrations",
+            "src/database/seeds"
+        ]
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="utf8"?>
+
+<table_data name="man__landcodes">
+	<row>
+		<field name="landcode">AD</field>
+		<field name="land">Andorra</field>
+	</row>
+	<row>
+		<field name="landcode">AE</field>
+		<field name="land">Verenigde Arabische Emiraten</field>
+	</row>
+	<row>
+		<field name="landcode">AF</field>
+		<field name="land">Afghanistan</field>
+	</row>
+	<row>
+		<field name="landcode">AG</field>
+		<field name="land">Antigua en Barbuda</field>
+	</row>
+	<row>
+		<field name="landcode">AI</field>
+		<field name="land">Anguilla</field>
+	</row>
+	<row>
+		<field name="landcode">AL</field>
+		<field name="land">Albanië</field>
+	</row>
+	<row>
+		<field name="landcode">AM</field>
+		<field name="land">Armenië</field>
+	</row>
+	<row>
+		<field name="landcode">AN</field>
+		<field name="land">Nederlandse Antillen</field>
+	</row>
+	<row>
+		<field name="landcode">AO</field>
+		<field name="land">Angola</field>
+	</row>
+	<row>
+		<field name="landcode">AQ</field>
+		<field name="land">Antarctica</field>
+	</row>
+	<row>
+		<field name="landcode">AR</field>
+		<field name="land">Argentinië</field>
+	</row>
+	<row>
+		<field name="landcode">AS</field>
+		<field name="land">Amerikaans-Samoa</field>
+	</row>
+	<row>
+		<field name="landcode">AT</field>
+		<field name="land">Oostenrijk</field>
+	</row>
+	<row>
+		<field name="landcode">AU</field>
+		<field name="land">Australië</field>
+	</row>
+	<row>
+		<field name="landcode">AW</field>
+		<field name="land">Aruba</field>
+	</row>
+	<row>
+		<field name="landcode">AX</field>
+		<field name="land">Ålandseilanden</field>
+	</row>
+	<row>
+		<field name="landcode">AZ</field>
+		<field name="land">Azerbeidzjan</field>
+	</row>
+	<row>
+		<field name="landcode">BA</field>
+		<field name="land">Bosnië en Herzegovina</field>
+	</row>
+	<row>
+		<field name="landcode">BB</field>
+		<field name="land">Barbados</field>
+	</row>
+	<row>
+		<field name="landcode">BD</field>
+		<field name="land">Bangladesh</field>
+	</row>
+	<row>
+		<field name="landcode">BE</field>
+		<field name="land">België</field>
+	</row>
+	<row>
+		<field name="landcode">BF</field>
+		<field name="land">Burkina Faso</field>
+	</row>
+	<row>
+		<field name="landcode">BG</field>
+		<field name="land">Bulgarije</field>
+	</row>
+	<row>
+		<field name="landcode">BH</field>
+		<field name="land">Bahrein</field>
+	</row>
+	<row>
+		<field name="landcode">BI</field>
+		<field name="land">Burundi</field>
+	</row>
+	<row>
+		<field name="landcode">BJ</field>
+		<field name="land">Benin</field>
+	</row>
+	<row>
+		<field name="landcode">BM</field>
+		<field name="land">Bermuda</field>
+	</row>
+	<row>
+		<field name="landcode">BN</field>
+		<field name="land">Brunei</field>
+	</row>
+	<row>
+		<field name="landcode">BO</field>
+		<field name="land">Bolivia</field>
+	</row>
+	<row>
+		<field name="landcode">BR</field>
+		<field name="land">Brazilië</field>
+	</row>
+	<row>
+		<field name="landcode">BS</field>
+		<field name="land">Bahama's</field>
+	</row>
+	<row>
+		<field name="landcode">BT</field>
+		<field name="land">Bhutan</field>
+	</row>
+	<row>
+		<field name="landcode">BV</field>
+		<field name="land">Bouvet</field>
+	</row>
+	<row>
+		<field name="landcode">BW</field>
+		<field name="land">Botswana</field>
+	</row>
+	<row>
+		<field name="landcode">BY</field>
+		<field name="land">Wit-Rusland</field>
+	</row>
+	<row>
+		<field name="landcode">BZ</field>
+		<field name="land">Belize</field>
+	</row>
+	<row>
+		<field name="landcode">CA</field>
+		<field name="land">Canada</field>
+	</row>
+	<row>
+		<field name="landcode">CC</field>
+		<field name="land">Cocoseilanden</field>
+	</row>
+	<row>
+		<field name="landcode">CD</field>
+		<field name="land">Congo-Kinshasa</field>
+	</row>
+	<row>
+		<field name="landcode">CF</field>
+		<field name="land">Centraal-Afrikaanse Republiek</field>
+	</row>
+	<row>
+		<field name="landcode">CG</field>
+		<field name="land">Congo-Brazzaville</field>
+	</row>
+	<row>
+		<field name="landcode">CH</field>
+		<field name="land">Zwitserland</field>
+	</row>
+	<row>
+		<field name="landcode">CI</field>
+		<field name="land">Ivoorkust</field>
+	</row>
+	<row>
+		<field name="landcode">CK</field>
+		<field name="land">Cookeilanden</field>
+	</row>
+	<row>
+		<field name="landcode">CL</field>
+		<field name="land">Chili</field>
+	</row>
+	<row>
+		<field name="landcode">CM</field>
+		<field name="land">Kameroen</field>
+	</row>
+	<row>
+		<field name="landcode">CN</field>
+		<field name="land">China</field>
+	</row>
+	<row>
+		<field name="landcode">CO</field>
+		<field name="land">Colombia</field>
+	</row>
+	<row>
+		<field name="landcode">CR</field>
+		<field name="land">Costa Rica</field>
+	</row>
+	<row>
+		<field name="landcode">CU</field>
+		<field name="land">Cuba</field>
+	</row>
+	<row>
+		<field name="landcode">CV</field>
+		<field name="land">Kaapverdië</field>
+	</row>
+	<row>
+		<field name="landcode">CX</field>
+		<field name="land">Christmaseiland</field>
+	</row>
+	<row>
+		<field name="landcode">CY</field>
+		<field name="land">Cyprus</field>
+	</row>
+	<row>
+		<field name="landcode">CZ</field>
+		<field name="land">Tsjechië</field>
+	</row>
+	<row>
+		<field name="landcode">DE</field>
+		<field name="land">Duitsland</field>
+	</row>
+	<row>
+		<field name="landcode">DJ</field>
+		<field name="land">Djibouti</field>
+	</row>
+	<row>
+		<field name="landcode">DK</field>
+		<field name="land">Denemarken</field>
+	</row>
+	<row>
+		<field name="landcode">DM</field>
+		<field name="land">Dominica</field>
+	</row>
+	<row>
+		<field name="landcode">DO</field>
+		<field name="land">Dominicaanse Republiek</field>
+	</row>
+	<row>
+		<field name="landcode">DZ</field>
+		<field name="land">Algerije</field>
+	</row>
+	<row>
+		<field name="landcode">EC</field>
+		<field name="land">Ecuador</field>
+	</row>
+	<row>
+		<field name="landcode">EE</field>
+		<field name="land">Estland</field>
+	</row>
+	<row>
+		<field name="landcode">EG</field>
+		<field name="land">Egypte</field>
+	</row>
+	<row>
+		<field name="landcode">EH</field>
+		<field name="land">Westelijke Sahara</field>
+	</row>
+	<row>
+		<field name="landcode">ER</field>
+		<field name="land">Eritrea</field>
+	</row>
+	<row>
+		<field name="landcode">ES</field>
+		<field name="land">Spanje</field>
+	</row>
+	<row>
+		<field name="landcode">ET</field>
+		<field name="land">Ethiopië</field>
+	</row>
+	<row>
+		<field name="landcode">FI</field>
+		<field name="land">Finland</field>
+	</row>
+	<row>
+		<field name="landcode">FJ</field>
+		<field name="land">Fiji</field>
+	</row>
+	<row>
+		<field name="landcode">FK</field>
+		<field name="land">Falklandeilanden</field>
+	</row>
+	<row>
+		<field name="landcode">FM</field>
+		<field name="land">Micronesia</field>
+	</row>
+	<row>
+		<field name="landcode">FO</field>
+		<field name="land">Faeröer</field>
+	</row>
+	<row>
+		<field name="landcode">FR</field>
+		<field name="land">Frankrijk</field>
+	</row>
+	<row>
+		<field name="landcode">GA</field>
+		<field name="land">Gabon</field>
+	</row>
+	<row>
+		<field name="landcode">GB</field>
+		<field name="land">Verenigd Koninkrijk</field>
+	</row>
+	<row>
+		<field name="landcode">GD</field>
+		<field name="land">Grenada</field>
+	</row>
+	<row>
+		<field name="landcode">GE</field>
+		<field name="land">Georgië</field>
+	</row>
+	<row>
+		<field name="landcode">GF</field>
+		<field name="land">Frans-Guyana</field>
+	</row>
+	<row>
+		<field name="landcode">GG</field>
+		<field name="land">Guernsey</field>
+	</row>
+	<row>
+		<field name="landcode">GH</field>
+		<field name="land">Ghana</field>
+	</row>
+	<row>
+		<field name="landcode">GI</field>
+		<field name="land">Gibraltar</field>
+	</row>
+	<row>
+		<field name="landcode">GL</field>
+		<field name="land">Groenland</field>
+	</row>
+	<row>
+		<field name="landcode">GM</field>
+		<field name="land">Gambia</field>
+	</row>
+	<row>
+		<field name="landcode">GN</field>
+		<field name="land">Guinee</field>
+	</row>
+	<row>
+		<field name="landcode">GP</field>
+		<field name="land">Guadeloupe</field>
+	</row>
+	<row>
+		<field name="landcode">GQ</field>
+		<field name="land">Equatoriaal-Guinea</field>
+	</row>
+	<row>
+		<field name="landcode">GR</field>
+		<field name="land">Griekenland</field>
+	</row>
+	<row>
+		<field name="landcode">GS</field>
+		<field name="land">Zuid-Georgië en de Zuidelijke Sandwicheilanden</field>
+	</row>
+	<row>
+		<field name="landcode">GT</field>
+		<field name="land">Guatemala</field>
+	</row>
+	<row>
+		<field name="landcode">GU</field>
+		<field name="land">Guam</field>
+	</row>
+	<row>
+		<field name="landcode">GW</field>
+		<field name="land">Guinee-Bissau</field>
+	</row>
+	<row>
+		<field name="landcode">GY</field>
+		<field name="land">Guyana</field>
+	</row>
+	<row>
+		<field name="landcode">HK</field>
+		<field name="land">Hongkong</field>
+	</row>
+	<row>
+		<field name="landcode">HM</field>
+		<field name="land">Heard en McDonaldeilanden</field>
+	</row>
+	<row>
+		<field name="landcode">HN</field>
+		<field name="land">Honduras</field>
+	</row>
+	<row>
+		<field name="landcode">HR</field>
+		<field name="land">Kroatië</field>
+	</row>
+	<row>
+		<field name="landcode">HT</field>
+		<field name="land">Haïti</field>
+	</row>
+	<row>
+		<field name="landcode">HU</field>
+		<field name="land">Hongarije</field>
+	</row>
+	<row>
+		<field name="landcode">ID</field>
+		<field name="land">Indonesië</field>
+	</row>
+	<row>
+		<field name="landcode">IE</field>
+		<field name="land">Ierland</field>
+	</row>
+	<row>
+		<field name="landcode">IL</field>
+		<field name="land">Israël</field>
+	</row>
+	<row>
+		<field name="landcode">IM</field>
+		<field name="land">Isle of Man</field>
+	</row>
+	<row>
+		<field name="landcode">IN</field>
+		<field name="land">India</field>
+	</row>
+	<row>
+		<field name="landcode">IO</field>
+		<field name="land">Brits Territorium in de Indische Oceaan</field>
+	</row>
+	<row>
+		<field name="landcode">IQ</field>
+		<field name="land">Irak</field>
+	</row>
+	<row>
+		<field name="landcode">IR</field>
+		<field name="land">Iran</field>
+	</row>
+	<row>
+		<field name="landcode">IS</field>
+		<field name="land">IJsland</field>
+	</row>
+	<row>
+		<field name="landcode">IT</field>
+		<field name="land">Italië</field>
+	</row>
+	<row>
+		<field name="landcode">JE</field>
+		<field name="land">Jersey</field>
+	</row>
+	<row>
+		<field name="landcode">JM</field>
+		<field name="land">Jamaica</field>
+	</row>
+	<row>
+		<field name="landcode">JO</field>
+		<field name="land">Jordanië</field>
+	</row>
+	<row>
+		<field name="landcode">JP</field>
+		<field name="land">Japan</field>
+	</row>
+	<row>
+		<field name="landcode">KE</field>
+		<field name="land">Kenia</field>
+	</row>
+	<row>
+		<field name="landcode">KG</field>
+		<field name="land">Kirgizië</field>
+	</row>
+	<row>
+		<field name="landcode">KH</field>
+		<field name="land">Cambodja</field>
+	</row>
+	<row>
+		<field name="landcode">KI</field>
+		<field name="land">Kiribati</field>
+	</row>
+	<row>
+		<field name="landcode">KM</field>
+		<field name="land">Comoren</field>
+	</row>
+	<row>
+		<field name="landcode">KN</field>
+		<field name="land">Saint Kitts en Nevis</field>
+	</row>
+	<row>
+		<field name="landcode">KP</field>
+		<field name="land">Noord-Korea</field>
+	</row>
+	<row>
+		<field name="landcode">KR</field>
+		<field name="land">Zuid-Korea</field>
+	</row>
+	<row>
+		<field name="landcode">KW</field>
+		<field name="land">Koeweit</field>
+	</row>
+	<row>
+		<field name="landcode">KY</field>
+		<field name="land">Caymaneilanden</field>
+	</row>
+	<row>
+		<field name="landcode">KZ</field>
+		<field name="land">Kazachstan</field>
+	</row>
+	<row>
+		<field name="landcode">LA</field>
+		<field name="land">Laos</field>
+	</row>
+	<row>
+		<field name="landcode">LB</field>
+		<field name="land">Libanon</field>
+	</row>
+	<row>
+		<field name="landcode">LC</field>
+		<field name="land">Saint Lucia</field>
+	</row>
+	<row>
+		<field name="landcode">LI</field>
+		<field name="land">Liechtenstein</field>
+	</row>
+	<row>
+		<field name="landcode">LK</field>
+		<field name="land">Sri Lanka</field>
+	</row>
+	<row>
+		<field name="landcode">LR</field>
+		<field name="land">Liberia</field>
+	</row>
+	<row>
+		<field name="landcode">LS</field>
+		<field name="land">Lesotho</field>
+	</row>
+	<row>
+		<field name="landcode">LT</field>
+		<field name="land">Litouwen</field>
+	</row>
+	<row>
+		<field name="landcode">LU</field>
+		<field name="land">Luxemburg</field>
+	</row>
+	<row>
+		<field name="landcode">LV</field>
+		<field name="land">Letland</field>
+	</row>
+	<row>
+		<field name="landcode">LY</field>
+		<field name="land">Libië</field>
+	</row>
+	<row>
+		<field name="landcode">MA</field>
+		<field name="land">Marokko</field>
+	</row>
+	<row>
+		<field name="landcode">MC</field>
+		<field name="land">Monaco</field>
+	</row>
+	<row>
+		<field name="landcode">MD</field>
+		<field name="land">Moldavië</field>
+	</row>
+	<row>
+		<field name="landcode">ME</field>
+		<field name="land">Montenegro</field>
+	</row>
+	<row>
+		<field name="landcode">MG</field>
+		<field name="land">Madagaskar</field>
+	</row>
+	<row>
+		<field name="landcode">MH</field>
+		<field name="land">Marshalleilanden</field>
+	</row>
+	<row>
+		<field name="landcode">MK</field>
+		<field name="land">Macedonië</field>
+	</row>
+	<row>
+		<field name="landcode">ML</field>
+		<field name="land">Mali</field>
+	</row>
+	<row>
+		<field name="landcode">MM</field>
+		<field name="land">Myanmar</field>
+	</row>
+	<row>
+		<field name="landcode">MN</field>
+		<field name="land">Mongolië</field>
+	</row>
+	<row>
+		<field name="landcode">MO</field>
+		<field name="land">Macau</field>
+	</row>
+	<row>
+		<field name="landcode">MP</field>
+		<field name="land">Noordelijke Marianen</field>
+	</row>
+	<row>
+		<field name="landcode">MQ</field>
+		<field name="land">Martinique</field>
+	</row>
+	<row>
+		<field name="landcode">MR</field>
+		<field name="land">Mauritanië</field>
+	</row>
+	<row>
+		<field name="landcode">MS</field>
+		<field name="land">Montserrat</field>
+	</row>
+	<row>
+		<field name="landcode">MT</field>
+		<field name="land">Malta</field>
+	</row>
+	<row>
+		<field name="landcode">MU</field>
+		<field name="land">Mauritius</field>
+	</row>
+	<row>
+		<field name="landcode">MV</field>
+		<field name="land">Maldiven</field>
+	</row>
+	<row>
+		<field name="landcode">MW</field>
+		<field name="land">Malawi</field>
+	</row>
+	<row>
+		<field name="landcode">MX</field>
+		<field name="land">Mexico</field>
+	</row>
+	<row>
+		<field name="landcode">MY</field>
+		<field name="land">Maleisië</field>
+	</row>
+	<row>
+		<field name="landcode">MZ</field>
+		<field name="land">Mozambique</field>
+	</row>
+	<row>
+		<field name="landcode">NA</field>
+		<field name="land">Namibië</field>
+	</row>
+	<row>
+		<field name="landcode">NC</field>
+		<field name="land">Nieuw-Caledonië</field>
+	</row>
+	<row>
+		<field name="landcode">NE</field>
+		<field name="land">Niger</field>
+	</row>
+	<row>
+		<field name="landcode">NF</field>
+		<field name="land">Norfolk</field>
+	</row>
+	<row>
+		<field name="landcode">NG</field>
+		<field name="land">Nigeria</field>
+	</row>
+	<row>
+		<field name="landcode">NI</field>
+		<field name="land">Nicaragua</field>
+	</row>
+	<row>
+		<field name="landcode">NL</field>
+		<field name="land">Nederland</field>
+	</row>
+	<row>
+		<field name="landcode">NO</field>
+		<field name="land">Noorwegen</field>
+	</row>
+	<row>
+		<field name="landcode">NP</field>
+		<field name="land">Nepal</field>
+	</row>
+	<row>
+		<field name="landcode">NR</field>
+		<field name="land">Nauru</field>
+	</row>
+	<row>
+		<field name="landcode">NU</field>
+		<field name="land">Niue</field>
+	</row>
+	<row>
+		<field name="landcode">NZ</field>
+		<field name="land">Nieuw-Zeeland</field>
+	</row>
+	<row>
+		<field name="landcode">OM</field>
+		<field name="land">Oman</field>
+	</row>
+	<row>
+		<field name="landcode">PA</field>
+		<field name="land">Panama</field>
+	</row>
+	<row>
+		<field name="landcode">PE</field>
+		<field name="land">Peru</field>
+	</row>
+	<row>
+		<field name="landcode">PF</field>
+		<field name="land">Frans-Polynesië</field>
+	</row>
+	<row>
+		<field name="landcode">PG</field>
+		<field name="land">Papoea-Nieuw-Guinea</field>
+	</row>
+	<row>
+		<field name="landcode">PH</field>
+		<field name="land">Filipijnen</field>
+	</row>
+	<row>
+		<field name="landcode">PK</field>
+		<field name="land">Pakistan</field>
+	</row>
+	<row>
+		<field name="landcode">PL</field>
+		<field name="land">Polen</field>
+	</row>
+	<row>
+		<field name="landcode">PM</field>
+		<field name="land">Saint-Pierre en Miquelon</field>
+	</row>
+	<row>
+		<field name="landcode">PN</field>
+		<field name="land">Pitcairneilanden</field>
+	</row>
+	<row>
+		<field name="landcode">PR</field>
+		<field name="land">Puerto Rico</field>
+	</row>
+	<row>
+		<field name="landcode">PS</field>
+		<field name="land">Palestijnse Autoriteit</field>
+	</row>
+	<row>
+		<field name="landcode">PT</field>
+		<field name="land">Portugal</field>
+	</row>
+	<row>
+		<field name="landcode">PW</field>
+		<field name="land">Palau</field>
+	</row>
+	<row>
+		<field name="landcode">PY</field>
+		<field name="land">Paraguay</field>
+	</row>
+	<row>
+		<field name="landcode">QA</field>
+		<field name="land">Qatar</field>
+	</row>
+	<row>
+		<field name="landcode">RE</field>
+		<field name="land">Réunion</field>
+	</row>
+	<row>
+		<field name="landcode">RO</field>
+		<field name="land">Roemenië</field>
+	</row>
+	<row>
+		<field name="landcode">RS</field>
+		<field name="land">Servië</field>
+	</row>
+	<row>
+		<field name="landcode">RU</field>
+		<field name="land">Rusland</field>
+	</row>
+	<row>
+		<field name="landcode">RW</field>
+		<field name="land">Rwanda</field>
+	</row>
+	<row>
+		<field name="landcode">SA</field>
+		<field name="land">Saoedi-Arabië</field>
+	</row>
+	<row>
+		<field name="landcode">SB</field>
+		<field name="land">Salomonseilanden</field>
+	</row>
+	<row>
+		<field name="landcode">SC</field>
+		<field name="land">Seychellen</field>
+	</row>
+	<row>
+		<field name="landcode">SD</field>
+		<field name="land">Soedan</field>
+	</row>
+	<row>
+		<field name="landcode">SE</field>
+		<field name="land">Zweden</field>
+	</row>
+	<row>
+		<field name="landcode">SG</field>
+		<field name="land">Singapore</field>
+	</row>
+	<row>
+		<field name="landcode">SH</field>
+		<field name="land">Sint-Helena</field>
+	</row>
+	<row>
+		<field name="landcode">SI</field>
+		<field name="land">Slovenië</field>
+	</row>
+	<row>
+		<field name="landcode">SJ</field>
+		<field name="land">Spitsbergen en Jan Mayen</field>
+	</row>
+	<row>
+		<field name="landcode">SK</field>
+		<field name="land">Slowakije</field>
+	</row>
+	<row>
+		<field name="landcode">SL</field>
+		<field name="land">Sierra Leone</field>
+	</row>
+	<row>
+		<field name="landcode">SM</field>
+		<field name="land">San Marino</field>
+	</row>
+	<row>
+		<field name="landcode">SN</field>
+		<field name="land">Senegal</field>
+	</row>
+	<row>
+		<field name="landcode">SO</field>
+		<field name="land">Somalië</field>
+	</row>
+	<row>
+		<field name="landcode">SR</field>
+		<field name="land">Suriname</field>
+	</row>
+	<row>
+		<field name="landcode">ST</field>
+		<field name="land">Sao Tomé en Principe</field>
+	</row>
+	<row>
+		<field name="landcode">SV</field>
+		<field name="land">El Salvador</field>
+	</row>
+	<row>
+		<field name="landcode">SY</field>
+		<field name="land">Syrië</field>
+	</row>
+	<row>
+		<field name="landcode">SZ</field>
+		<field name="land">Swaziland</field>
+	</row>
+	<row>
+		<field name="landcode">TC</field>
+		<field name="land">Turks- en Caicoseilanden</field>
+	</row>
+	<row>
+		<field name="landcode">TD</field>
+		<field name="land">Tsjaad</field>
+	</row>
+	<row>
+		<field name="landcode">TF</field>
+		<field name="land">Franse Zuidelijke en Antarctische Gebieden</field>
+	</row>
+	<row>
+		<field name="landcode">TG</field>
+		<field name="land">Togo</field>
+	</row>
+	<row>
+		<field name="landcode">TH</field>
+		<field name="land">Thailand</field>
+	</row>
+	<row>
+		<field name="landcode">TJ</field>
+		<field name="land">Tadzjikistan</field>
+	</row>
+	<row>
+		<field name="landcode">TK</field>
+		<field name="land">Tokelau-eilanden</field>
+	</row>
+	<row>
+		<field name="landcode">TL</field>
+		<field name="land">Oost-Timor</field>
+	</row>
+	<row>
+		<field name="landcode">TM</field>
+		<field name="land">Turkmenistan</field>
+	</row>
+	<row>
+		<field name="landcode">TN</field>
+		<field name="land">Tunesië</field>
+	</row>
+	<row>
+		<field name="landcode">TO</field>
+		<field name="land">Tonga</field>
+	</row>
+	<row>
+		<field name="landcode">TR</field>
+		<field name="land">Turkije</field>
+	</row>
+	<row>
+		<field name="landcode">TT</field>
+		<field name="land">Trinidad en Tobago</field>
+	</row>
+	<row>
+		<field name="landcode">TV</field>
+		<field name="land">Tuvalu</field>
+	</row>
+	<row>
+		<field name="landcode">TW</field>
+		<field name="land">Taiwan</field>
+	</row>
+	<row>
+		<field name="landcode">TZ</field>
+		<field name="land">Tanzania</field>
+	</row>
+	<row>
+		<field name="landcode">UA</field>
+		<field name="land">Oekraïne</field>
+	</row>
+	<row>
+		<field name="landcode">UG</field>
+		<field name="land">Oeganda</field>
+	</row>
+	<row>
+		<field name="landcode">UM</field>
+		<field name="land">Kleine Pacifische eilanden van de Verenigde Staten</field>
+	</row>
+	<row>
+		<field name="landcode">US</field>
+		<field name="land">Verenigde Staten</field>
+	</row>
+	<row>
+		<field name="landcode">UY</field>
+		<field name="land">Uruguay</field>
+	</row>
+	<row>
+		<field name="landcode">UZ</field>
+		<field name="land">Oezbekistan</field>
+	</row>
+	<row>
+		<field name="landcode">VA</field>
+		<field name="land">Vaticaanstad</field>
+	</row>
+	<row>
+		<field name="landcode">VC</field>
+		<field name="land">Saint Vincent en de Grenadines</field>
+	</row>
+	<row>
+		<field name="landcode">VE</field>
+		<field name="land">Venezuela</field>
+	</row>
+	<row>
+		<field name="landcode">VG</field>
+		<field name="land">Britse Maagdeneilanden</field>
+	</row>
+	<row>
+		<field name="landcode">VI</field>
+		<field name="land">Amerikaanse Maagdeneilanden</field>
+	</row>
+	<row>
+		<field name="landcode">VN</field>
+		<field name="land">Vietnam</field>
+	</row>
+	<row>
+		<field name="landcode">VU</field>
+		<field name="land">Vanuatu</field>
+	</row>
+	<row>
+		<field name="landcode">WF</field>
+		<field name="land">Wallis en Futuna</field>
+	</row>
+	<row>
+		<field name="landcode">WS</field>
+		<field name="land">Samoa</field>
+	</row>
+	<row>
+		<field name="landcode">YE</field>
+		<field name="land">Jemen</field>
+	</row>
+	<row>
+		<field name="landcode">YT</field>
+		<field name="land">Mayotte</field>
+	</row>
+	<row>
+		<field name="landcode">ZA</field>
+		<field name="land">Zuid-Afrika</field>
+	</row>
+	<row>
+		<field name="landcode">ZM</field>
+		<field name="land">Zambia</field>
+	</row>
+	<row>
+		<field name="landcode">ZW</field>
+		<field name="land">Zimbabwe</field>
+	</row>
+</table_data>
