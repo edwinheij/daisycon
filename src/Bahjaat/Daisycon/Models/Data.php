@@ -12,8 +12,19 @@ class Data extends \Eloquent {
 	{
 		$db_fields_to_import = DaisyconHelper::db_fields_to_import();
 
-		$this->fillable( array_merge($db_fields_to_import, array('program_id', 'feed_id')) );
+		$this->fillable( array_merge($db_fields_to_import, array('program_id', 'feed_id', 'slug_accommodation_name')) );
 		parent::__construct($attributes);
 	}
 	
+	public static function boot()
+	{
+		parent::boot();
+		
+		static::creating(function($data)
+		{
+			//dd($data);
+			$data->slug_accommodation_name = \Str::slug($data->accommodation_name);
+		});
+		
+	}
 }

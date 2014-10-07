@@ -143,7 +143,14 @@ class DaisyconImportData extends Command {
             	/**
             	 * Merge 'program_id' in gegevens uit XML
             	 */
-            	$inserted_array = array_merge($arr, array('program_id' => $program_id, 'feed_id' => $feed_id));
+            	$inserted_array = array_merge($arr,
+            		array(
+            			'program_id' => $program_id,
+            			'feed_id' => $feed_id,
+
+            			//'slug_accommodation_name' => \Str::slug($arr['accommodation_name'])
+            		)
+            	);
              	Data::create(
 	            	$inserted_array
 	            );

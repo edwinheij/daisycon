@@ -25,6 +25,7 @@ class CreateDataTable extends Migration {
 			$table->string('link', 255);
 			$table->text('description');
 			$table->string('accommodation_name', 100);
+				$table->string('slug_accommodation_name', 100);
 			$table->string('accommodation_type', 50);
 			$table->integer('min_nr_people');
 			$table->string('location_description', 100);
@@ -34,18 +35,25 @@ class CreateDataTable extends Migration {
 			$table->double('lowest_price');
 
 			$table->string('continent_of_destination', 100);
+				$table->string('slug_continent_of_destination', 100);
 			$table->string('country_of_destination', 100);
+				$table->string('slug_country_of_destination', 100);
 			$table->string('country_link', 255);
 			$table->string('region_of_destination', 100);
+				$table->string('slug_region_of_destination', 100);
 			$table->string('region_link', 255);
 			$table->string('city_of_destination', 100);
+				$table->string('slug_city_of_destination', 100);
 			$table->string('city_link', 255);
 			$table->string('longitude', 50);
 			$table->string('latitude', 50);
 
 			$table->string('continent_of_origin', 100);
+				$table->string('slug_continent_of_origin', 100);
 			$table->string('country_of_origin', 100);
+				$table->string('slug_country_of_origin', 100);
 			$table->string('city_of_origin', 100);
+				$table->string('slug_city_of_origin', 100);
 			$table->string('port_of_departure', 100);
 
 			$table->string('img_small', 255);
