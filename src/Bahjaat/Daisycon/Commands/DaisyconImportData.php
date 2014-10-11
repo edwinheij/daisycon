@@ -77,7 +77,7 @@ class DaisyconImportData extends Command {
 
 	    $activeProgramsFromDB = ActiveProgram::with('program.feeds')->where('status', 1)->get();
 
-		$fields_wanted_from_config = DaisyconHelper::db_fields_to_import();
+		$fields_wanted_from_config = DaisyconHelper::getDatabaseFieldsToImport();
 
 	    if (count($activeProgramsFromDB) > 0)
 	    {
