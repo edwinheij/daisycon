@@ -33,22 +33,22 @@ return array(
 
 		// Locaties
 
-			// Destination
-			'continent_of_destination',
-			'country_of_destination',
-			'country_link',
-			'region_of_destination',
-			'region_link',
-			'city_of_destination',
-			'city_link',
-			'longitude',
-			'latitude',
+		// Destination
+		'continent_of_destination',
+		'country_of_destination',
+		'country_link',
+		'region_of_destination',
+		'region_link',
+		'city_of_destination',
+		'city_link',
+		'longitude',
+		'latitude',
 
-			// Origin
-			'continent_of_origin',
-			'country_of_origin',
-			'city_of_origin',
-			'port_of_departure',
+		// Origin
+		'continent_of_origin',
+		'country_of_origin',
+		'city_of_origin',
+		'port_of_departure',
 
 		// Images
 		'img_small',
@@ -69,6 +69,17 @@ return array(
 		'unique_integer',
 		'update_hash'
 
+	),
+
+	'custom_db_fields_to_import' => array(
+		'slug_accommodation_name',
+		'slug_continent_of_destination',
+		'slug_country_of_destination',
+		'slug_region_of_destination',
+		'slug_city_of_destination',
+		'slug_continent_of_origin',
+		'slug_country_of_origin',
+		'slug_city_of_origin'
 	)
 
 );

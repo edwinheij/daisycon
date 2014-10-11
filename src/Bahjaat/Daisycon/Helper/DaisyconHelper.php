@@ -19,9 +19,11 @@ class DaisyconHelper {
 	    return $options;
 	}
 
-	static function db_fields_to_import()
+	static function getDatabaseFields()
 	{
-		return Config::get("daisycon::config.db_fields_to_import");
+		return array_merge(
+			Config::get('daisycon::config.db_fields_to_import'),
+			Config::get('daisycon::config.custom_db_fields_to_import')
+		);
 	}
-
 }
