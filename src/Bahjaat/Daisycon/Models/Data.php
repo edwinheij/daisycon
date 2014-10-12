@@ -10,6 +10,8 @@ class Data extends \Eloquent {
 	// protected $guarded = ['link'];
 	// protected $table = 'data';
 
+	// protected $data;
+
 	public function __construct(array $attributes = array())
 	{
 		// $db_fields_to_import = DaisyconHelper::db_fields_to_import();
@@ -22,7 +24,7 @@ class Data extends \Eloquent {
 	public static function boot()
 	{
 		parent::boot();
-		
+
 		static::creating(function($data)
 		{
 			// dd(DaisyconHelper::getDatabaseFields());
@@ -39,7 +41,71 @@ class Data extends \Eloquent {
 			}
 			//dd();
 			// $data->slug_accommodation_name = \Str::slug($data->accommodation_name);
+			$data = parent::fixTransportationType($data);
+			$data = parent::fixBoardingType($data);
+			$data = parent::fixLandcodes($data);
+			
 		});
 		
+	}
+
+	public function fixTransportationType($data)
+	{
+        $transpArr = array(
+            'EV'   			=> 'Eigen vervoer',
+            'BU'    		=> 'Bus',
+            'VL'   			=> 'Vliegtuig',
+            'flight'		=> 'Vliegtuig',
+            'own'   		=> 'Eigen vervoer',
+            'eigen vervoer' => 'Eigen vervoer'
+        );
+        // dd($data);
+        if (isset($data->transportation_type))
+        {
+            if (array_key_exists($data->transportation_type, $transpArr))
+            {
+                $data->transportation_type = $transpArr[$data->transportation_type];
+            }
+        }
+        return $data;
+	}
+
+	public function fixBoardingType($data)
+	{
+        $boardArr = array(
+            'LG'    => 'Logies',
+            'LO'    => 'Logies en ontbijt',
+            'AI'    => 'All inclusive',
+            'HP'    => 'Halfpension',
+            'VP'    => 'Volpension'
+        );
+        if (isset($data->board_type))
+        {
+            if (array_key_exists($data->board_type, $boardArr))
+            {
+                $data->board_type = $boardArr[$data->board_type];
+            }
+        }
+        $data->board_type = ucfirst($data->board_type); // logies >> Logies
+        return $data;
+	}
+
+	public function fixLandcodes($data)
+	{
+        // $lc = $this->landcodes;
+        $fields = array(
+            'country_of_destination',
+            'country_of_origin'
+        );
+
+        foreach ($fields as $field)
+        {
+            if (isset($data->$field) && strlen($data->$field) == 2)
+            {
+            	$cc = Countrycode::where('countrycode', $data->$field)->remember(60)->firstOrFail();
+                if (! empty($cc->country)) $data->$field = $cc->country;
+            }
+        }
+        return $data;
 	}
 }
