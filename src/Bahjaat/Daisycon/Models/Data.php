@@ -202,7 +202,23 @@ class Data extends \Eloquent {
 
             // Strip tags
                 $newDesc = strip_tags($newDesc);
-                
+            
+            // Strip meer ...
+                // inkoopagenten strippen
+                /*
+                TEST-DATA
+                Appelscha." - Jack de Jong, inkoopagent Zeeland.
+				Appelscha." - Jack de Jong, inkoopagent Zeeland
+				Appelscha." - Jack de Jong, inkoopagent
+				Appelscha."- Jack de Jong, inkoopagent
+				et een huifkarrentocht!”– Jack, inkoopagent.
+				 (gelieve vóór aankomst te bespreken)." Jack de Jong – inkoopagent.
+				omfort.’- Margreet Huizinga, inkoopagent.
+				asdfasdf' - Ingrid, inkoopagent Zeeland. 
+				older.” - Ingrid, inkoopagent Zeeland.
+				*/
+               	$newDesc = preg_replace("/([\”\'\’\"\”])\s?[-–]?\s?[a-zA-Z -']+[, -–]+\sinkoopagent([a-zA-Z -']+)?.?/mi", '$1', $newDesc);
+
             $data->description = $newDesc;
         }
         return $data;
