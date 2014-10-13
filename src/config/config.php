@@ -25,6 +25,7 @@ return array(
 		'accommodation_type',
 		'min_nr_people',
 		'location_description',
+		'stars',
 
 		// Prijs
 		'minimum_price',
@@ -61,6 +62,7 @@ return array(
 		'transportation_type',
 		'departure-date', # to fix (see also 'migration')
 		'departure_date', # to fix (see also 'migration')
+		'end_date', # to fix (see also 'migration')
 		'duration',
 
 		// Daisycon internal

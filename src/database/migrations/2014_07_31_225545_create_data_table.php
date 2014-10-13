@@ -29,6 +29,7 @@ class CreateDataTable extends Migration {
 			$table->string('accommodation_type', 50);
 			$table->integer('min_nr_people');
 			$table->string('location_description', 100);
+			$table->integer('stars');
 
 			$table->double('minimum_price');
 			$table->double('maximum_price');
@@ -65,7 +66,9 @@ class CreateDataTable extends Migration {
 			$table->string('transportation_type', 50);
 			$table->datetime('departure-date'); // to fix (see also 'config')
 			$table->datetime('departure_date'); // to fix (see also 'config')
+			$table->datetime('end_date'); // to fix (see also 'config')
 			$table->integer('duration');
+
 
 			$table->integer('daisycon_unique_id');
 			$table->string('internal_id', 50);
