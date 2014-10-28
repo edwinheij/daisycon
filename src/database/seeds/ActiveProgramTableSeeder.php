@@ -13,13 +13,18 @@ class ActiveProgramTableSeeder extends Seeder {
 
 		ActiveProgram::truncate();
 
-		$programs = [ 192, 470 ];
+		$programs = [
+			192 => array('custom_categorie' => ''),
+			470 => array('custom_categorie' => ''),
+			191 => array('custom_categorie' => 'zomer')
+		];
 
-		foreach($programs as $program)
+		foreach($programs as $program => $attr)
 		{
 			ActiveProgram::create([
 				'program_id' => $program,
-				'status' => 1
+				'status' => 1,
+				'custom_categorie' => $attr['custom_categorie']
 			]);
 		}
 

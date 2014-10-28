@@ -6,7 +6,8 @@ class ActiveProgram extends \Eloquent {
 	protected $fillable = 
 	[
 		'program_id',
-		'status'
+		'status',
+		'custom_categorie'
 	];
 
 	public function program()

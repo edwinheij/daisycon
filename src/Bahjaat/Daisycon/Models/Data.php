@@ -17,7 +17,7 @@ class Data extends \Eloquent {
 		// $db_fields_to_import = DaisyconHelper::db_fields_to_import();
 		// $custom_db_fields_to_import = Config::get('daisycon::config.custom_db_fields_to_import');
 		
-		$this->fillable( array_merge(DaisyconHelper::getDatabaseFields(), array('program_id', 'feed_id')) );
+		$this->fillable( array_merge(DaisyconHelper::getDatabaseFields(), array('program_id', 'feed_id', 'custom_categorie')) );
 		parent::__construct($attributes);
 	}
 	

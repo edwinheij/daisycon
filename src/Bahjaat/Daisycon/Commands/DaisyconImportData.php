@@ -98,7 +98,8 @@ class DaisyconImportData extends Command {
 				    		'&nospecialchars=true' . 
 				    		'&nohtml=true',
 				    		$activeProgram->program->program_id,
-				    		$feed->feed_id
+				    		$feed->feed_id,
+							$activeProgram->custom_categorie
 				    	);
 				    }
 				} // if !empty $activeProgram->program->feeds
@@ -117,7 +118,7 @@ class DaisyconImportData extends Command {
 		return $this->info('done');
 	}
 
-	public function importData($url, $program_id, $feed_id)
+	public function importData($url, $program_id, $feed_id, $custom_categorie)
 	{
 
         $CHUNK_SIZE = 1024;
@@ -147,6 +148,7 @@ class DaisyconImportData extends Command {
             		array(
             			'program_id' => $program_id,
             			'feed_id' => $feed_id,
+						'custom_categorie' => $custom_categorie
 
             			//'slug_accommodation_name' => \Str::slug($arr['accommodation_name'])
             		)
