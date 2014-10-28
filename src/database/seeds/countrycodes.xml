@@ -914,6 +914,10 @@
 		<field name="land">Verenigde Staten</field>
 	</row>
 	<row>
+		<field name="landcode">VS</field>
+		<field name="land">Verenigde Staten</field>
+	</row>
+	<row>
 		<field name="landcode">UY</field>
 		<field name="land">Uruguay</field>
 	</row>
