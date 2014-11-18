@@ -17,7 +17,7 @@ class CreateActiveProgramsTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->increments('id');
 			$table->integer('program_id')->unsigned();
-			$table->integer('status');
+			$table->integer('status')->default(1);
 			$table->timestamps();
 		});
 	}
