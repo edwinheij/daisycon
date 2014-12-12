@@ -1,7 +1,7 @@
 {
     "name": "bahjaat/daisycon",
-    "description": "",
-    "version": "0.0.3.4",
+    "description": "Laravel package to import data via Daisycon API (affiliates)",
+    "version": "2.0.0",
     "authors": [
         {
             "name": "Edwin Heij",
