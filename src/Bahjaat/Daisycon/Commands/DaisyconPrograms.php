@@ -16,9 +16,6 @@ use Bahjaat\Daisycon\Models\Program as Program;
 
 class DaisyconPrograms extends Command {
 
-
-    // protected $media_id = 56829; // sdv (nog vervangen door configitem)
-
 	/**
 	 * The console command name.
 	 *
@@ -50,6 +47,17 @@ class DaisyconPrograms extends Command {
 	 */
 	public function fire()
 	{
+		$APIdata = DaisyconHelper::getRestAPI("productfeeds");
+
+		if (is_array($APIdata))
+		{
+			dd($APIdata);
+		}
+
+//        $this->info(PHP_EOL);
+        return $this->info('Klaar');
+
+
 	    $sWsdl_program = "http://api.daisycon.com/publisher/soap/program/wsdl/";
         $oSoapClient_program = new \SoapClient($sWsdl_program, DaisyconHelper::getApiOptions());
 
@@ -63,12 +71,8 @@ class DaisyconPrograms extends Command {
         }
         catch(Exception $e)
         {
-            // var_dump( $oSoapClient_program->__getLastRequestHeaders() );
-            // var_dump( $oSoapClient_program->__getLastResponse() );
             return $this->error('Fout met binnenhalen van de programma\'s');
         }
-        // print_r($mResult);
-        // return;
         if (count($mResult['return']) > 0)
         {
         	$this->info('Tabel leegmaken');
@@ -76,31 +80,7 @@ class DaisyconPrograms extends Command {
 
 	        foreach ($mResult['return'] as $program)
 	        {
-	        	// print_r($subscription);
-	            // $subsription = (array) $subscription;
-	            // $object['media'] = serialize((array)$object['media']);
-	            // $this->getsubscriptions->insert($object);
-	            // $this->media_id
-	            // if ($this->media_id == $subscription->media[0]->media_id)
-	            // {
-	            	// $this->info('PID: ' . $subscription->program_id . ' AID: ' . $subscription->advertiser_id ); //. ' media_id: ' . $subscription->media[0]->media_id);
-					//$this->info(json_encode($program));
-
-					// foreach (json_decode(json_encode($program)) as $k => $v)
-					// {
-					// 	// $this->info($k);
-					// }
-					// return;
-	            // }
-	            
-	            //$subscriptionModel = new Subscription();
-	            // unset($subscription->media);
-	            // print_r($subscription);
-	            // return;
-	            // if (stristr($program->name, 'sunweb zomer')) dd($program);
 	            Program::create((array) $program);
-
-
 	        }
 	    }
 	    else

@@ -1,16 +1,17 @@
-<?php
+<?php namespace Bahjaat\Daisycon\Helper;
 
-namespace Bahjaat\Daisycon\Helper;
-
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Config;
+use App;
+
 
 class DaisyconHelper {
-	
+
 	static function getApiOptions()
 	{
         $options = array (
-	        'login'        => Config::get("daisycon::config.username"), // 'info@service4pc.nl',
-	        'password'     => md5(Config::get("daisycon::config.password")), //'3bc328865eced6e4f926da3bba03b811',
+	        'login'        => Config::get("daisycon::config.username"),
+	        'password'     => md5(Config::get("daisycon::config.password")),
 	        'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, 
 	        'encoding'     => 'UTF-8',
 	        'trace'        => 1,
@@ -30,5 +31,52 @@ class DaisyconHelper {
 			Config::get('daisycon::config.db_fields_to_import'),
 			Config::get('daisycon::config.custom_db_fields_to_import')
 		);
+	}
+
+	static function getRestAPI($resourceUrl = '')
+	{
+		$output = new ConsoleOutput;
+
+		$publisher_id = Config::get("daisycon::config.publisher_id");
+		$username = Config::get("daisycon::config.username");
+		$password = Config::get("daisycon::config.password");
+
+		$url = 'https://services.daisycon.com/publishers/' . $publisher_id  . '/' . $resourceUrl;
+
+		$ch = curl_init();
+		$headers = array( 'Authorization: Basic ' . base64_encode( $username . ':' . $password ) );
+
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		if ( App::environment() == "local" ) curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt($ch, CURLOPT_VERBOSE, true); // gebruik dit voor test als er geen of onjuist resultaat terug komt
+
+		try {
+
+			$response = curl_exec($ch);
+			$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+			if ($code == 200) {
+				return array(
+					'code' => $code,
+					'response' => json_decode($response)
+				);
+			}
+			else
+			{
+				throw new \Exception(
+					'1. Waarschijnlijk niet geautoriseerd voor de API.' . PHP_EOL
+					. '   Ga bij Daisycon naar de published omgeving en kies in het menu voor \'Account privileges\'' . PHP_EOL
+					. '2. Certificaat probleem. CURL-optie \'CURLOPT_SSL_VERIFYPEER\' op false zetten (bijv. voor localhost development).'
+				);
+			}
+
+			curl_close($ch);
+
+		} catch(\Exception $e) {
+			$output->writeln( $e->getMessage() );
+		}
 	}
 }
