@@ -1,6 +1,6 @@
 {
     "name": "bahjaat/daisycon",
-    "description": "Laravel package to import data via Daisycon API (affiliates)",
+    "description": "Laravel package to import data via Daisycon Rest API (affiliates)",
     "version": "2.0.0",
     "authors": [
         {

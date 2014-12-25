@@ -13,6 +13,8 @@ return array(
 
     'media_id' => 0,
 
+	'sub_id' => '',
+
     'publisher_id' => 0, // https://services.daisycon.com/publishers
 
     'encoding' => 'UTF-8', // ISO-8859-1 / ISO-8859-15 / UTF-8 / UTF-16 / ASCII

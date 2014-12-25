@@ -48,45 +48,60 @@ class DaisyconFeeds extends Command {
 	 */
 	public function fire()
 	{
+		$media_id = Config::get("daisycon::config.media_id");
+		$sub_id = Config::get("daisycon::config.sub_id");
+
 		$this->info('Starten met het binnenhalen van de feeds');
-		$this->info('Verwijderen van bestaande feeds');
-		Feed::truncate();
 
-		// $type = 'xml'; // xml, xmlatt, csv
-		// $encoding = 'UTF-8'; // 'ISO-8859-15', 'ISO-8859-1', 'UTF-8', 'UTF-16', 'ASCII'
-		$aFilter = array(
-			'media_id' => Config::get("daisycon::config.media_id"),
-			'type' => 'xml', // xml, xmlatt, csv
-			'encoding' => Config::get("daisycon::config.encoding"),
-			// 'program_id' => $program_id
-		);
-	    $sWsdl_program = "http://api.daisycon.com/publisher/soap/feed/wsdl/";
-        $oSoapClient_program = new \SoapClient($sWsdl_program, DaisyconHelper::getApiOptions());
-        try
-        {
-            $feeds = $oSoapClient_program->getFeeds($aFilter);
-        }
-        catch(Exception $e)
-        {
-            // var_dump( $oSoapClient_program->__getLastRequestHeaders() );
-            // var_dump( $oSoapClient_program->__getLastResponse() );
-            return $this->error('Fout met binnenhalen van de \'feeds\'');
-        }
-        if (count($feeds['return']) > 0)
-        {
-	        $this->info('Feeds toevoegen aan database');
-	        foreach ($feeds['return'] as $feedinfo)
-	        {
-	        	Feed::create( (array) $feedinfo );
-	        }
+		$page = 1;
+		$per_page = 500;
+		$notLastPage = true;
 
-	    }
-	    else
-	    {
-	    	$this->comment('Geen feeds gevonden');
-	    }
-        return $this->info( $feeds['responseInfo']->totalResults . ' feeds geimporteerd');
-        
+		while ($notLastPage)
+		{
+			$options = array(
+				'page' => $page,
+				'per_page' => $per_page,
+				'placeholder_media_id' => $media_id,
+				'placeholder_subid' => $sub_id
+			);
+			$APIdata = DaisyconHelper::getRestAPI("productfeeds", $options);
+			if (is_array($APIdata)) {
+				$resultCount = count($APIdata['response']);
+				if ($resultCount > 0) {
+					if ($page == 1)
+					{
+						$this->info('Verwijderen van bestaande feeds');
+						Feed::truncate();
+					}
+					foreach ($APIdata['response'] as $feedinfo)
+					{
+						$feedinfo = (array) $feedinfo;
+
+						/**
+						 * id
+						 **/
+						$feedinfo['feed_id'] = $feedinfo['id'];
+						unset($feedinfo['id']);
+
+						$feedinfo['subscribed'] = implode(',', $feedinfo['subscribed']);
+						if (stristr($feedinfo['subscribed'], (string) $media_id))
+						{
+							Feed::create( $feedinfo );
+						}
+
+					}
+				}
+				else
+				{
+					return $this->comment('Geen feeds gevonden');
+				}
+			}
+			if ($resultCount < $per_page) $notLastPage = false;
+			$page++;
+		} // while
+		$count = Feed::all()->count();
+		return $this->info( $count . ' feeds geimporteerd. DONE.');
 	}
 
 	/**

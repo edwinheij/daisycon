@@ -90,12 +90,12 @@ class DaisyconImportData extends Command {
 			    		$this->info($activeProgram->program->name . ' - ' . $feed->name);
 
 				    	$this->importData(
-				    		$feed->feed_link .
+				    		$feed->feed_link_xml .
 				    		'&f=' . implode(';', $fields_wanted_from_config) .
-				    		'&type=xml' . 
+//				    		'&type=xml' .
 				    		'&encoding=' . Config::get("daisycon::config.encoding") .
 				    		'&general=true' . 
-				    		'&nospecialchars=true' . 
+//				    		'&nospecialchars=true' .
 				    		'&nohtml=true',
 				    		$activeProgram->program->program_id,
 				    		$feed->feed_id,
@@ -149,8 +149,6 @@ class DaisyconImportData extends Command {
             			'program_id' => $program_id,
             			'feed_id' => $feed_id,
 						'custom_categorie' => $custom_categorie
-
-            			//'slug_accommodation_name' => \Str::slug($arr['accommodation_name'])
             		)
             	);
              	Data::create(

@@ -8,10 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Config;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 
-// use Prewk\XmlStringStreamer;
-// use Prewk\XmlStringStreamer\Stream; 
-// use Prewk\XmlStringStreamer\Parser;
-
 use Bahjaat\Daisycon\Models\Program as Program;
 
 class DaisyconPrograms extends Command {
@@ -47,50 +43,60 @@ class DaisyconPrograms extends Command {
 	 */
 	public function fire()
 	{
-		$APIdata = DaisyconHelper::getRestAPI("productfeeds");
 
-		if (is_array($APIdata))
-		{
-			dd($APIdata);
-		}
+		$page = 1;
+		$per_page = 50;
+		$notLastPage = true;
 
-//        $this->info(PHP_EOL);
-        return $this->info('Klaar');
+		while ($notLastPage) {
 
 
-	    $sWsdl_program = "http://api.daisycon.com/publisher/soap/program/wsdl/";
-        $oSoapClient_program = new \SoapClient($sWsdl_program, DaisyconHelper::getApiOptions());
+			$options = array(
+				'productfeed' => 'true',
+				'page' => $page,
+				'per_page' => $per_page,
+			);
+			$APIdata = DaisyconHelper::getRestAPI("programs", $options);
 
-        $aFilter = array(
-        	'subscribed' => 'true'
-        );
-        if (!empty($aFilter)) $this->comment('Let op, er is een filter actief bij het binnenhalen van de programma\'s: ' . json_encode($aFilter));
-        try
-        {
-            $mResult = $oSoapClient_program->getPrograms($aFilter);
-        }
-        catch(Exception $e)
-        {
-            return $this->error('Fout met binnenhalen van de programma\'s');
-        }
-        if (count($mResult['return']) > 0)
-        {
-        	$this->info('Tabel leegmaken');
-        	Program::truncate();
+			if (is_array($APIdata)) {
+				$resultCount = count($APIdata['response']);
+				if ($resultCount > 0) {
+					if ($page == 1)
+					{
+						$this->info('Tabel leegmaken');
+						Program::truncate();
+					}
 
-	        foreach ($mResult['return'] as $program)
-	        {
-	            Program::create((array) $program);
-	        }
-	    }
-	    else
-	    {
-	    	$this->info('Geen programma\'s gevonden');
-	    }
+					foreach ($APIdata['response'] as $program) {
+						$program = (array)$program;
 
-	    return $this->info('Klaar');
-        
+						/**
+						 * id
+						 **/
+						$program['program_id'] = $program['id'];
+						unset($program['id']);
 
+						/**
+						 * description
+						 **/
+						$program['description'] = $program['descriptions'][0]->description;
+
+						/**
+						 * url
+						 **/
+						$program['url'] = DaisyconHelper::changeProgramURL($program['url']);
+
+						Program::create((array)$program);
+					}
+				} else {
+					$this->comment('Geen programma\'s gevonden');
+				}
+			}
+			if ($resultCount < $per_page) $notLastPage = false;
+			$page++;
+		} // while
+		$count = Program::all()->count();
+		return $this->info( $count . ' programma\'s geimporteerd. DONE.');
 	}
 
 	/**
