@@ -4,7 +4,7 @@ Laravel package to import data via Daisycon Rest API (affiliates)
 
 ## Installatie
 
-1.	composer.json aanpasen `"bahjaat/daisycon": "2.*"`
+1.	composer.json aanpasen `"bahjaat/daisycon": "dev-master"`
 2.	`composer update`
 3.	`'Bahjaat\Daisycon\DaisyconServiceProvider'` toevoegen aan app/config/app.php
 4.	Als er nog geen migrations tabel is: `php artisan migrate:install`
