@@ -70,6 +70,15 @@ class DaisyconFixData extends Command {
 			}
 		}
 
+		/**
+		 * Zijn er na bovenstaande actie nog steeds regels over zonder 'region_of_destination' dan verwijderen
+		 */
+		$rowsStillNotOK = $regionLeeg2 = Data::where('region_of_destination', '')->delete();
+		if ($rowsStillNotOK > 0)
+		{
+			$this->info('\'region_of_destination\' verwijderd: '. $rowsStillNotOK .' accommodaties');
+		}
+
 		$this->info('\'region_of_destination\' fixen... DONE');
 
 		/**
