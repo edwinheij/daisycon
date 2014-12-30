@@ -38,11 +38,15 @@ class DaisyconServiceProvider extends ServiceProvider {
 		$this->app['daisycon.getprograms'] = $this->app->share(function(){
 		    return new Commands\DaisyconPrograms();
 		});
+		$this->app['daisycon.fix-data'] = $this->app->share(function(){
+		    return new Commands\DaisyconFixData();
+		});
         $this->commands(
             'daisycon.getfeeds',
             'daisycon.getsubscriptions',
             'daisycon.import-data',
-            'daisycon.getprograms'
+            'daisycon.getprograms',
+			'daisycon.fix-data'
         );
 	}
 

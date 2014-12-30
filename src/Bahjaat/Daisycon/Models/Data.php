@@ -27,12 +27,6 @@ class Data extends \Eloquent {
 
 		static::creating(function($data)
 		{
-			// dd(DaisyconHelper::getDatabaseFields());
-			// dd($data->fillableFromArray());
-			// dd($data->getAttributes());
-			// foreach ($data->getAttibutes)
-			//dd();
-			// $data->slug_accommodation_name = \Str::slug($data->accommodation_name);
 			$data = parent::fixTransportationType($data);
 			$data = parent::fixBoardingType($data);
 			$data = parent::fixLandcodes($data);
