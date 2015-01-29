@@ -97,7 +97,7 @@ class DaisyconFeeds extends Command {
 					return $this->comment('Geen feeds gevonden');
 				}
 			}
-			if ($resultCount < $per_page) $notLastPage = false;
+			if (isset($resultCount) && $resultCount < $per_page) $notLastPage = false;
 			$page++;
 		} // while
 		$count = Feed::all()->count();
