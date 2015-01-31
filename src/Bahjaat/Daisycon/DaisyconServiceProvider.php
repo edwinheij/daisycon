@@ -1,6 +1,9 @@
 <?php namespace Bahjaat\Daisycon;
 
 use Illuminate\Support\ServiceProvider;
+use Bahjaat\Daisycon\Repository\DataImportInterface;
+use Config;
+//use Maatwebsite\Excel\Facades\Excel;
 
 class DaisyconServiceProvider extends ServiceProvider {
 
@@ -17,6 +20,11 @@ class DaisyconServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->package('bahjaat/daisycon');
+//		$this->app->booting(function()
+//		{
+//			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+//			$loader->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
+//		});
     }
 
 	/**
@@ -26,6 +34,7 @@ class DaisyconServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+
 		$this->app['daisycon.getfeeds'] = $this->app->share(function(){
 		    return new Commands\DaisyconFeeds();
 		});
@@ -33,7 +42,13 @@ class DaisyconServiceProvider extends ServiceProvider {
 		    return new Commands\DaisyconSubscriptions();
 		});
 		$this->app['daisycon.import-data'] = $this->app->share(function(){
-		    return new Commands\DaisyconImportData();
+			$this->app->register('Maatwebsite\Excel\ExcelServiceProvider');
+			$this->app->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
+
+			$feed_type = ucfirst(strtolower(Config::get('Packages\Bahjaat\Daisycon\config.feed_type', 'Csv')));
+			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\'.$feed_type.'DataImport');
+			$dataImportInterface = $this->app->make('Bahjaat\Daisycon\Repository\DataImportInterface');
+		    return new Commands\DaisyconImportData($dataImportInterface);
 		});
 		$this->app['daisycon.getprograms'] = $this->app->share(function(){
 		    return new Commands\DaisyconPrograms();

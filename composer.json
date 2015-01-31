@@ -1,7 +1,7 @@
 {
     "name": "bahjaat/daisycon",
     "description": "Laravel package to import data via Daisycon Rest API (affiliates)",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "authors": [
         {
             "name": "Edwin Heij",
@@ -11,7 +11,8 @@
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*",
-        "prewk/xml-string-streamer-guzzle": "~0.0.5"
+        "prewk/xml-string-streamer-guzzle": "~0.0.5",
+        "maatwebsite/excel": "1.*"
     },
     "autoload": {
         "psr-0": {

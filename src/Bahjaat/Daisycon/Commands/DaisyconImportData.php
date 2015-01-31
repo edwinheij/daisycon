@@ -2,6 +2,7 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
+
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +21,8 @@ use Bahjaat\Daisycon\Models\Feed;
 use Bahjaat\Daisycon\Models\Program;
 use Bahjaat\Daisycon\Models\Subscription;
 
+use Bahjaat\Daisycon\Repository\DataImportInterface;
+
 class DaisyconImportData extends Command {
 
 	/**
@@ -34,7 +37,7 @@ class DaisyconImportData extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'XML\'s uitlezen vanuit database en deze verwerken in de data tabel';
+	protected $description = 'Data URL\'s (XML, CSV ...) uitlezen vanuit database en deze verwerken in de data tabel';
 
 	/**
 	 * The program ID
@@ -44,13 +47,20 @@ class DaisyconImportData extends Command {
 	protected $program_id;
 
 	/**
+	 * @var mixed
+	 */
+	public $data;
+
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(DataImportInterface $data)
 	{
 		parent::__construct();
+		$this->data = $data;
 	}
 
 	protected function getProgramID()
@@ -88,19 +98,15 @@ class DaisyconImportData extends Command {
 			    	foreach ($activeProgram->program->feeds as $feed)
 			    	{
 			    		$this->info($activeProgram->program->name . ' - ' . $feed->name);
-
-				    	$this->importData(
-				    		$feed->feed_link_xml .
-				    		'&f=' . implode(';', $fields_wanted_from_config) .
-//				    		'&type=xml' .
-				    		'&encoding=' . Config::get("daisycon::config.encoding") .
-				    		'&general=true' . 
-//				    		'&nospecialchars=true' .
-				    		'&nohtml=true',
-				    		$activeProgram->program->program_id,
-				    		$feed->feed_id,
-							$activeProgram->custom_categorie
-				    	);
+						$url = $feed->{"feed_link_" . strtolower(Config::get('daisycon::config.feed_type', 'csv'))} .
+							'&f=' . implode(';', $fields_wanted_from_config) .
+							'&encoding=' . Config::get("daisycon::config.encoding") .
+							'&general=true' .
+							'&nohtml=' . (Config::get("daisycon::config.html_toestaan", false) ? 'false' : 'true');
+						$program_id = $activeProgram->program->program_id;
+						$feed_id = $feed->feed_id;
+						$custom_categorie = $activeProgram->custom_categorie;
+						$this->data->importData($url, $program_id, $feed_id, $custom_categorie);
 				    }
 				} // if !empty $activeProgram->program->feeds
 				else
@@ -114,8 +120,7 @@ class DaisyconImportData extends Command {
 		{
 			return $this->info('Geen active programma\'s in de database gevonden...');
 		}
-
-		return $this->info('done');
+		return $this->info('Did IT in: ' . round(microtime(true) - LARAVEL_START,2));
 	}
 
 	public function importData($url, $program_id, $feed_id, $custom_categorie)
@@ -140,7 +145,7 @@ class DaisyconImportData extends Command {
             	(array) $simpleXmlNode
             );
 
-            try{
+            try {
             	/**
             	 * Merge 'program_id' in gegevens uit XML
             	 */
