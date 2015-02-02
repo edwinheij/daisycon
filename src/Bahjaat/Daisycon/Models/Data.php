@@ -20,52 +20,64 @@ class Data extends \Eloquent {
 		$this->fillable( array_merge(DaisyconHelper::getDatabaseFields(), array('program_id', 'feed_id', 'custom_categorie')) );
 		parent::__construct($attributes);
 	}
-	
-	public static function boot()
+
+    public static function dataVoorbereiden($data){
+        $data = parent::fixTransportationType($data);
+        $data = parent::fixBoardingType($data);
+        $data = parent::fixLandcodes($data);
+        $data = parent::fixAccommodationName($data);
+        $data = parent::fixStars($data);
+        $data = parent::fixDescription($data);
+        $data = parent::fixPositions($data);
+        $data = parent::fixDuration($data);
+
+        // Slug aan het einde laten staan
+        foreach (DaisyconHelper::getDatabaseFields() as $fieldname)
+        {
+            if (str_contains($fieldname, 'slug_'))
+            {
+                $originalFieldName = str_replace('slug_','',$fieldname);
+                if (! empty($data->$originalFieldName)) $data->$fieldname = Str::slug($data->$originalFieldName);
+            }
+
+            // Encoding aanpassen
+            $data->$fieldname = html_entity_decode(($data->$fieldname), ENT_QUOTES, "utf-8"); // nog testen
+
+            // Trim alle velden
+            $data->$fieldname = trim($data->$fieldname);
+
+            // Specialchars aanpassen
+            $regex = '/http:\/\/.*/';
+            if (isset($data->$fieldname) && preg_match($regex, $data->$fieldname))
+            {
+                $data->$fieldname = htmlspecialchars_decode(urldecode($data->$fieldname)); // sneller dan html_entity_decode @ http://stackoverflow.com/questions/11723641/how-to-decode-the-amp-from-a-url-so-that-header-works-urldecode-not-working
+
+                // Brakke utm_ arguments vervangen in url's
+                $regex = '/(&utm_\w+=%\w+%)&/';
+                if (preg_match_all($regex, $data->$fieldname, $matches))
+                {
+                    $data->$fieldname = str_replace($matches[1], '', $data->$fieldname);
+                }
+            }
+        }
+        return $data;
+    }
+
+    public static function boot()
 	{
 		parent::boot();
 
-		static::creating(function($data)
-		{
-			$data = parent::fixTransportationType($data);
-			$data = parent::fixBoardingType($data);
-			$data = parent::fixLandcodes($data);
-			$data = parent::fixAccommodationName($data);
-			$data = parent::fixStars($data);
-			$data = parent::fixDescription($data);
-			$data = parent::fixPositions($data);
-			$data = parent::fixDuration($data);
-			
-			// Slug aan het einde laten staan
-			foreach (DaisyconHelper::getDatabaseFields() as $fieldname)
-			{
-				if (str_contains($fieldname, 'slug_'))
-				{
-					$originalFieldName = str_replace('slug_','',$fieldname);
-					if (! empty($data->$originalFieldName)) $data->$fieldname = Str::slug($data->$originalFieldName);
-				}
+        static::updating(function($data)
+        {
+            $data = static::dataVoorbereiden($data);
+        });
 
-				// Encoding aanpassen
-				$data->$fieldname = html_entity_decode(($data->$fieldname), ENT_QUOTES, "utf-8"); // nog testen
+        static::creating(function($data)
+        {
+            $data = static::dataVoorbereiden($data);
+        });
 
-				// Trim alle velden
-				$data->$fieldname = trim($data->$fieldname);
 
-	            // Specialchars aanpassen
-	            $regex = '/http:\/\/.*/';
-	            if (isset($data->$fieldname) && preg_match($regex, $data->$fieldname))
-	            {
-	                $data->$fieldname = htmlspecialchars_decode(urldecode($data->$fieldname)); // sneller dan html_entity_decode @ http://stackoverflow.com/questions/11723641/how-to-decode-the-amp-from-a-url-so-that-header-works-urldecode-not-working
-	               
-	                // Brakke utm_ arguments vervangen in url's
-	                $regex = '/(&utm_\w+=%\w+%)&/';
-	                if (preg_match_all($regex, $data->$fieldname, $matches))
-	                {
-	                    $data->$fieldname = str_replace($matches[1], '', $data->$fieldname);
-	                }
-	            }
-			}			
-		});
 	}
 
 	public function fixTransportationType($data)
@@ -245,8 +257,8 @@ class Data extends \Eloquent {
 		{
 			if (isset($data->departure_date) && isset($data->end_date))
 			{
-                $start  = new DateTime($data->departure_date);
-                $einde  = new DateTime($data->end_date);
+                $start  = new \DateTime($data->departure_date);
+                $einde  = new \DateTime($data->end_date);
                 $diff  = $start->diff($einde);
                 //echo $diff->format('%R'); // use for point out relation: smaller/greater
                 //echo $diff->days;

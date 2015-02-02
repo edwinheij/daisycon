@@ -120,10 +120,11 @@ class DaisyconImportData extends Command {
 		{
 			return $this->info('Geen active programma\'s in de database gevonden...');
 		}
+		\Artisan::call('daisycon:fix-data');
 		return $this->info('Did IT in: ' . round(microtime(true) - LARAVEL_START,2));
 	}
 
-	public function importData($url, $program_id, $feed_id, $custom_categorie)
+	public function importData_oud($url, $program_id, $feed_id, $custom_categorie)
 	{
 
         $CHUNK_SIZE = 1024;

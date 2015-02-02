@@ -12,7 +12,8 @@
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*",
         "prewk/xml-string-streamer-guzzle": "~0.0.5",
-        "maatwebsite/excel": "1.*"
+        "maatwebsite/excel": "1.*",
+        "league/csv": "~6.0"
     },
     "autoload": {
         "psr-0": {

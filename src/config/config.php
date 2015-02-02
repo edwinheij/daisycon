@@ -19,7 +19,7 @@ return array(
 
     'encoding' => 'UTF-8', // ISO-8859-1 / ISO-8859-15 / UTF-8 / UTF-16 / ASCII
 
-	'html_toestaan' => 'true', // true / false
+	'html_toestaan' => true, // (bool) true / false
 
 	'feed_type' => 'csv', // 'xml en csv' momenteel actief; later eventueel toe te voegen: xmlatt
 

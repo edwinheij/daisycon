@@ -44,9 +44,17 @@ class DaisyconFixData extends Command {
 	 */
 	public function fire()
 	{
-	    $this->info('\'region_of_destination\' fixen...');
+		$this->info('Alle records aanvullen met gegevens welke ontbreken vanuit CSV-bestand');
+		$rij = Data::select('id')->get();
+		foreach ($rij as $ro)
+		{
+			$r = Data::find($ro->id);
+			$r->temp = 1;
+			$r->save();
+		}
 
-	    $regionLeeg = Data::select('city_of_destination', 'region_of_destination')
+		$this->info('\'region_of_destination\' fixen...');
+		$regionLeeg = Data::select('city_of_destination', 'region_of_destination')
 			->where('region_of_destination', '')
 			->groupBy('city_of_destination')
 			->get();
