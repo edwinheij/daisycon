@@ -67,12 +67,17 @@ class Data extends \Eloquent {
 	{
 		parent::boot();
 
-        static::updating(function($data)
-        {
-            $data = static::dataVoorbereiden($data);
-        });
+//        static::updating(function($data)
+//        {
+//            $data = static::dataVoorbereiden($data);
+//        });
+//
+//        static::creating(function($data)
+//        {
+//            $data = static::dataVoorbereiden($data);
+//        });
 
-        static::creating(function($data)
+        static::saving(function($data)
         {
             $data = static::dataVoorbereiden($data);
         });

@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Config;
-
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 
 use Bahjaat\Daisycon\Models\Data;
@@ -45,12 +44,19 @@ class DaisyconFixData extends Command {
 	public function fire()
 	{
 		$this->info('Alle records aanvullen met gegevens welke ontbreken vanuit CSV-bestand');
-		$rij = Data::select('id')->get();
-		foreach ($rij as $ro)
-		{
-			$r = Data::find($ro->id);
-			$r->temp = 1;
-			$r->save();
+
+		$aantal = true;
+		while ($aantal != 0) {
+			$rij = Data::select('id')->where('temp', '!=', 2)->take(300)->get();
+			$aantal = $rij->count();
+			if ($aantal > 0) {
+				foreach ($rij as $ro) {
+					$r = Data::find($ro->id);
+					$r->temp = 2;
+					$r->save();
+				}
+			}
+			$this->info($aantal);
 		}
 
 		$this->info('\'region_of_destination\' fixen...');
@@ -112,7 +118,7 @@ class DaisyconFixData extends Command {
 			}
 		}
 		$this->info('\'slug_region_of_destination\' fixen... DONE');*/
-
+		\Artisan::call('cache:clear');
 		return $this->info('done');
 	}
 
