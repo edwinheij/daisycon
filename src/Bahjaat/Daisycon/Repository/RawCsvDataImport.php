@@ -23,7 +23,7 @@ class RawCsvDataImport implements DataImportInterface {
         $response = $this->downloadAndSaveFeed($url, $fileLocation);
 
         if ($response) {
-            $this->filterBestand($fileLocation);
+//            $this->filterBestand($fileLocation);
 
             $sql = "LOAD DATA INFILE '" . addslashes($fileLocation) . "'
             INTO TABLE `data`
@@ -38,8 +38,13 @@ class RawCsvDataImport implements DataImportInterface {
             ";
             DB::connection()->getPdo()->exec($sql);
 
-            Data::where('title', 'title')->delete();
-            DB::table('data')->update(array('temp' => 1));
+            Data::where(function ($query) {
+                $query->whereTitle('title')
+                    ->orWhere('title', 'like', '#%');
+            })->delete();
+
+//            DB::table('data')->update(array('temp' => 1));
+            Data::whereTemp(0)->update(array('temp' => 1));
             \File::delete($fileLocation);
         }
     }
@@ -105,7 +110,7 @@ class RawCsvDataImport implements DataImportInterface {
             throw new \Exception('Curl error: ' . curl_error($curl));
         }
 
-        return $response; // Do something with the response.
+        return $response;
     }
 
 }
