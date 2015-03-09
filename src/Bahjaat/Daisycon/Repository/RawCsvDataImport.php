@@ -25,6 +25,8 @@ class RawCsvDataImport implements DataImportInterface {
         if ($response) {
 //            $this->filterBestand($fileLocation);
 
+            $pdo = DB::connection()->getPdo();
+
             $sql = "LOAD DATA INFILE '" . addslashes($fileLocation) . "'
             INTO TABLE `data`
             CHARACTER SET utf8 FIELDS TERMINATED BY ';' ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\\n'
@@ -36,7 +38,8 @@ class RawCsvDataImport implements DataImportInterface {
                 `feed_id` = " . $feed_id . ",
                 `custom_categorie` = '" . $custom_categorie . "'
             ";
-            DB::connection()->getPdo()->exec($sql);
+//            DB::connection()->getPdo()->exec($sql);
+            $pdo->exec($sql);
 
             Data::where(function ($query) {
                 $query->whereTitle('title')
