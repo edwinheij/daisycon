@@ -7,8 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Config;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
-
 use Bahjaat\Daisycon\Models\Data;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class DaisyconFixData extends Command {
 
@@ -118,8 +118,8 @@ class DaisyconFixData extends Command {
 			}
 		}
 		$this->info('\'slug_region_of_destination\' fixen... DONE');*/
-		\Artisan::call('cache:clear');
-		return $this->info('done');
+		\Artisan::call('cache:clear', array(), new ConsoleOutput);
+		return $this->info('Done');
 	}
 
 

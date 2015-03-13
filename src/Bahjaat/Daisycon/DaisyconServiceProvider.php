@@ -46,8 +46,10 @@ class DaisyconServiceProvider extends ServiceProvider {
 			$this->app->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
 
 			$feed_type = ucfirst(strtolower(Config::get('Packages\Bahjaat\Daisycon\config.feed_type', 'Csv')));
+
 //			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\Raw'.$feed_type.'DataImport');
-			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\'.$feed_type.'DataImport');
+			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\League'.$feed_type.'DataImport');
+//			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\'.$feed_type.'DataImport');
 			$dataImportInterface = $this->app->make('Bahjaat\Daisycon\Repository\DataImportInterface');
 		    return new Commands\DaisyconImportData($dataImportInterface);
 		});

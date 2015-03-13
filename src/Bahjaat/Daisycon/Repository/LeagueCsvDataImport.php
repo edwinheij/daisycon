@@ -8,82 +8,163 @@
 namespace Bahjaat\Daisycon\Repository;
 
 use Bahjaat\Daisycon\Repository\DataImportInterface;
-//use Maatwebsite\Excel\Facades\Excel;
 use League\Csv\Reader;
 use Bahjaat\Daisycon\Models\Data;
 use Config;
-use PDO;
+use Bahjaat\Daisycon\Helper\DaisyconHelper;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class LeagueCsvDataImport implements DataImportInterface {
+//use League\Csv\Reader;
+
+class LeagueCsvDataImport implements DataImportInterface
+{
 
     /**
+     * @var ConsoleOutputInterface
+     */
+    private $console;
+
+    public function __construct(ConsoleOutput $console)
+    {
+
+        $this->console = $console;
+    }
+
+    /**
+     * @param $url
+     * @param $program_id
+     * @param $feed_id
+     * @param $custom_categorie
      *
+     * @throws \Exception
      */
     public function importData($url, $program_id, $feed_id, $custom_categorie)
     {
-        //LOAD DATA LOCAL INFILE 'C:\\Code\\superdeluxvakanties.dev\\app\\storage\\sunweb.csv' REPLACE INTO TABLE `daisycon.live.dev`.`data` CHARACTER SET utf8 FIELDS TERMINATED BY ';' ENCLOSED BY '"' ESCAPED BY '"' LINES TERMINATED BY '\n' (`title`, `link`, `description`, `accommodation_name`, `slug_accommodation_name`, `accommodation_type`, `min_nr_people`, `location_description`, `stars`, `minimum_price`, `maximum_price`, `lowest_price`, `continent_of_destination`, `slug_continent_of_destination`, `country_of_destination`, `slug_country_of_destination`, `country_link`, `region_of_destination`, `slug_region_of_destination`, `region_link`, `city_of_destination`, `slug_city_of_destination`, `city_link`, `longitude`, `latitude`, `continent_of_origin`, `slug_continent_of_origin`, `country_of_origin`, `slug_country_of_origin`, `city_of_origin`, `slug_city_of_origin`, `port_of_departure`, `img_small`, `img_medium`, `img_large`, `board_type`, `tour_operator`, `transportation_type`, `departure-date`, `departure_date`, `end_date`, `duration`, `daisycon_unique_id`, `internal_id`, `unique_integer`, `update_hash`);
+        $fileLocation = storage_path() . '/' . $program_id . '.' . $feed_id . '.csv';
 
-        $fileLocation = storage_path() . '/'.$program_id.'.'.$feed_id.'.csv';
-        $contents = file_get_contents($url);
-        $contents = $this->verwijderBovensteRegels(2, $contents);
-        \File::put($fileLocation, $contents);
+        $this->downloadAndSaveFeed($url, $fileLocation);
 
-        $user = 'root';
-        $pass = '';
-        $dbh = new \PDO('mysql:host=localhost;dbname=daisycon.dev', $user, $pass);
+        $this->filterBestand($fileLocation);
 
-        $sth = $dbh->prepare(
-            "INSERT INTO `daisycon.dev`.`data` (" .
-              "`title`, `link`, `description`" . // `accommodation_name`, `slug_accommodation_name`, `accommodation_type`, `min_nr_people`, `location_description`, `stars`, `minimum_price`, `maximum_price`, `lowest_price`, `continent_of_destination`, `slug_continent_of_destination`, `country_of_destination`, `slug_country_of_destination`, `country_link`, `region_of_destination`, `slug_region_of_destination`, `region_link`, `city_of_destination`, `slug_city_of_destination`, `city_link`, `longitude`, `latitude`, `continent_of_origin`, `slug_continent_of_origin`, `country_of_origin`, `slug_country_of_origin`, `city_of_origin`, `slug_city_of_origin`, `port_of_departure`, `img_small`, `img_medium`, `img_large`, `board_type`, `tour_operator`, `transportation_type`, `departure-date`, `departure_date`, `end_date`, `duration`, `daisycon_unique_id`, `internal_id`, `unique_integer`, `update_hash`
-            ") VALUES (:title, :link, :description)"
-        );
+        $fields_wanted_from_config = DaisyconHelper::getDatabaseFieldsToImport();
+
+        $offset = 1; // initieel op 1 om header te ontlopen
+        $batchAantal = 1000;
 
         $csv = Reader::createFromPath($fileLocation);
         $csv->setDelimiter(';');
         $csv->setEnclosure('"');
-        $csv->setOffset(1); //because we don't want to insert the header
-        $c = 0;
-        $nbInsert = $csv->each(function ($row) use (&$sth) {
-            if (!isset($row[0])) return;
-            global $c;
-            //Do not forget to validate your data before inserting it in your database
-            $sth->bindValue(':title', $row[0], \PDO::PARAM_STR);
-            $sth->bindValue(':link', $row[1], \PDO::PARAM_STR);
-            $sth->bindValue(':description', $row[2], \PDO::PARAM_STR);
 
-            return $sth->execute(); //if the function return false then the iteration will stop
-        });
+        $creationCount = 0;
 
-        /*$csv = Reader::createFromPath($fileLocation);
-        $csv->setDelimiter(';');
-        $csv->setEnclosure('"');
-        $csv->setOffset(2); //because we don't want to insert the header
+        while (true) {
+            $csv->setOffset($offset)->setLimit($batchAantal);
 
-        $headers = $csv->fetchOne();
-        $errorCount = 0;
-        $all = $csv->fetchAll();
-        foreach ($all as $row)
-        {
-            try {
-                print_r(array_combine( $headers, $row ));
-                Data::create(
-                    array_combine( $headers, $row )
-                );
-            } catch (\Exception $e) {
-                continue;
-            }
-        }*/
+            $this->console->writeln("Memory now at: " . memory_get_peak_usage());
+
+            $csvResults = $csv->fetchAll(function ($row) use ($fields_wanted_from_config, $program_id, $feed_id, $custom_categorie, &$creationCount) {
+
+                if (count($row) != count($fields_wanted_from_config)) return;
+
+                try {
+                    $inserted_array = array_merge(
+                        array_combine(
+                            $fields_wanted_from_config,
+                            $row
+                        ),
+                        array(
+                            'program_id' => $program_id,
+                            'feed_id' => $feed_id,
+                            'custom_categorie' => $custom_categorie
+                        )
+                    );
+                    Data::create(
+                        $inserted_array
+                    );
+
+                    $creationCount++;
+                } catch (Exception $e) {
+                    echo $e->getMessage() . PHP_EOL;
+                } catch (\ErrorException $e) {
+                    echo $e->getMessage() . PHP_EOL;
+                }
+
+            });
+
+            $aantalResultaten = count($csvResults);
+            $this->console->writeln("Totaal verwerkt: " . $creationCount);
+            $offset += $aantalResultaten;
+
+            if ($aantalResultaten != $batchAantal) break; // forceer einde
+
+        }
+
+        Data::where(function ($query) {
+            $query->whereTitle('title')
+                ->orWhere('title', 'like', '#%');
+        })->delete();
+
+        Data::whereTemp(null)->update(array('temp' => 1));
 
         \File::delete($fileLocation);
     }
 
-    function verwijderBovensteRegels($hoeveelRegels = 2, $contents)
+    /**
+     * Haal regels weg die beginnen met een hash (#)
+     *
+     * @param null $file
+     */
+    function filterBestand($file = null)
     {
-        $lineEnding = "\n";
-        $explode = explode($lineEnding, $contents);
-        for ($x = 0; $x < $hoeveelRegels; $x++)
-            array_shift($explode);
-        return implode($lineEnding, $explode);
+        if (is_null($file)) return;
+        $fileToRead = $file;
+        $fileToWrite = $file . '.tmp';
+
+        $reading = fopen($fileToRead, 'r');
+        $writing = fopen($fileToWrite, 'w');
+        while (!feof($reading)) {
+            $line = fgets($reading);
+            if (substr($line, 0, 1) != "#") {
+                fputs($writing, $line);
+            }
+        }
+        fclose($reading);
+        fclose($writing);
+        rename($fileToWrite, $fileToRead);
+        return;
     }
+
+    /**
+     * Download remote bestand en sla deze op als csv file
+     *
+     * @param $url
+     * @param $fileLocation
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    function downloadAndSaveFeed($url, $fileLocation)
+    {
+        $file = fopen($fileLocation, 'w+');
+        $curl = curl_init($url);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_BINARYTRANSFER => 1,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_FILE => $file,
+//            CURLOPT_TIMEOUT        => 120,
+            CURLOPT_USERAGENT => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
+        ));
+
+        $response = curl_exec($curl);
+
+        if ($response === false) {
+            throw new \Exception('Curl error: ' . curl_error($curl));
+        }
+
+        return $response;
+    }
+
 
 }
