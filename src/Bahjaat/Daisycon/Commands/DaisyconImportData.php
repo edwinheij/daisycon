@@ -86,11 +86,6 @@ class DaisyconImportData extends Command
         $this->info('Data tabel leeg maken');
         Data::truncate();
 
-        // fix memory
-        if (!\App::environment('local')) {
-            \DB::connection()->disableQueryLog();
-        }
-
         $this->info('Opzoeken feeds');
 
         $activeProgramsFromDB = ActiveProgram::with('program.feeds')->where('status', 1)->get();

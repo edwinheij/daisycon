@@ -118,6 +118,10 @@
 		<field name="land">Bolivia</field>
 	</row>
 	<row>
+		<field name="landcode">BQ</field>
+		<field name="land">Bonaire, Saint Eustatius en Saba</field>
+	</row>
+	<row>
 		<field name="landcode">BR</field>
 		<field name="land">Brazilië</field>
 	</row>
@@ -204,6 +208,10 @@
 	<row>
 		<field name="landcode">CV</field>
 		<field name="land">Kaapverdië</field>
+	</row>
+	<row>
+		<field name="landcode">CW</field>
+		<field name="land">Curaçao</field>
 	</row>
 	<row>
 		<field name="landcode">CX</field>
@@ -824,6 +832,10 @@
 	<row>
 		<field name="landcode">SV</field>
 		<field name="land">El Salvador</field>
+	</row>
+	<row>
+		<field name="landcode">SX</field>
+		<field name="land">Sint Maarten</field>
 	</row>
 	<row>
 		<field name="landcode">SY</field>

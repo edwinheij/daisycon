@@ -130,8 +130,12 @@ class Data extends \Eloquent
 
         foreach ($fields as $field) {
             if (isset($data->$field) && strlen($data->$field) == 2) {
-                $cc = Countrycode::where('countrycode', $data->$field)->remember(60)->firstOrFail();
-                if (!empty($cc->country)) $data->$field = $cc->country;
+                try {
+                    $cc = Countrycode::where('countrycode', $data->$field)->remember(60)->firstOrFail();
+                    if (!empty($cc->country)) $data->$field = $cc->country;
+                } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+                    \Log::error($data->$field . ' niet in Countrycode tabel gevonden');
+                }
             }
         }
         return $data;

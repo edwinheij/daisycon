@@ -58,6 +58,9 @@ class LeagueCsvDataImport implements DataImportInterface
         $creationCount = 0;
 
         while (true) {
+            // Flushing the QueryLog anders kan de import te veel geheugen gaan gebruiken
+            \DB::connection()->flushQueryLog();
+
             $csv->setOffset($offset)->setLimit($batchAantal);
 
             $this->console->writeln("Memory now at: " . memory_get_peak_usage());
@@ -94,6 +97,7 @@ class LeagueCsvDataImport implements DataImportInterface
             $aantalResultaten = count($csvResults);
             $this->console->writeln("Totaal verwerkt: " . $creationCount);
             $offset += $aantalResultaten;
+
 
             if ($aantalResultaten != $batchAantal) break; // forceer einde
 
