@@ -20,7 +20,9 @@ class DaisyconServiceProvider extends ServiceProvider {
     public function boot()
     {
 //        dd(__DIR__ . '/../vendor/autoload.php');
-        require __DIR__ . '/../../../vendor/autoload.php';
+
+        $autoloadPath = __DIR__ . '/../../../vendor/autoload.php';
+        if (file_exists($autoloadPath)) require_once $autoloadPath; // voor development
 
         $this->publishes([
             __DIR__ . '/../../config/daisycon.php' => config_path('daisycon.php'),
