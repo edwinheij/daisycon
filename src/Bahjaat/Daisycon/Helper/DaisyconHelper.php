@@ -11,8 +11,8 @@ class DaisyconHelper
     static function getApiOptions()
     {
         $options = array(
-            'login' => Config::get("daisycon::config.username"),
-            'password' => md5(Config::get("daisycon::config.password")),
+            'login' => Config::get("daisycon.username"),
+            'password' => md5(Config::get("daisycon.password")),
             'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
             'encoding' => 'UTF-8',
             'trace' => 1,
@@ -23,14 +23,14 @@ class DaisyconHelper
 
     static function getDatabaseFieldsToImport()
     {
-        return Config::get("daisycon::config.db_fields_to_import");
+        return Config::get("daisycon.db_fields_to_import");
     }
 
     static function getDatabaseFields()
     {
         return array_merge(
-            Config::get('daisycon::config.db_fields_to_import'),
-            Config::get('daisycon::config.custom_db_fields_to_import')
+            Config::get('daisycon.db_fields_to_import'),
+            Config::get('daisycon.custom_db_fields_to_import')
         );
     }
 
@@ -38,9 +38,9 @@ class DaisyconHelper
     {
         $output = new ConsoleOutput;
 
-        $publisher_id = Config::get("daisycon::config.publisher_id");
-        $username = Config::get("daisycon::config.username");
-        $password = Config::get("daisycon::config.password");
+        $publisher_id = Config::get("daisycon.publisher_id");
+        $username = Config::get("daisycon.username");
+        $password = Config::get("daisycon.password");
 
         $url = 'https://services.daisycon.com/publishers/' . $publisher_id . '/' . $resourceUrl;
         if (!empty($options)) {
@@ -89,8 +89,8 @@ class DaisyconHelper
 
     public static function changeProgramURL($url)
     {
-        $media_id = Config::get("daisycon::config.media_id");
-        $sub_id = Config::get("daisycon::config.sub_id");
+        $media_id = Config::get("daisycon.media_id");
+        $sub_id = Config::get("daisycon.sub_id");
 
         $changeArray = array(
             '#MEDIA_ID#' => $media_id,

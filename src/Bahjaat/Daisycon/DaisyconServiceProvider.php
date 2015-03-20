@@ -41,7 +41,6 @@ class DaisyconServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-
 		$this->app['daisycon.getfeeds'] = $this->app->share(function(){
 		    return new Commands\DaisyconFeeds();
 		});
@@ -52,7 +51,7 @@ class DaisyconServiceProvider extends ServiceProvider {
 			$this->app->register('Maatwebsite\Excel\ExcelServiceProvider');
 			$this->app->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
 
-			$feed_type = ucfirst(strtolower(Config::get('Packages\Bahjaat\Daisycon\config.feed_type', 'Csv')));
+			$feed_type = ucfirst(strtolower(Config::get('daisycon.feed_type', 'Csv')));
 
 //			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\Raw'.$feed_type.'DataImport');
 			$this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\League'.$feed_type.'DataImport');

@@ -48,8 +48,8 @@ class DaisyconFeeds extends Command {
 	 */
 	public function fire()
 	{
-		$media_id = Config::get("daisycon::config.media_id");
-		$sub_id = Config::get("daisycon::config.sub_id");
+		$media_id = Config::get("daisycon.media_id");
+		$sub_id = Config::get("daisycon.sub_id");
 
 		$this->info('Starten met het binnenhalen van de feeds');
 

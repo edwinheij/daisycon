@@ -23,7 +23,7 @@ class CsvDataImport implements DataImportInterface {
         $this->downloadAndSaveFeed($url, $fileLocation);
         $this->filterBestand($fileLocation);
 
-        $chunkSize = Config::get('daisycon::config.chunksize', 500);
+        $chunkSize = Config::get('daisycon.chunksize', 500);
         Excel::filter('chunk')->load($fileLocation)->chunk($chunkSize, function($results) use ($program_id, $feed_id, $custom_categorie)
         {
 

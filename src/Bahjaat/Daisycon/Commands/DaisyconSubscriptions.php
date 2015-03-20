@@ -66,11 +66,11 @@ class DaisyconSubscriptions extends Command {
         //     return $path;
         // }
 
-        // return Config::get("generators::config.{$configName}");
-        // return Config::get("generators::config.{$configName}");
+        // return Config::get("generators.{$configName}");
+        // return Config::get("generators.{$configName}");
 
         // echo 'Config media_id:  '. Config::get("daisycon");
-        // $media_id = Config::get("daisycon::config.media_id");
+        // $media_id = Config::get("daisycon.media_id");
 
 	    $sWsdl_program = "http://api.daisycon.com/publisher/soap/program/wsdl/";
         $oSoapClient_program = new \SoapClient($sWsdl_program, DaisyconHelper::getApiOptions());

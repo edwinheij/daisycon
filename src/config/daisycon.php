@@ -1,10 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Config;
-
-// To retreive config values:
-// 
-
 return array(
 
     'username' => '', // can also / should be your 'emailaddress'

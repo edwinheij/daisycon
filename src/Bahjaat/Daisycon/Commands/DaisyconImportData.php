@@ -97,11 +97,11 @@ class DaisyconImportData extends Command
                 if (!empty($activeProgram->program->feeds) || !empty($activeProgram->program->name)) {
                     foreach ($activeProgram->program->feeds as $feed) {
                         $this->info($activeProgram->program->name . ' - ' . $feed->name);
-                        $url = $feed->{"feed_link_" . strtolower(Config::get('daisycon::config.feed_type', 'csv'))} .
+                        $url = $feed->{"feed_link_" . strtolower(Config::get('daisycon.feed_type', 'csv'))} .
                             '&f=' . implode(';', $fields_wanted_from_config) .
-                            '&encoding=' . Config::get("daisycon::config.encoding") .
+                            '&encoding=' . Config::get("daisycon.encoding") .
                             '&general=true' .
-                            '&nohtml=' . (Config::get("daisycon::config.html_toestaan", false) ? 'false' : 'true');
+                            '&nohtml=' . (Config::get("daisycon.html_toestaan", false) ? 'false' : 'true');
                         $program_id = $activeProgram->program->program_id;
                         $feed_id = $feed->feed_id;
                         $custom_categorie = $activeProgram->custom_categorie;
