@@ -19,6 +19,13 @@ class DaisyconServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__ . '/../../config/daisycon.php' => config_path('daisycon.php'),
+        ]);
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/daisycon.php', 'daisycon'
+        );
 //        $this->package('bahjaat/daisycon');
 //		$this->app->booting(function()
 //		{
