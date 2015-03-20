@@ -19,7 +19,7 @@ class DaisyconServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->package('bahjaat/daisycon');
+//        $this->package('bahjaat/daisycon');
 //		$this->app->booting(function()
 //		{
 //			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
