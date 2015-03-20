@@ -4,7 +4,7 @@ namespace Bahjaat\Daisycon\Models;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Config;
-use Str;
+use Illuminate\Support\Str;
 
 class Data extends \Eloquent
 {
@@ -131,7 +131,7 @@ class Data extends \Eloquent
         foreach ($fields as $field) {
             if (isset($data->$field) && strlen($data->$field) == 2) {
                 try {
-                    $cc = Countrycode::where('countrycode', $data->$field)->remember(60)->firstOrFail();
+                    $cc = Countrycode::where('countrycode', $data->$field)->firstOrFail(); // Todo: caching inbouwen
                     if (!empty($cc->country)) $data->$field = $cc->country;
                 } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
                     \Log::error($data->$field . ' niet in Countrycode tabel gevonden');
