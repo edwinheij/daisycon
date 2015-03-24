@@ -9,6 +9,7 @@ use Config;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Bahjaat\Daisycon\Models\Data;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Illuminate\Support\Str;
 
 class DaisyconFixData extends Command {
 
@@ -78,7 +79,7 @@ class DaisyconFixData extends Command {
 					->update(
 						array(
 							'region_of_destination' => $row['region_of_destination'],
-							'slug_region_of_destination' => \Str::slug($row['region_of_destination'])
+							'slug_region_of_destination' => Str::slug($row['region_of_destination'])
 						)
 					);
 			}
