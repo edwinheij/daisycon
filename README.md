@@ -17,3 +17,6 @@ Laravel package to import data via Daisycon Rest API (affiliates)
 11.	`php artisan daisycon:getfeeds`
 12. Vul de tabel 'active_programs' met program_id's welke je geïmporteerd wil hebben. Eventueel kun je ook een custom_categorie meegeven zodat deze waarde ook meegenomen wordt in je data tabel.
 12.	Nu alle xml's doorlopen in en data tabel importeren via `php artisan daisycon:import-data`
+
+--
+Edwin Heij
