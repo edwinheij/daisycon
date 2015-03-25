@@ -1,12 +1,7 @@
-<?php
+<?php namespace Bahjaat\Daisycon\Commands;
 
-namespace Bahjaat\Daisycon\Commands;
-
-
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Config;
+use Illuminate\Console\Command;
 
 use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Stream;
@@ -22,8 +17,6 @@ use Bahjaat\Daisycon\Models\Program;
 use Bahjaat\Daisycon\Models\Subscription;
 
 use Bahjaat\Daisycon\Repository\DataImportInterface;
-
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class DaisyconImportData extends Command
 {
@@ -116,7 +109,7 @@ class DaisyconImportData extends Command
         } else {
             return $this->info('Geen active programma\'s in de database gevonden...');
         }
-        \Artisan::call('daisycon:fix-data', array(), new ConsoleOutput);
+        $this->call('daisycon:fix-data');
         return $this->info('Did IT in: ' . round(microtime(true) - LARAVEL_START, 2));
     }
 
@@ -172,8 +165,6 @@ class DaisyconImportData extends Command
      */
     protected function getArguments()
     {
-        return array(//array('example', InputArgument::REQUIRED, 'An example argument.'),
-        );
     }
 
     /**
@@ -183,8 +174,6 @@ class DaisyconImportData extends Command
      */
     protected function getOptions()
     {
-        return array(//array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-        );
     }
 
 }
