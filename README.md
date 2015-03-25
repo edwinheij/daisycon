@@ -2,6 +2,28 @@
 
 Laravel package to import data via Daisycon Rest API (affiliates)
 
+## Laravel 5
+
+```json
+{
+    "require": {
+        "bahjaat/daisycon": "3.*"
+    }
+}
+```
+todo: packagist laad tag nog niet
+
+## Laravel 4.2
+
+```json
+{
+    "require": {
+        "bahjaat/daisycon": "2.*"
+    }
+}
+```
+todo: packagist laad tag nog niet
+
 ## Installatie
 
 1.	composer.json aanpasen `"bahjaat/daisycon": "dev-master"`
