@@ -165,6 +165,7 @@ class DaisyconImportData extends Command
      */
     protected function getArguments()
     {
+        return [];
     }
 
     /**
@@ -174,6 +175,7 @@ class DaisyconImportData extends Command
      */
     protected function getOptions()
     {
+        return [];
     }
 
 }
