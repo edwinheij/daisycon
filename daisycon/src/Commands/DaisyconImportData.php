@@ -51,7 +51,7 @@ class DaisyconImportData extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param DataImportInterface $data
      */
     public function __construct(DataImportInterface $data)
     {
@@ -110,7 +110,7 @@ class DaisyconImportData extends Command
             return $this->info('Geen active programma\'s in de database gevonden...');
         }
         $this->call('daisycon:fix-data');
-        return $this->info('Did IT in: ' . round(microtime(true) - LARAVEL_START, 2));
+        return $this->info('Verwerkt in ' . round(microtime(true) - LARAVEL_START, 2) . ' seconden');
     }
 
     public function importData_oud($url, $program_id, $feed_id, $custom_categorie)
