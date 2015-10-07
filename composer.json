@@ -16,8 +16,8 @@
         "league/csv": "~6.0"
     },
     "autoload": {
-        "psr-0": {
-            "Bahjaat\\Daisycon": "src/"
+        "psr-4": {
+            "Bahjaat\\Daisycon\\": "src/"
         },
         "classmap": [
             "src/database/migrations",
