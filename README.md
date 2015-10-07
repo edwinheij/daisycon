@@ -2,13 +2,37 @@
 
 Laravel package to import data via Daisycon Rest API (affiliates)
 
+## Laravel 5
+
+```json
+{
+    "require": {
+        "bahjaat/daisycon": "3.*"
+    }
+}
+```
+todo: packagist laad tag nog niet
+
+## Laravel 4.2
+
+```json
+{
+    "require": {
+        "bahjaat/daisycon": "2.*"
+    }
+}
+```
+todo: packagist laad tag nog niet
+
 ## Installatie
 
 1.	composer.json aanpasen `"bahjaat/daisycon": "dev-master"`
 2.	`composer update`
 3.	`'Bahjaat\Daisycon\DaisyconServiceProvider'` toevoegen aan app/config/app.php
 4.	Als er nog geen migrations tabel is: `php artisan migrate:install`
-5.	Daarna `php artisan config:publish bahjaat/daisycon`
+5.	Daarna `php artisan config:publish bahjaat/daisycon` (laravel 4.x)
+of voor laravel 5.x
+5. `php artisan vendor:publish`
 6.	config.php aanpassen: app/config/packages/bahjaat/daisycon/config.php (username / password / media_id)
 7.	`php artisan migrate --path="vendor/bahjaat/daisycon/src/database/migrations/"` (werkt (nog) niet met `--package bahjaat/daisycon`; help wanted!?)
 8.	`php artisan db:seed --class="CountrycodesTableSeeder"`

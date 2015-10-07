@@ -8,10 +8,11 @@
 
 namespace Bahjaat\Daisycon\Repository;
 
-use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\Stream;
-use Prewk\XmlStringStreamer\Parser;
+//use Prewk\XmlStringStreamer;
+//use Prewk\XmlStringStreamer\Stream;
+//use Prewk\XmlStringStreamer\Parser;
 
+use GuzzleHttp\Client;
 use Bahjaat\Daisycon\Models\Data;
 use Bahjaat\Daisycon\Repository\DataImportInterface;
 
@@ -19,34 +20,26 @@ use Bahjaat\Daisycon\Repository\DataImportInterface;
 class XmlDataImport implements DataImportInterface {
 
     /**
+     * Importeer data van betreffende feed (url) in de database
      *
+     * @param $url
+     * @param $program_id
+     * @param $feed_id
+     * @param $custom_categorie
      */
     public function importData($url, $program_id, $feed_id, $custom_categorie)
     {
-
-        $CHUNK_SIZE = 512;
-        $stream = new Stream\Guzzle($url, $CHUNK_SIZE);
-        $config = array(
-            'uniqueNode' => 'item',
-        );
-        $parser = new Parser\UniqueNode($config);
-        $streamer = new XmlStringStreamer($parser, $stream);
-
-        while ($node = $streamer->getNode()) {
-
-            $simpleXmlNode = simplexml_load_string($node, null, LIBXML_NOCDATA ); // LIBXML_NOCDATA-trick from: http://dissectionbydavid.wordpress.com/2013/01/25/simple-simplexml-to-array-in-php/
-
-            /**
-             * Lege values eruit filteren
-             */
+        $client = new Client();
+        $response = $client->request('GET', $url, ['timeout' => 3]);
+        $body = $response->getBody();
+        $simpleXmlString = simplexml_load_string($body, null, LIBXML_NOCDATA ); // LIBXML_NOCDATA-trick from: http://dissectionbydavid.wordpress.com/2013/01/25/simple-simplexml-to-array-in-php/
+        foreach ($simpleXmlString as $simpleXmlNode) :
+            // Lege values eruit filteren
             $arr = array_filter(
                 (array) $simpleXmlNode
             );
-
             try {
-                /**
-                 * Merge 'program_id' in gegevens uit XML
-                 */
+                 // Merge 'program_id' in gegevens uit XML
                 $inserted_array = array_merge($arr,
                     array(
                         'program_id' => $program_id,
@@ -60,8 +53,7 @@ class XmlDataImport implements DataImportInterface {
             } catch (Exception $e) {
                 dd($e->getMessage());
             }
-
-        } // while
+        endforeach;
 
         return;
     }
