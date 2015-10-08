@@ -1,37 +1,19 @@
-# Daisycon
-
+Daisycon
+========
 Laravel package to import data via Daisycon Rest API (affiliates)
-
-## Laravel 5
-
+### Laravel 5
 ```json
 {
     "require": {
-        "bahjaat/daisycon": "3.*"
+        "bahjaat/daisycon": "dev-master"
     }
 }
 ```
-todo: packagist laad tag nog niet
-
-## Laravel 4.2
-
-```json
-{
-    "require": {
-        "bahjaat/daisycon": "2.*"
-    }
-}
-```
-todo: packagist laad tag nog niet
-
-## Installatie
-
+### Installatie
 1.	composer.json aanpasen `"bahjaat/daisycon": "dev-master"`
 2.	`composer update`
 3.	`'Bahjaat\Daisycon\DaisyconServiceProvider'` toevoegen aan app/config/app.php
 4.	Als er nog geen migrations tabel is: `php artisan migrate:install`
-5.	Daarna `php artisan config:publish bahjaat/daisycon` (laravel 4.x)
-of voor laravel 5.x
 5. `php artisan vendor:publish`
 6.	config.php aanpassen: app/config/packages/bahjaat/daisycon/config.php (username / password / media_id)
 7.	`php artisan migrate --path="vendor/bahjaat/daisycon/src/database/migrations/"` (werkt (nog) niet met `--package bahjaat/daisycon`; help wanted!?)
@@ -40,7 +22,4 @@ of voor laravel 5.x
 10.	`php artisan daisycon:getprograms`
 11.	`php artisan daisycon:getfeeds`
 12. Vul de tabel 'active_programs' met program_id's welke je geïmporteerd wil hebben. Eventueel kun je ook een custom_categorie meegeven zodat deze waarde ook meegenomen wordt in je data tabel.
-12.	Nu alle xml's doorlopen in en data tabel importeren via `php artisan daisycon:import-data`
-
---
-Edwin Heij
+13.	Nu alle xml's doorlopen in en data tabel importeren via `php artisan daisycon:import-data`
