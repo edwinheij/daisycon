@@ -15,37 +15,24 @@ use Bahjaat\Daisycon\Helper\DaisyconHelper;
 
 use Bahjaat\Daisycon\Models\Subscription as Subscription;
 
-class DaisyconSubscriptions extends Command {
-
-	// protected $options = array (
- //        'login'        => 'info@service4pc.nl',
- //        'password'     => '3bc328865eced6e4f926da3bba03b811',
- //        'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, 
- //        'encoding'     => 'UTF-8', 
- //        'trace'        => 1,
- //        'cache_wsdl'   => WSDL_CACHE_DISK //WSDL_CACHE_NONE
- //    );
-
-    // protected $media_id = 56829; // sdv (nog vervangen door configitem)
+class DaisyconGetSubscriptions extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'daisycon:getsubscriptions';
+	protected $name = 'daisycon:get-subscriptions';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Alle subscriptions (abbos\'s) importeren in de database.';
+	protected $description = 'Import subscriptions into the database.';
 
 	/**
 	 * Create a new command instance.
-	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -59,7 +46,7 @@ class DaisyconSubscriptions extends Command {
 	 */
 	public function fire()
 	{
-		$this->info('Starten met het binnenhalen van de subscriptions');
+		$this->info('Start importing subscriptions');
 
         // if ($path = $this->option($option))
         // {
@@ -117,9 +104,7 @@ class DaisyconSubscriptions extends Command {
 	 */
 	protected function getArguments()
 	{
-		return array(
-			//array('example', InputArgument::REQUIRED, 'An example argument.'),
-		);
+		return [];
 	}
 
 	/**
@@ -129,9 +114,7 @@ class DaisyconSubscriptions extends Command {
 	 */
 	protected function getOptions()
 	{
-		return array(
-			//array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-		);
+		return [];
 	}
 
 }

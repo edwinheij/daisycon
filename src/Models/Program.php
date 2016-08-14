@@ -1,36 +1,35 @@
 <?php
 
 namespace Bahjaat\Daisycon\Models;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
+class Program extends \Eloquent
+{
+    protected $fillable =
+        [
+            'program_id',
+            'advertiser_id',
+            'url',
+            'program_logo',
+            'name',
+            'display_url',
+            'description',
+            'productfeed',
+            'subscribed_media_ids',
+            'category_name',
+            'status',
+            'startdate',
+            'enddate'
+        ];
 
-class Program extends \Eloquent {
-	protected $fillable = 
-	[
-		'program_id',
-		'advertiser_id',
-		'url',
-		'program_logo',
-		'name',
-		'display_url',
-		'description',
-		'productfeed',
-		'subscribed_media_ids',
-		'category_name',
-		'status',
-		'startdate',
-		'enddate'
-	];
-
-	// public function activeProgram()
- //    {
- //        return $this->belongsTo('Bahjaat\Daisycon\Models\ActiveProgram', 'program_id', 'program_id');
- //    }
-	public function feeds()
-	{
-		// return $this->belongsTo('Bahjaat\Daisycon\Models\Feed', 'program_id', 'program_id');
-		return $this->hasMany('Bahjaat\Daisycon\Models\Feed', 'program_id', 'program_id');
-	}
+    // public function activeProgram()
+    //    {
+    //        return $this->belongsTo('Bahjaat\Daisycon\Models\ActiveProgram', 'program_id', 'program_id');
+    //    }
+    public function feeds()
+    {
+        // return $this->belongsTo('Bahjaat\Daisycon\Models\Feed', 'program_id', 'program_id');
+        return $this->hasMany(Feed::class, 'program_id', 'program_id');
+    }
 
 }
 

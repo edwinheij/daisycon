@@ -1,6 +1,11 @@
 {
     "name": "bahjaat/daisycon",
     "description": "Laravel package to import data via Daisycon Rest API (affiliates)",
+    "keywords": [
+        "laravel",
+        "daisycon",
+        "affiliates"
+    ],
     "authors": [
         {
             "name": "Edwin Heij",
@@ -12,7 +17,8 @@
         "illuminate/support": "~5",
         "guzzlehttp/guzzle": "~6.0",
         "maatwebsite/excel": "~2.0.0",
-        "league/csv": "~6.0"
+        "league/csv": "~6.0",
+        "mledoze/countries": "^1.7"
     },
     "autoload": {
         "psr-4": {

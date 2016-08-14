@@ -1,34 +1,20 @@
-<?php namespace Bahjaat\Daisycon;
+<?php
 
-use Illuminate\Support\ServiceProvider;
-use Bahjaat\Daisycon\Repository\DataImportInterface;
+namespace Bahjaat\Daisycon;
+
 use Config;
-
-//use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\ServiceProvider;
 
 class DaisyconServiceProvider extends ServiceProvider
 {
 
     /**
-     * Indicates if loading of the provider is deferred.
+     * Bootstrap the application services.
      *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
-     * Booting
+     * @return void
      */
     public function boot()
     {
-//        dd(__DIR__ . '/../vendor/autoload.php');
-//		dd(app_path('../'));
-
-        $autoloadPath = __DIR__ . '/../vendor/autoload.php';
-//        dd($autoloadPath);
-
-        if (file_exists($autoloadPath)) require_once $autoloadPath; // voor development
-
         $this->publishes([
             __DIR__ . '/config/daisycon.php' => config_path('daisycon.php'),
         ]);
@@ -36,27 +22,33 @@ class DaisyconServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/config/daisycon.php', 'daisycon'
         );
-//        $this->package('bahjaat/daisycon');
-//		$this->app->booting(function()
-//		{
-//			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-//			$loader->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
-//		});
+
     }
 
     /**
-     * Register the service provider.
+     * Register the application services.
      *
      * @return void
      */
     public function register()
     {
-        $this->app['daisycon.getfeeds'] = $this->app->share(function () {
-            return new Commands\DaisyconFeeds();
+
+        $this->app['daisycon.get-feeds'] = $this->app->share(function () {
+            return new Commands\DaisyconGetFeeds();
         });
-        $this->app['daisycon.getsubscriptions'] = $this->app->share(function () {
-            return new Commands\DaisyconSubscriptions();
+
+        $this->app['daisycon.get-subscriptions'] = $this->app->share(function () {
+            return new Commands\DaisyconGetSubscriptions();
         });
+
+        $this->app['daisycon.get-programs'] = $this->app->share(function () {
+            return new Commands\DaisyconGetPrograms();
+        });
+
+        $this->app['daisycon.fix-data'] = $this->app->share(function () {
+            return new Commands\DaisyconFixData();
+        });
+
         $this->app['daisycon.import-data'] = $this->app->share(function () {
             $this->app->register('Maatwebsite\Excel\ExcelServiceProvider');
             $this->app->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
@@ -68,35 +60,19 @@ class DaisyconServiceProvider extends ServiceProvider
                 $this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface',
                     'Bahjaat\Daisycon\Repository\\League' . $feed_type . 'DataImport');
             } elseif ($feed_type == 'Xml') {
-			    $this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\'.$feed_type.'DataImport');
+                $this->app->bind('Bahjaat\Daisycon\Repository\DataImportInterface', 'Bahjaat\Daisycon\Repository\\'.$feed_type.'DataImport');
             }
 
             $dataImportInterface = $this->app->make('Bahjaat\Daisycon\Repository\DataImportInterface');
             return new Commands\DaisyconImportData($dataImportInterface);
         });
-        $this->app['daisycon.getprograms'] = $this->app->share(function () {
-            return new Commands\DaisyconPrograms();
-        });
-        $this->app['daisycon.fix-data'] = $this->app->share(function () {
-            return new Commands\DaisyconFixData();
-        });
+
         $this->commands(
-            'daisycon.getfeeds',
-            'daisycon.getsubscriptions',
+            'daisycon.get-feeds',
+            'daisycon.get-subscriptions',
             'daisycon.import-data',
-            'daisycon.getprograms',
+            'daisycon.get-programs',
             'daisycon.fix-data'
         );
     }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return array();
-    }
-
 }

@@ -1,5 +1,6 @@
 <?php namespace Bahjaat\Daisycon\Helper;
 
+use GuzzleHttp\Client;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Config;
 use App;
@@ -34,57 +35,52 @@ class DaisyconHelper
         );
     }
 
-    static function getRestAPI($resourceUrl = '', Array $options = array())
+    /**
+     * Perform a request to the daisycon backend
+     *
+     * @param null $resourceUrl
+     * @param array $options
+     * @return void
+     */
+    static function getRestAPI($resourceUrl = null, $options = [])
     {
         $output = new ConsoleOutput;
 
         $publisher_id = Config::get("daisycon.publisher_id");
+
         $username = Config::get("daisycon.username");
         $password = Config::get("daisycon.password");
 
-        $url = 'https://services.daisycon.com/publishers/' . $publisher_id . '/' . $resourceUrl;
-        if (!empty($options)) {
-            $query_string = http_build_query($options);
-//			$output->writeln('Filter actief: ' . $query_string);
-            $url .= '?' . $query_string;
-            $output->writeln('Filter actief: ' . $url);
-        }
+        $uri = sprintf('https://services.daisycon.com/publishers/%s/', $publisher_id);
 
-        $ch = curl_init();
-        $headers = array('Authorization: Basic ' . base64_encode($username . ':' . $password));
+        $client = new Client([
+            'base_uri' => $uri,
+            'timeout' => 2.0,
+            'auth' => [$username, $password, 'basic'],
+            'query' => $options,
+            'verify' => App::environment() == 'local' ? false : true,
+            'debug' => App::environment() == 'local' ? false : true,
+        ]);
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        if (App::environment() == "local") {
-            $output->writeln('CURLOPT_SSL_VERIFYPEER op false gezet ivm ophalen via local environment');
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        }
-
-        /**
-         * Voor debugging kan onderstaande regel gebruikt worden
-         * */
-//		curl_setopt($ch, CURLOPT_VERBOSE, true); // gebruik dit voor test als er geen of onjuist resultaat terug komt
 
         try {
-            $response = curl_exec($ch);
-            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if ($code == 200) {
+            $response = $client->request('GET', 'programs');
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
                 return array(
-                    'code' => $code,
-                    'response' => json_decode($response)
+                    'code' => $statusCode,
+                    'response' => json_decode((string)$response->getBody())
                 );
             }
-            curl_close($ch);
-            throw new \Exception(
-                '1. Waarschijnlijk niet geautoriseerd voor de API.' . PHP_EOL
-                . '   Ga bij Daisycon naar de published omgeving en kies in het menu voor \'Account privileges\'' . PHP_EOL
-                . '2. Certificaat probleem. CURL-optie \'CURLOPT_SSL_VERIFYPEER\' op false zetten (bijv. voor localhost development).'
-            );
-        } catch (\Exception $e) {
-            $output->writeln($e->getMessage());
+
+        } catch (RequestException $e) {
+            $output->writeln(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $output->writeln(Psr7\str($e->getResponse()));
+            }
         }
+
     }
 
     public static function changeProgramURL($url)
