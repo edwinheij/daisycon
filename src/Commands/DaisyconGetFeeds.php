@@ -8,124 +8,113 @@ use Symfony\Component\Console\Input\InputArgument;
 use Config;
 
 use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\Stream; 
+use Prewk\XmlStringStreamer\Stream;
 use Prewk\XmlStringStreamer\Parser;
 
 use Bahjaat\Daisycon\Models\Feed as Feed;
 use Bahjaat\Daisycon\Models\Subscription as Subscription;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 
-class DaisyconGetFeeds extends Command {
+class DaisyconGetFeeds extends Command
+{
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'daisycon:get-feeds';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'daisycon:get-feeds';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Alle feed-url\'s importeren in de database.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Import all feeds into the database.';
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Create a new command instance.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
-		$media_id = Config::get("daisycon.media_id");
-		$sub_id = Config::get("daisycon.sub_id");
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        $media_id = Config::get("daisycon.media_id");
+        $sub_id = Config::get("daisycon.sub_id");
 
-		$this->info('Starten met het binnenhalen van de feeds');
+        $page = 1;
+        $per_page = 50;
+        $notLastPage = true;
 
-		$page = 1;
-		$per_page = 500;
-		$notLastPage = true;
+        $options = array(
+            'page' => $page,
+            'per_page' => $per_page,
+            'media_id' => $media_id,
+            'placeholder_media_id' => $media_id,
+            'placeholder_subid' => $sub_id
+        );
 
-		while ($notLastPage)
-		{
-			$options = array(
-				'page' => $page,
-				'per_page' => $per_page,
-				'placeholder_media_id' => $media_id,
-				'placeholder_subid' => $sub_id
-			);
-			$APIdata = DaisyconHelper::getRestAPI("productfeeds", $options);
-			if (is_array($APIdata)) {
-				$resultCount = count($APIdata['response']);
-				if ($resultCount > 0) {
-					if ($page == 1)
-					{
-						$this->info('Verwijderen van bestaande feeds');
-						Feed::truncate();
-					}
-					foreach ($APIdata['response'] as $feedinfo)
-					{
-						$feedinfo = (array) $feedinfo;
+        $this->info('Start importing feeds into the database');
 
-						/**
-						 * id
-						 **/
-						$feedinfo['feed_id'] = $feedinfo['id'];
-						unset($feedinfo['id']);
+        while ($notLastPage) {
 
-						$feedinfo['subscribed'] = implode(',', $feedinfo['subscribed']);
-						if (stristr($feedinfo['subscribed'], (string) $media_id))
-						{
-							Feed::create( $feedinfo );
-						}
+            $APIdata = DaisyconHelper::getRestAPI("productfeeds", $options);
 
-					}
-				}
-				else
-				{
-					return $this->comment('Geen feeds gevonden');
-				}
-			}
-			if (isset($resultCount) && $resultCount < $per_page) $notLastPage = false;
-			$page++;
-		} // while
-		$count = Feed::all()->count();
-		return $this->info( $count . ' feeds geimporteerd. DONE.');
-	}
+            if (is_array($APIdata)) {
 
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return array(
-			//array('example', InputArgument::REQUIRED, 'An example argument.'),
-		);
-	}
+                $resultCount = count($APIdata['response']);
 
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return array(
-			//array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-		);
-	}
+                if ($resultCount > 0) {
+
+                    if ($page == 1) {
+                        $this->info('Truncate database table');
+                        Feed::truncate();
+                    }
+
+                    $this->comment($resultCount . ' programs loaded');
+
+                    foreach ($APIdata['response'] as $feedinfo) {
+                        $feedinfo = (array)$feedinfo;
+                        $feedinfo['feed_id'] = $feedinfo['id'];
+                        Feed::create($feedinfo);
+                    }
+                } else {
+                    return $this->comment('Geen feeds gevonden');
+                }
+            }
+            if (isset($resultCount) && $resultCount < $per_page) $notLastPage = false;
+            $options['page'] = $page++;
+        }
+        $count = Feed::all()->count();
+        return $this->info($count . ' feeds imported');
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [];
+    }
 
 }

@@ -14,7 +14,6 @@ class AddFieldsToFeedsTable extends Migration {
 	{
 		Schema::table('feeds', function(Blueprint $table)
 		{
-			$table->string('subscribed')->nullable()->after('product_count');
 			$table->string('feed_link_xmlatt_update')->nullable()->after('product_count');
 			$table->string('feed_link_xml_update')->nullable()->after('product_count');
 			$table->string('feed_link_csv_update')->nullable()->after('product_count');

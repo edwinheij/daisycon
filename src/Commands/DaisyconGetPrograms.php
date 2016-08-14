@@ -43,34 +43,36 @@ class DaisyconGetPrograms extends Command
         $per_page = 50;
         $notLastPage = true;
 
-        while ($notLastPage) {
+        $options = array(
+            'page' => $page,
+            'per_page' => $per_page,
+            'productfeed' => 'true',
+        );
 
-            $options = array(
-                'productfeed' => 'true',
-                'page' => $page,
-                'per_page' => $per_page,
-            );
+        $this->info('Start importing programs into the database');
+
+        while ($notLastPage) {
 
             $APIdata = DaisyconHelper::getRestAPI("programs", $options);
 
             if (is_array($APIdata)) {
+
                 $resultCount = count($APIdata['response']);
+
                 if ($resultCount > 0) {
+
                     if ($page == 1) {
                         $this->info('Clear database table');
                         Program::truncate();
                     }
+
                     $this->comment($resultCount . ' programs loaded');
 
                     foreach ($APIdata['response'] as $program) {
                         $program = (array)$program;
-
                         $program['program_id'] = $program['id'];
-                        unset($program['id']);
-
                         $program['description'] = $program['descriptions'][0]->description;
                         $program['url'] = DaisyconHelper::changeProgramURL($program['url']);
-
                         Program::create((array)$program);
                     }
                 } else {
@@ -78,7 +80,7 @@ class DaisyconGetPrograms extends Command
                 }
             }
             if ($resultCount < $per_page) $notLastPage = false;
-            $page++;
+            $options['page'] = $page++;
         }
         $count = Program::all()->count();
         return $this->info($count . ' programs imported');

@@ -9,7 +9,7 @@ use App;
 class DaisyconHelper
 {
 
-    static function getApiOptions()
+    /*static function getApiOptions()
     {
         $options = array(
             'login' => Config::get("daisycon.username"),
@@ -20,7 +20,7 @@ class DaisyconHelper
             'cache_wsdl' => WSDL_CACHE_NONE // WSDL_CACHE_DISK / WSDL_CACHE_NONE
         );
         return $options;
-    }
+    }*/
 
     static function getDatabaseFieldsToImport()
     {
@@ -30,7 +30,7 @@ class DaisyconHelper
     static function getDatabaseFields()
     {
         return array_merge(
-            Config::get('daisycon.db_fields_to_import'),
+            self::getDatabaseFieldsToImport(),
             Config::get('daisycon.custom_db_fields_to_import')
         );
     }
@@ -44,6 +44,8 @@ class DaisyconHelper
      */
     static function getRestAPI($resourceUrl = null, $options = [])
     {
+        $options['per_page'] = $options['per_page'] > 50 ? 50 : $options['per_page'];
+
         $output = new ConsoleOutput;
 
         $publisher_id = Config::get("daisycon.publisher_id");
@@ -55,16 +57,15 @@ class DaisyconHelper
 
         $client = new Client([
             'base_uri' => $uri,
-            'timeout' => 2.0,
+            'timeout' => 10.0,
             'auth' => [$username, $password, 'basic'],
             'query' => $options,
-            'verify' => App::environment() == 'local' ? false : true,
-            'debug' => App::environment() == 'local' ? false : true,
+            'verify' => App::environment() == 'local' ? true : false,
+            'debug' => App::environment() == 'local' ? true : false,
         ]);
 
-
         try {
-            $response = $client->request('GET', 'programs');
+            $response = $client->request('GET', $resourceUrl);
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {
@@ -93,6 +94,10 @@ class DaisyconHelper
             '#SUB_ID#' => $sub_id
         );
 
-        return str_replace(array_keys($changeArray), array_values($changeArray), $url);
+        return str_replace(
+            array_keys($changeArray),
+            array_values($changeArray),
+            $url
+        );
     }
 }
