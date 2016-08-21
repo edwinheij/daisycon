@@ -6,6 +6,8 @@ return array(
 
     'password' => '', // !important; your password which belongs to the username above
 
+    'timeout' => '10.0', // time when a single request will time out when requesting remote data
+
     'media_id' => 0, // !important
 
 	'sub_id' => '',

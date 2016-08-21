@@ -52,12 +52,13 @@ class DaisyconHelper
 
         $username = Config::get("daisycon.username");
         $password = Config::get("daisycon.password");
+        $timeout = Config::get("daisycon.timeout");
 
         $uri = sprintf('https://services.daisycon.com/publishers/%s/', $publisher_id);
 
         $client = new Client([
             'base_uri' => $uri,
-            'timeout' => 10.0,
+            'timeout' => $timeout,
             'auth' => [$username, $password, 'basic'],
             'query' => $options,
             'verify' => App::environment() == 'local' ? true : false,
