@@ -2,27 +2,30 @@
 
 return array(
 
-    'username' => '', // can also / should be your 'emailaddress'
+    'username' => '', // !important; should be your emailaddress registered with Daisycon
 
-    'password' => '',
+    'password' => '', // !important; your password which belongs to the username above
 
-    'media_id' => 0,
+    'media_id' => 0, // !important
 
 	'sub_id' => '',
 
-    'publisher_id' => 0, // https://services.daisycon.com/publishers
+    'publisher_id' => 0, // !important; https://services.daisycon.com/publishers
 
     'encoding' => 'UTF-8', // ISO-8859-1 / ISO-8859-15 / UTF-8 / UTF-16 / ASCII
 
-	'html_toestaan' => true, // (bool) true / false
+	'accept_html' => true, // (bool) true / false
 
-	'feed_type' => 'csv', // 'xml en csv' momenteel actief; later eventueel toe te voegen: xmlatt
+	'feed_type' => 'csv', // xml / csv; xmlatt not yet available
 
-	'chunksize' => 500, // alleen van toepassing als bij 'feed_type' 'csv' geselecteerd is
+	'chunksize' => 500, // only used where feed_type = csv
 
+    /**
+     * Here you can define the fields from the feed which you want to save to the database
+     */
     'db_fields_to_import' => array(
 
-		// Accommodatie
+		// Accommodation
 		'title', 
 		'link',
 		'description',
@@ -32,12 +35,12 @@ return array(
 		'location_description',
 		'stars',
 
-		// Prijs
+		// Price
 		'minimum_price',
 		'maximum_price',
 		'lowest_price',
 
-		// Locaties
+		// Locations
 
 		// Destination
 		'continent_of_destination',
@@ -61,7 +64,7 @@ return array(
 		'img_medium',
 		'img_large',
 
-		// Reis
+		// Trip
 		'board_type',
 		'tour_operator',
 		'transportation_type',

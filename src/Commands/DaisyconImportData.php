@@ -94,7 +94,7 @@ class DaisyconImportData extends Command
                             '&f=' . implode(';', $fields_wanted_from_config) .
                             '&encoding=' . Config::get("daisycon.encoding") .
                             '&general=true' .
-                            '&nohtml=' . (Config::get("daisycon.html_toestaan", false) ? 'false' : 'true');
+                            '&nohtml=' . (Config::get("daisycon.accept_html", false) ? 'false' : 'true');
                         $program_id = $activeProgram->program->program_id;
                         $feed_id = $feed->feed_id;
                         $custom_categorie = $activeProgram->custom_categorie;
