@@ -39,6 +39,7 @@ class DaisyconGetPrograms extends Command
      */
     public function fire()
     {
+
         $page = 1;
         $per_page = 50;
         $notLastPage = true;
@@ -66,8 +67,6 @@ class DaisyconGetPrograms extends Command
                         Program::truncate();
                     }
 
-                    $this->comment($resultCount . ' programs loaded');
-
                     foreach ($APIdata['response'] as $program) {
                         $program = (array)$program;
                         $program['program_id'] = $program['id'];
@@ -75,15 +74,25 @@ class DaisyconGetPrograms extends Command
                         $program['url'] = DaisyconHelper::changeProgramURL($program['url']);
                         Program::create((array)$program);
                     }
+
+                    $totalCount = Program::all()->count();
+
+                    $comment = sprintf('Page %d loaded with %d record(s); Total records: %d', $page, $resultCount, $totalCount);
+                    $this->comment($comment);
+
                 } else {
                     $this->comment('No programs found');
                 }
             }
+
             if ($resultCount < $per_page) $notLastPage = false;
             $options['page'] = $page++;
+
         }
+
         $count = Program::all()->count();
         return $this->info($count . ' programs imported');
+
     }
 
     /**

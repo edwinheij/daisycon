@@ -79,13 +79,17 @@ class DaisyconGetFeeds extends Command
                         Feed::truncate();
                     }
 
-                    $this->comment($resultCount . ' programs loaded');
-
                     foreach ($APIdata['response'] as $feedinfo) {
                         $feedinfo = (array)$feedinfo;
                         $feedinfo['feed_id'] = $feedinfo['id'];
                         Feed::create($feedinfo);
                     }
+
+                    $totalCount = Feed::all()->count();
+
+                    $comment = sprintf('Page %d loaded with %d record(s); Total records: %d', $page, $resultCount, $totalCount);
+                    $this->comment($comment);
+
                 } else {
                     return $this->comment('Geen feeds gevonden');
                 }
