@@ -14,7 +14,7 @@ class AddFieldToActiveProgramsTable extends Migration {
 	{
 		Schema::table('active_programs', function(Blueprint $table)
 		{
-			$table->string('custom_categorie');
+			$table->string('custom_category')->nullable()->after('status');
 		});
 	}
 
@@ -28,7 +28,7 @@ class AddFieldToActiveProgramsTable extends Migration {
 	{
 		Schema::table('active_programs', function(Blueprint $table)
 		{
-			$table->dropColumn('custom_categorie');
+			$table->dropColumn('custom_category');
 		});
 	}
 

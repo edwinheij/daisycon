@@ -39,7 +39,6 @@ class AddFieldsToFeedsTable extends Migration {
 			$table->dropColumn('feed_link_csv_update');
 			$table->dropColumn('feed_link_xml_update');
 			$table->dropColumn('feed_link_xmlatt_update');
-			$table->dropColumn('subscribed');
 		});
 	}
 

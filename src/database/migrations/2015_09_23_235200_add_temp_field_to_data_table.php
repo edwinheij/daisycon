@@ -14,7 +14,7 @@ class AddTempFieldToDataTable extends Migration {
     {
         Schema::table('data', function(Blueprint $table)
         {
-            $table->string('temp');
+            $table->string('temp')->nullable()->after('custom_category');
         });
     }
 

@@ -20,6 +20,7 @@ class CreateCountrycodesTable extends Migration {
 			$table->string('country');
 			// $table->timestamps();
 		});
+        // todo: add index to ... ?
 	}
 
 

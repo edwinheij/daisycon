@@ -12,7 +12,7 @@ class CreateFulltextIndexOnDataTable extends Migration {
 	 */
 	public function up()
 	{
-		DB::statement('ALTER TABLE data ADD FULLTEXT search(accommodation_name, description)');
+		DB::statement('ALTER TABLE data ADD FULLTEXT data_search(accommodation_name, description)');
 		Schema::table('data', function($table){
 			$table->index('slug_continent_of_destination');
 			$table->index('slug_country_of_destination');
@@ -33,14 +33,14 @@ class CreateFulltextIndexOnDataTable extends Migration {
 	public function down()
 	{
 		Schema::table('data', function($table){
-			$table->dropIndex('search');			
-			$table->dropIndex('slug_continent_of_destination');
-			$table->dropIndex('slug_country_of_destination');
-			$table->dropIndex('slug_region_of_destination');
-			$table->dropIndex('slug_city_of_destination');
-			$table->dropIndex('slug_continent_of_origin');
-			$table->dropIndex('slug_country_of_origin');
-			$table->dropIndex('slug_city_of_origin');
+			$table->dropIndex('data_search');
+			$table->dropIndex('data_slug_continent_of_destination_index');
+			$table->dropIndex('data_slug_country_of_destination_index');
+			$table->dropIndex('data_slug_region_of_destination_index');
+			$table->dropIndex('data_slug_city_of_destination_index');
+			$table->dropIndex('data_slug_continent_of_origin_index');
+			$table->dropIndex('data_slug_country_of_origin_index');
+			$table->dropIndex('data_slug_city_of_origin_index');
 		});
 	}
 

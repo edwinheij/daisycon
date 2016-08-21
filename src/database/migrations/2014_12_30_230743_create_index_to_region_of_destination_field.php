@@ -26,7 +26,7 @@ class CreateIndexToRegionOfDestinationField extends Migration {
 	public function down()
 	{
 		Schema::table('data', function($table){
-			$table->dropIndex('region_of_destination');
+			$table->dropIndex('data_region_of_destination_index');
 		});
 	}
 
