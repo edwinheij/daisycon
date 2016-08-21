@@ -1,7 +1,14 @@
 Daisycon
 ========
 Laravel package to import data via Daisycon Rest API (affiliates)
-### Laravel 5
+
+## Installation
+
+First install the package via [Composer](http://getcomposer.org):
+
+`composer require bahjaat/daisycon:dev-master`
+
+Or manually include it into your composer.json file
 ```json
 {
     "require": {
@@ -9,20 +16,57 @@ Laravel package to import data via Daisycon Rest API (affiliates)
     }
 }
 ```
-### Installatie
-* `composer require bahjaat/daisycon:dev-master`
-* `'Bahjaat\Daisycon\DaisyconServiceProvider::class'` toevoegen aan **config/app.php**
-* Als er nog geen migrations tabel is: `php artisan migrate:install`
-* `php artisan vendor:publish`
-* config.php aanpassen: app/config/packages/bahjaat/daisycon/config.php (username / password / media_id)
-* `php artisan migrate --path="vendor/bahjaat/daisycon/src/database/migrations/"` (werkt (nog) niet met `--package bahjaat/daisycon`; help wanted!?)  TODO
+and run `composer update` after that.
+
+## Setup ##
+
+Edit your **config/app.php** file, to include the service provider:
+
+`Bahjaat\Daisycon\DaisyconServiceProvider::class`
+
+## Migrate database
+When the migrations table doesn't exist, you first have to create it:
+ 
+`php artisan migrate:install`
+
+### Publishing vendor files
+`php artisan vendor:publish`
+
+### Migrate
+`php artisan migrate --path="vendor/bahjaat/daisycon/src/database/migrations/"` (werkt (nog) niet met `--package bahjaat/daisycon`; help wanted!?)  TODO
+
+## Configuration
+After setting up you have to configure your Daisycon settings at `app/config/packages/bahjaat/daisycon/config.php`
+Really important attribute are:
+* username
+* password
+* media_id
+* publisher_id
+
+## Seeding database
+For your convenience there are some database seed classes provided with the package. The first one is adding some
+country(codes) into the databse. The second one is adding some active programs.
+
 * `php artisan db:seed --class=CountrycodesTableSeeder`
 * `php artisan db:seed --class=ActiveProgramTableSeeder`
-* `php artisan daisycon:get-programs`
-* `php artisan daisycon:get-feeds`
-* Vul de tabel 'active_programs' met program_id's welke je geïmporteerd wil hebben. Eventueel kun je ook een custom_categorie meegeven zodat deze waarde ook meegenomen wordt in je data tabel.
-* Nu alle xml's doorlopen in en data tabel importeren via `php artisan daisycon:import-data`
-* TODO `php artisan daisycon:get-subscriptions`
-* TODO `php artisan daisycon:fix-data`
 
-Heb je op- of aanmerkingen, ik houd met graag aanbevolen voor vooral positief en opbouwende kritiek.
+# Artisan
+After all, you can import your programs, feeds and subscriptions into you own database. Go hit the road!
+
+```
+php artisan daisycon:get-programs
+php artisan daisycon:get-feeds
+php artisan daisycon:import-data
+php artisan daisycon:get-subscriptions
+php artisan daisycon:fix-data
+```
+
+# Last words
+Need some adjustments? Please create a pull-request and we will make this package a better one together.
+
+# LICENSE
+
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU Lesser General Public License for more details or LICENSE.txt distributed with this class.
