@@ -27,7 +27,11 @@
         },
         "classmap": [
             "src/database/migrations",
-            "src/database/seeds"
+            "src/database/seeds",
+            "tests"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5"
     }
 }
