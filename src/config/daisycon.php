@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     'username' => '', // !important; should be your emailaddress registered with Daisycon
 
@@ -94,4 +94,4 @@ return array(
 		'slug_city_of_origin'
 	)
 
-);
+];

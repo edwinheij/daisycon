@@ -169,13 +169,13 @@ class Data extends \Eloquent
     public function fixDescription($data)
     {
         if (isset($data->description)) {
-            // Init newDesc
+
+            // Init new Description
             $newDesc = trim($data->description);
 
-            // Lege desc opvullen met title
+            // Fill empty description with title
             if (strlen($newDesc) <= 0) {
                 $newDesc = trim($data->title);
-                //die ($newDesc);
             }
 
             // Laat niet '...' zien aan 't einde. Zoek in laatste zin 'punt' of 'komma' en sluit daar netjes af.
@@ -191,8 +191,9 @@ class Data extends \Eloquent
             }
 
             // Sluit zin netjes af.
-            if (preg_match('/[^\.\?\!]$/', $newDesc)) {
-                $newDesc .= '.';
+            // Alleen als description gevuld is
+            if (preg_match('/[^\.\?\!]$/', $newDesc) && strlen($data->description) > 0) {
+                $newDesc += '.';
             }
 
             // Strip tags
@@ -212,7 +213,7 @@ class Data extends \Eloquent
             asdfasdf' - Ingrid, inkoopagent Zeeland.
             older.” - Ingrid, inkoopagent Zeeland.
             */
-            $newDesc = preg_replace("/([\”\'\’\"\”])\s?[-–]?\s?[a-zA-Z -']+[, -–]+\sinkoopagent([a-zA-Z -']+)?.?/mi", '$1', $newDesc);
+//            $newDesc = preg_replace("/([\”\'\’\"\”])\s?[-–]?\s?[a-zA-Z -']+[, -–]+\sinkoopagent([a-zA-Z -']+)?.?/mi", '$1', $newDesc);
 
             $data->description = $newDesc;
         }
@@ -247,7 +248,7 @@ class Data extends \Eloquent
                 $diff = $start->diff($einde);
                 //echo $diff->format('%R'); // use for point out relation: smaller/greater
                 //echo $diff->days;
-                $data->duration = ($diff->days + 1);
+                $data->duration = ($diff->days); // + 1);
             } else {
                 $data->duration = '';
             }
