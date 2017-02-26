@@ -1,12 +1,12 @@
-Daisycon
-========
+# Daisycon
+
 Laravel package to import data via Daisycon Rest API (affiliates)
 
 ## Installation
 
 First install the package via [Composer](http://getcomposer.org):
 
-`composer require bahjaat/daisycon:dev-master`
+    composer require "bahjaat/daisycon":"^1.0.0"
 
 Or manually include it into your composer.json file
 ```json
@@ -18,7 +18,7 @@ Or manually include it into your composer.json file
 ```
 and run `composer update` after that.
 
-## Setup ##
+## Setup
 
 Edit your **config/app.php** file, to include the service provider:
 
@@ -53,7 +53,7 @@ country(codes) into the databse. The second one is adding some active programs.
 # Artisan
 After all, you can import your programs, feeds and subscriptions into you own database. Go hit the road!
 
-```
+```bash
 php artisan daisycon:get-programs
 php artisan daisycon:get-feeds
 php artisan daisycon:import-data
