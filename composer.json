@@ -16,9 +16,9 @@
         "php": ">=5.4.0",
         "illuminate/support": "~5",
         "guzzlehttp/guzzle": "~6.0",
-        "maatwebsite/excel": "~2.0.0",
-        "league/csv": "~6.0",
-        "mledoze/countries": "^1.7",
+        "maatwebsite/excel": "~2.1",
+        "league/csv": "~8.0",
+        "mledoze/countries": "^1.8",
         "prewk/xml-string-streamer": "^0.7.2"
     },
     "autoload": {
