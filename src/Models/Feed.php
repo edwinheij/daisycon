@@ -2,10 +2,12 @@
 
 namespace Bahjaat\Daisycon\Models;
 
-class Feed extends \Eloquent
+use Illuminate\Database\Eloquent\Model;
+
+class Feed extends Model
 {
 
-    protected $fillable = [
+    /*protected $fillable = [
         'feed_id',
         'name',
         'program_id',
@@ -17,10 +19,21 @@ class Feed extends \Eloquent
         'feed_link_csv_update',
         'feed_link_xml_update',
         'feed_link_xmlatt_update',
+    ];*/
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'locale_ids' => 'array',
+        'subscribed_media_ids' => 'array',
     ];
 
-}
+    public function setLocaleIdsAttribute($localeIds) {
+        $this->attributes['locale_ids'] = serialize($localeIds);
+    }
 
-// php artisan generate:migration add_fields_to_feeds_table --fields="feed_link_csv:string:nullable, feed_link_xml:string:nullable, feed_link_xmlatt:string:nullable, feed_link_csv_update:string:nullable, feed_link_xml_update:string:nullable, feed_link_xmlatt_update:string:nullable, subscribed:string:nullable" --path="workbench\bahjaat\daisycon\src\database\migrations"
-// php artisan generate:migration remove_feed_link_from_feeds_table --fields="feed_link:string:nullable" --path="workbench\bahjaat\daisycon\src\database\migrations"
-// php artisan migrate --path="workbench/bahjaat/daisycon/src/database/migrations/"
+    public function setSubscribedMediaIdsAttribute($subscribedMediaIds) {
+        $this->attributes['subscribed_media_ids'] = serialize($subscribedMediaIds);
+    }
+
+}

@@ -1,10 +1,9 @@
 <?php
+
 namespace Bahjaat\Daisycon\Models;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
-// namespace GrahamCampbell\Database\Models\Interfaces;
+use Illuminate\Database\Eloquent\Model;
 
-
-class Subscription extends \Eloquent {
+class Subscription extends Model {
 	protected $fillable = ['program_id', 'advertiser_id', 'media'];
 }

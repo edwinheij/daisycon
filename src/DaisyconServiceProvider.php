@@ -36,6 +36,8 @@ class DaisyconServiceProvider extends ServiceProvider
 //            __DIR__ . '/config/daisycon.php', 'daisycon'
 //        );
 
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+
     }
 
     /**

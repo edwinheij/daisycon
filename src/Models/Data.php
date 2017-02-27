@@ -1,12 +1,12 @@
 <?php
 namespace Bahjaat\Daisycon\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Config;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Bahjaat\Daisycon\Helper\DaisyconHelper;
 
-class Data extends \Eloquent
+class Data extends Model
 {
     protected $fillable = []; // see constructor
     // protected $guarded = ['link'];
@@ -19,7 +19,12 @@ class Data extends \Eloquent
         // $db_fields_to_import = DaisyconHelper::db_fields_to_import();
         // $custom_db_fields_to_import = Config::get('daisycon.custom_db_fields_to_import');
 
-        $this->fillable(array_merge(DaisyconHelper::getDatabaseFields(), array('program_id', 'feed_id', 'custom_categorie')));
+        $this->fillable(
+            array_merge(
+                DaisyconHelper::getDatabaseFields(),
+                array('program_id', 'feed_id', 'custom_category')
+            )
+        );
         parent::__construct($attributes);
     }
 
@@ -193,7 +198,7 @@ class Data extends \Eloquent
             // Sluit zin netjes af.
             // Alleen als description gevuld is
             if (preg_match('/[^\.\?\!]$/', $newDesc) && strlen($data->description) > 0) {
-                $newDesc += '.';
+                $newDesc .= '.';
             }
 
             // Strip tags

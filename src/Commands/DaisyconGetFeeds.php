@@ -2,6 +2,7 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
+use Bahjaat\Daisycon\Models\Program;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,11 +20,11 @@ class DaisyconGetFeeds extends Command
 {
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'daisycon:get-feeds';
+    protected $signature = 'daisycon:get-feeds';
 
     /**
      * The console command description.
@@ -45,7 +46,7 @@ class DaisyconGetFeeds extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $media_id = Config::get("daisycon.media_id");
         $sub_id = Config::get("daisycon.sub_id");
@@ -66,7 +67,7 @@ class DaisyconGetFeeds extends Command
 
         while ($notLastPage) {
 
-            $APIdata = DaisyconHelper::getRestAPI("productfeeds", $options);
+            $APIdata = DaisyconHelper::getRestAPI("productfeeds.v2/program", $options);
 
             if (is_array($APIdata)) {
 
@@ -82,6 +83,11 @@ class DaisyconGetFeeds extends Command
                     foreach ($APIdata['response'] as $feedinfo) {
                         $feedinfo = (array)$feedinfo;
                         $feedinfo['feed_id'] = $feedinfo['id'];
+                        unset($feedinfo['id']);
+//                        Feed::create($feedinfo);
+//                        unset($feedinfo['name']);
+                        print_r($feedinfo);
+//                        dd();
                         Feed::create($feedinfo);
                     }
 

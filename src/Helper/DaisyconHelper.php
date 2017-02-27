@@ -1,9 +1,9 @@
 <?php namespace Bahjaat\Daisycon\Helper;
 
+use App;
+use Config;
 use GuzzleHttp\Client;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Config;
-use App;
 
 
 class DaisyconHelper
@@ -40,7 +40,8 @@ class DaisyconHelper
      *
      * @param null $resourceUrl
      * @param array $options
-     * @return void
+     *
+     * @return array
      */
     static function getRestAPI($resourceUrl = null, $options = [])
     {

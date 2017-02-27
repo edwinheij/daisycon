@@ -1,10 +1,12 @@
 <?php
-namespace Bahjaat\Daisycon\Models;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class ActiveProgram extends \Eloquent {
-	protected $fillable = 
-	[
+namespace Bahjaat\Daisycon\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ActiveProgram extends Model {
+
+	protected $fillable = [
 		'program_id',
 		'status',
 		'custom_categorie'
@@ -12,6 +14,7 @@ class ActiveProgram extends \Eloquent {
 
 	public function program()
 	{
-		return $this->hasOne('Bahjaat\Daisycon\Models\Program', 'program_id', 'program_id');
+		return $this->hasOne(Program::class, 'program_id', 'program_id');
 	}
+
 }
