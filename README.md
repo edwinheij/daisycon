@@ -20,20 +20,15 @@ and run `composer update` after that.
 
 ## Setup
 
-Edit your **config/app.php** file, to include the service provider:
+Edit your `config/app.php` file, to include the service provider:
 
 `Bahjaat\Daisycon\DaisyconServiceProvider::class`
 
-## Migrate database
-When the migrations table doesn't exist, you first have to create it:
- 
-`php artisan migrate:install`
+### Publishing config file
+`php artisan vendor:publish --provider="Bahjaat\Daisycon\DaisyconServiceProvider" --tag="config"`
 
-### Publishing vendor files
-`php artisan vendor:publish`
-
-### Migrate
-`php artisan migrate --path="vendor/bahjaat/daisycon/src/database/migrations/"` (werkt (nog) niet met `--package bahjaat/daisycon`; help wanted!?)  TODO
+### Migrate the database
+`php artisan migrate`
 
 ## Configuration
 After setting up you have to configure your Daisycon settings at `app/config/packages/bahjaat/daisycon/config.php`
@@ -44,8 +39,11 @@ Really important attribute are:
 * publisher_id
 
 ## Seeding database
-For your convenience there are some database seed classes provided with the package. The first one is adding some
-country(codes) into the databse. The second one is adding some active programs.
+For your convenience there are some database seed classes provided with the package.
+- The first one is adding some country(codes) into the databse.
+- The second one is adding some active programs.
+
+Just run these commands:
 
 * `php artisan db:seed --class=CountrycodesTableSeeder`
 * `php artisan db:seed --class=ActiveProgramTableSeeder`
