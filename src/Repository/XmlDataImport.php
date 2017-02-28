@@ -20,27 +20,10 @@ class XmlDataImport implements DataImportInterface {
      * @param $url
      * @param $program_id
      * @param $feed_id
-     * @param $custom_categorie
+     * @param $custom_category
      */
     public function importData($url, $program_id, $feed_id, $custom_category)
     {
-//        \Storage::putFile('photos', new File('/path/to/photo'));
-
-//        $tmpFile = tempnam(sys_get_temp_dir(), 'guzzle-download');
-//        $handle = fopen($tmpFile, 'w');
-//        $client = new Client('', [
-//            Client::CURL_OPTIONS => [
-//                'CURLOPT_RETURNTRANSFER' => true,
-//                'CURLOPT_FILE' => $handle
-//            ]
-//        ]);
-//
-//        $client->get($url)->send();
-//        $fclose($handle);
-//        dd();
-
-//        $file = \File::
-
         $client = new Client;
         $response = $client->request('GET', $url, [
             'headers' => ['Accept' => 'application/xml'],
