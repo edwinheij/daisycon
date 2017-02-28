@@ -20,7 +20,8 @@
         "league/csv": "~8.0",
         "mledoze/countries": "^1.8",
         "prewk/xml-string-streamer": "^0.7.2",
-        "prewk/xml-string-streamer-guzzle": "^0.1.0"
+        "prewk/xml-string-streamer-guzzle": "^0.1.0",
+        "openlss/lib-array2xml": "^0.5.1"
     },
     "autoload": {
         "psr-4": {
