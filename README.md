@@ -20,6 +20,8 @@ and run `composer update` after that.
 
 ## Setup
 
+<em>Skip this step when using Laravel 5.5 or above.</em>
+
 Edit your `config/app.php` file, to include the service provider:
 
 `Bahjaat\Daisycon\DaisyconServiceProvider::class`
