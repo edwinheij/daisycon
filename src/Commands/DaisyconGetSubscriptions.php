@@ -44,58 +44,64 @@ class DaisyconGetSubscriptions extends Command {
 	 *
 	 * @return mixed
 	 */
-	public function handle()
-	{
-		$this->info('Start importing subscriptions');
+    public function handle()
+    {
+        $page = 1;
+        $per_page = 50;
+        $notLastPage = true;
 
-        // if ($path = $this->option($option))
-        // {
-        //     return $path;
-        // }
+        $options = array(
+            'page' => $page,
+            'per_page' => $per_page,
+            'productfeed' => 'true',
+        );
 
-        // return Config::get("generators.{$configName}");
-        // return Config::get("generators.{$configName}");
+        $this->info('Start importing subscriptions');
 
-        // echo 'Config media_id:  '. Config::get("daisycon");
-        // $media_id = Config::get("daisycon.media_id");
+        while ($notLastPage) {
 
-	    $sWsdl_program = "http://api.daisycon.com/publisher/soap/program/wsdl/";
-        $oSoapClient_program = new \SoapClient($sWsdl_program, DaisyconHelper::getApiOptions());
+            $APIdata = DaisyconHelper::getRestAPI("subscriptions", $options);
 
-        $aFilter = array();
-        try
-        {
-            $mResult = $oSoapClient_program->getSubscriptions($aFilter);
+            if (is_array($APIdata)) {
+
+                $resultCount = count($APIdata['response']);
+
+                if ($resultCount > 0) {
+
+                    if ($page == 1) {
+                        $this->info('Clear subscriptions database table');
+                        Subscription::truncate();
+                    }
+
+                    foreach ($APIdata['response'] as $subscription) {
+                        $subscription = (array)$subscription;
+
+                        foreach ($subscription['program_ids'] as $program_id) {
+                            $subscription['program_id']  = $program_id;
+                            unset($subscription['program_ids']);
+                            Subscription::create((array)$subscription);
+                        }
+
+                    }
+
+                    $totalCount = Subscription::all()->count();
+
+                    $comment = sprintf('Page %d loaded with %d record(s); Total records: %d', $page, $resultCount, $totalCount);
+                    $this->comment($comment);
+
+                } else {
+                    $this->comment('No subscriptions found');
+                }
+            }
+
+            if ($resultCount < $per_page) $notLastPage = false;
+            $options['page'] = $page++;
         }
-        catch(Exception $e)
-        {
-            // var_dump( $oSoapClient_program->__getLastRequestHeaders() );
-            // var_dump( $oSoapClient_program->__getLastResponse() );
-            return $this->error('Fout met binnenhalen van de \'subscriptions\'');
-        }
-        // print_r($mResult);
-        // return;
 
-        if (count($mResult['return']) > 0)
-        {
-        	// Truncate table
-			$this->info('Verwijderen van bestaande subscriptions');
-	    	Subscription::truncate();
+        $count = Subscription::all()->count();
+        return $this->info($count . ' subscriptions imported');
 
-	        foreach ($mResult['return'] as $subscription)
-	        {
-	        	$subscriptionArray = (array) $subscription;
-	        	$subscriptionArray['media'] = json_encode($subscriptionArray['media']);
-	        	// dd($subscriptionArray);
-	            Subscription::create((array) $subscriptionArray);
-	        } // foreach mResult
-	    }
-	    else
-	    {
-	    	$this->info('Geen subscriptions gevonden');
-	    }
-	    return $this->info('done');
-	}
+    }
 
 	/**
 	 * Get the console command arguments.

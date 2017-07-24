@@ -2,7 +2,6 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
-use Config;
 use Illuminate\Console\Command;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Bahjaat\Daisycon\Models\Program as Program;

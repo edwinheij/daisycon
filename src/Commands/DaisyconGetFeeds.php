@@ -2,18 +2,9 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
-use Bahjaat\Daisycon\Models\Program;
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Config;
-
-use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\Stream;
-use Prewk\XmlStringStreamer\Parser;
-
+use Illuminate\Console\Command;
 use Bahjaat\Daisycon\Models\Feed as Feed;
-use Bahjaat\Daisycon\Models\Subscription as Subscription;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 
 class DaisyconGetFeeds extends Command
@@ -76,7 +67,7 @@ class DaisyconGetFeeds extends Command
                 if ($resultCount > 0) {
 
                     if ($page == 1) {
-                        $this->info('Truncate database table');
+                        $this->info('Truncate feeds database table ');
                         Feed::truncate();
                     }
 
@@ -84,10 +75,6 @@ class DaisyconGetFeeds extends Command
                         $feedinfo = (array)$feedinfo;
                         $feedinfo['feed_id'] = $feedinfo['id'];
                         unset($feedinfo['id']);
-//                        Feed::create($feedinfo);
-//                        unset($feedinfo['name']);
-                        print_r($feedinfo);
-//                        dd();
                         Feed::create($feedinfo);
                     }
 
