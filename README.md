@@ -33,7 +33,7 @@ Edit your `config/app.php` file, to include the service provider:
 `php artisan migrate`
 
 ## Configuration
-After setting up you have to configure your Daisycon settings at `app/config/packages/bahjaat/daisycon/config.php`
+After setting up you have to configure your Daisycon settings at `app/config/daisycon.php`
 Really important attribute are:
 * username
 * password
