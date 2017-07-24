@@ -26,9 +26,13 @@ return [
 
 	'accept_html' => true, // (bool) true / false
 
-	'feed_type' => 'csv', // xml / csv; xmlatt not yet available
+    /**
+     * feed_type is not used anymore because all feeds
+     * are xml after daisycon's last update.
+     */
+    // 'feed_type' => 'csv', // xml / csv; xmlatt not yet available
 
-	'chunksize' => 500, // only used where feed_type = csv
+    'chunksize' => 500, // only used where feed_type = csv
 
     /**
      * Here you can define the fields from the feed which you want to save to the database
