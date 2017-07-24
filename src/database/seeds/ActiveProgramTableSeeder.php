@@ -33,8 +33,7 @@ class ActiveProgramTableSeeder extends Seeder
         foreach ($programs as $program => $attr) {
             ActiveProgram::create([
                 'program_id' => $program,
-                'status' => 1,
-                'custom_categorie' => $attr['custom_categorie']
+                'status' => 1
             ]);
         }
 
