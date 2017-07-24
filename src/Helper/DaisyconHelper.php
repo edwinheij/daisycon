@@ -9,19 +9,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 class DaisyconHelper
 {
 
-    /*static function getApiOptions()
-    {
-        $options = array(
-            'login' => Config::get("daisycon.username"),
-            'password' => md5(Config::get("daisycon.password")),
-            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
-            'encoding' => 'UTF-8',
-            'trace' => 1,
-            'cache_wsdl' => WSDL_CACHE_NONE // WSDL_CACHE_DISK / WSDL_CACHE_NONE
-        );
-        return $options;
-    }*/
-
     static function getDatabaseFieldsToImport()
     {
         return Config::get("daisycon.db_fields_to_import");
