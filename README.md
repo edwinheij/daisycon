@@ -63,6 +63,10 @@ php artisan daisycon:get-feeds
 php artisan daisycon:get-products
 ```
 
+# Todo
+
+- Writing tests
+
 # Last words
 Need some adjustments? Please create a pull-request and we will make this package a better one together.
 
