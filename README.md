@@ -26,8 +26,11 @@ Edit your `config/app.php` file, to include the service provider:
 
 `Bahjaat\Daisycon\DaisyconServiceProvider::class`
 
-### Publishing config file
-`php artisan vendor:publish --provider="Bahjaat\Daisycon\DaisyconServiceProvider" --tag="config"`
+### Publishing config files
+```bash
+php artisan vendor:publish --provider="Bahjaat\Daisycon\DaisyconServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Cviebrock\EloquentSluggable\ServiceProvider"
+```
 
 ### Migrate the database
 `php artisan migrate`
@@ -57,8 +60,7 @@ After all, you can import your programs, feeds and subscriptions into you own da
 php artisan daisycon:get-programs
 php artisan daisycon:get-subscriptions
 php artisan daisycon:get-feeds
-php artisan daisycon:import-data
-php artisan daisycon:fix-data
+php artisan daisycon:get-products
 ```
 
 # Last words
