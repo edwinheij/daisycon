@@ -106,7 +106,7 @@ class Program extends Model
 
     public function productfeeds()
     {
-        return $this->hasMany(Feed::class);
+        return $this->hasMany(Productfeed::class);
     }
 
     public function subscription()

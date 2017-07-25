@@ -2,19 +2,12 @@
 
 namespace Bahjaat\Daisycon\Repository;
 
+use Exception;
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\Parser\StringWalker;
 use Bahjaat\Daisycon\Models\Product;
 use Bahjaat\Daisycon\Models\Productfeed;
 use Bahjaat\Daisycon\Models\Productinfo;
-use Carbon\Carbon;
-use Exception;
-
-//use GuzzleHttp\Client;
-
-use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\Parser\StringWalker;
-
-//use Prewk\XmlStringStreamer\Stream;
-//use Prewk\XmlStringStreamer\Parser;
 use Prewk\XmlStringStreamer\Stream\Guzzle;
 
 class DaisyconFeed
@@ -43,7 +36,7 @@ class DaisyconFeed
             $options = [
                 'captureDepth' => 2,
             ];
-//        $parser = new StringWalker();
+
             $parser = new StringWalker($options);
 
             $streamer = new XmlStringStreamer($parser, $stream);
@@ -116,28 +109,20 @@ class DaisyconFeed
      * @param array $product_info
      * @param array $update_info
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|void
      */
     public function storeProduct(array $product_info, array $update_info)
     {
         $product_info['productfeed_id'] = $this->productfeed->id;
         $product_info['image']          = (string)$product_info['images']->image->location;
 
-        $piDb = Productinfo::where('daisycon_unique_id', $update_info['daisycon_unique_id'])->first();
+        $pi = Productinfo::updateOrCreate([
+            'daisycon_unique_id' => $update_info['daisycon_unique_id']
+        ], $update_info);
 
-        if (count($piDb)) {
-            if ($piDb->update_date < Carbon::parse($update_info['update_date'])) {
-//                echo 'Updaten ';
-                $piDb->update($update_info);
-                return $piDb->product()->update($product_info);
-            }
-//            echo 'No updates ';
-            return; // geen update voor product
-        }
-//        echo 'Insert ';
-        $product = Product::create($product_info);
-        $product->productinfo()->create($update_info);
-
-        return $product;
+        $product = Product::updateOrCreate([
+            'sku' => $product_info['sku']
+        ], $product_info);
+        $product->productinfo()->save($pi);
     }
 }

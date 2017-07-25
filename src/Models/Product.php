@@ -10,8 +10,6 @@ class Product extends Model
 {
     use ProductMutators, Sluggable;
 
-    protected static $logAttributes;
-
     protected $guarded = [];
 
     protected $fillable = [
@@ -22,14 +20,14 @@ class Product extends Model
         'destination_city', 'destination_city_link',
         'airport_departure',
         'departure_date', 'destination_region', 'destination_country',
-        'travel_trip_type', 'star_rating', 'image'
+        'travel_trip_type', 'star_rating', 'image',
     ];
 
     protected $dates = [
         'departure_date'
     ];
 
-//    protected $with = ['productinfo'];
+    protected $with = ['productinfo'];
 
     protected $casts = [
 //        'price' => 'double'
@@ -41,27 +39,12 @@ class Product extends Model
 
         static::saving(function ($model) {
             $model = $model->fix();
-//            var_dump($model->original);
-//            var_dump($model->getDirty());
-//            dd();
-            static::$logAttributes = array_keys($model->getDirty());
-        });
-
-        static::deleting(function ($model) {
-            static::$logAttributes = array_keys($model->toArray());
         });
     }
 
     protected function fix()
     {
-//        print_r($this->toArray());
         ProductFixer::apply($this);
-
-//        collect($this)->map(function($model, $a) {
-//            print_r($model);
-//            print_r($a);
-//        });
-
         return $this;
     }
 
@@ -74,6 +57,7 @@ class Product extends Model
     {
         return $this->belongsTo(Country::class, 'destination_country', 'short');
     }
+
     /**
      * Return the sluggable configuration array for this model.
      *
