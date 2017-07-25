@@ -38,9 +38,6 @@ class DaisyconServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register('Maatwebsite\Excel\ExcelServiceProvider');
-        $this->app->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
-
         $this->app->bind(
             'Bahjaat\Daisycon\Repository\DataImportInterface',
             'Bahjaat\Daisycon\Repository\\XmlDataImport'
@@ -53,7 +50,6 @@ class DaisyconServiceProvider extends ServiceProvider
             DaisyconGetPrograms::class,
             DaisyconGetSubscriptions::class,
             DaisyconGetProducts::class,
-//            DaisyconFixData::class,
             DaisyconFillDatabaseRelations::class,
         ]);
     }
