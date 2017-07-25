@@ -93,14 +93,15 @@ class DaisyconGetProducts extends Command
             $program->productfeeds->map(function ($productfeed) use ($program) {
                 $tableData = [
                     'Programma ID' => $program->id,
-                    'Programma' => $program->name,
+                    'Programmas' => $program->name,
                     'Product count' => $productfeed->products,
                 ];
+
                 $this->table(array_keys($tableData), [array_values($tableData)]);
 
                 $this->feed->import($productfeed);
 
-                $this->info('Producten geïmporteerd in database: ' . $productfeed->products()->count());
+                $this->info('Products imported into the database: ' . $productfeed->products()->count());
                 $this->info('// --');
             });
         });

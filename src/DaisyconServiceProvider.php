@@ -53,7 +53,7 @@ class DaisyconServiceProvider extends ServiceProvider
             DaisyconGetPrograms::class,
             DaisyconGetSubscriptions::class,
             DaisyconGetProducts::class,
-            DaisyconFixData::class,
+//            DaisyconFixData::class,
             DaisyconFillDatabaseRelations::class,
         ]);
     }
