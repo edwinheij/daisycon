@@ -14,12 +14,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "~5",
         "guzzlehttp/guzzle": "~6.0",
-        "maatwebsite/excel": "~2.1",
-        "league/csv": "~8.0",
         "cviebrock/eloquent-sluggable": "^4.2",
-        "mledoze/countries": "^1.8",
         "prewk/xml-string-streamer": "^0.7.2",
         "prewk/xml-string-streamer-guzzle": "^0.1.0",
         "openlss/lib-array2xml": "^0.5.1",
