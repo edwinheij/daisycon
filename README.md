@@ -6,13 +6,13 @@ Laravel package to import data via Daisycon Rest API (affiliates)
 
 First install the package via [Composer](http://getcomposer.org):
 
-    composer require "bahjaat/daisycon":"^1.0.0"
+    composer require "bahjaat/daisycon":"^2.0"
 
 Or manually include it into your composer.json file
 ```json
 {
     "require": {
-        "bahjaat/daisycon": "dev-master"
+        "bahjaat/daisycon": "^2.0"
     }
 }
 ```
