@@ -14,15 +14,16 @@ class CreateSubscriptionsTable extends Migration {
 	{
 		Schema::create('subscriptions', function(Blueprint $table)
 		{
-			$table->engine = 'InnoDB';
-			$table->increments('id')->unsigned();
-			$table->integer('program_id')->unsigned();
-			$table->integer('advertiser_id')->unsigned();
-			$table->text('media');
-			$table->timestamps();
+            $table->increments('id');
+            $table->dateTime('subscribe_date')->nullable();
+            $table->dateTime('approval_date')->nullable();
+            $table->string('cpc_status')->nullable();
+            $table->string('co_status')->nullable();
+            $table->string('status')->nullable();
+            $table->text('program_ids')->nullable();
+            $table->timestamps();
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
@@ -31,7 +32,7 @@ class CreateSubscriptionsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('subscriptions');
-	}
+        Schema::dropIfExists('subscriptions');
+    }
 
 }

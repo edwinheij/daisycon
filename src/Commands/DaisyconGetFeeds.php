@@ -2,6 +2,8 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
+use Bahjaat\Daisycon\Models\Productfeed;
+use Bahjaat\Daisycon\Repository\Daisycon;
 use Config;
 use Illuminate\Console\Command;
 use Bahjaat\Daisycon\Models\Feed as Feed;
@@ -24,12 +26,17 @@ class DaisyconGetFeeds extends Command
      */
     protected $description = 'Import all feeds into the database.';
 
+    protected $daisycon;
+
     /**
      * Create a new command instance.
+     *
+     * @param \Bahjaat\Daisycon\Repository\Daisycon $daisycon
      */
-    public function __construct()
+    public function __construct(Daisycon $daisycon)
     {
         parent::__construct();
+        $this->daisycon = $daisycon;
     }
 
     /**
@@ -39,59 +46,16 @@ class DaisyconGetFeeds extends Command
      */
     public function handle()
     {
-        $media_id = Config::get("daisycon.media_id");
-        $sub_id = Config::get("daisycon.sub_id");
+        $this->info('Truncate productfeed table');
+        Productfeed::truncate();
 
-        $page = 1;
-        $per_page = 50;
-        $notLastPage = true;
+        $this->info('Alle productfeeds ophalen. Dit kan even duren...');
 
-        $options = array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'media_id' => $media_id,
-            'placeholder_media_id' => $media_id,
-            'placeholder_subid' => $sub_id
-        );
+        $this->daisycon
+            ->allPages(false)
+            ->getProductfeeds();
 
-        $this->info('Start importing feeds into the database');
-
-        while ($notLastPage) {
-
-            $APIdata = DaisyconHelper::getRestAPI("productfeeds.v2/program", $options);
-
-            if (is_array($APIdata)) {
-
-                $resultCount = count($APIdata['response']);
-
-                if ($resultCount > 0) {
-
-                    if ($page == 1) {
-                        $this->info('Truncate feeds database table ');
-                        Feed::truncate();
-                    }
-
-                    foreach ($APIdata['response'] as $feedinfo) {
-                        $feedinfo = (array)$feedinfo;
-                        $feedinfo['feed_id'] = $feedinfo['id'];
-                        unset($feedinfo['id']);
-                        Feed::create($feedinfo);
-                    }
-
-                    $totalCount = Feed::all()->count();
-
-                    $comment = sprintf('Page %d loaded with %d record(s); Total records: %d', $page, $resultCount, $totalCount);
-                    $this->comment($comment);
-
-                } else {
-                    return $this->comment('Geen feeds gevonden');
-                }
-            }
-            if (isset($resultCount) && $resultCount < $per_page) $notLastPage = false;
-            $options['page'] = $page++;
-        }
-        $count = Feed::all()->count();
-        return $this->info($count . ' feeds imported');
+        $this->info('Klaar');
     }
 
     /**

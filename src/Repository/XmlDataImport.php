@@ -61,17 +61,19 @@ class XmlDataImport implements DataImportInterface {
                 case "info":
 //                    var_dump((string)$xml->xpath('/info/category')[0]);
 //                    var_dump((string)$xml->xpath('/info/sub_category')[0]);
-//
-                    break;
+                    var_dump($xml->asXml());
+
+                break;
                 case "programs":
                     echo ($rootNode);
 //                    var_dump($xml->asXml());
-                    var_dump($xml->xpath('/programs/program/program_info'));
-//                    dd();
+//                    var_dump($xml->xpath('/programs/program/program_info'));
+                    dd($xml->asXml());
+
                     break;
                 default:
                     echo ($rootNode);
-//                    dd($xml->asXml());
+                    dd($xml->asXml());
             }
         }
         dd('stop');

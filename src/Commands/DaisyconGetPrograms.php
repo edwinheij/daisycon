@@ -2,6 +2,9 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
+use Artisan;
+use Bahjaat\Daisycon\Models\Subscription;
+use Bahjaat\Daisycon\Repository\Daisycon;
 use Illuminate\Console\Command;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Bahjaat\Daisycon\Models\Program as Program;
@@ -23,14 +26,17 @@ class DaisyconGetPrograms extends Command
      */
     protected $description = 'Import programs into the database.';
 
+    protected $daisycon;
+
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param \Bahjaat\Daisycon\Repository\Daisycon $daisycon
      */
-    public function __construct()
+    public function __construct(Daisycon $daisycon)
     {
         parent::__construct();
+        $this->daisycon = $daisycon;
     }
 
     /**
@@ -40,57 +46,21 @@ class DaisyconGetPrograms extends Command
      */
     public function handle()
     {
-        $page = 1;
-        $per_page = 50;
-        $notLastPage = true;
+        $this->info('Database tabel leeghalen');
+        Program::truncate();
 
-        $options = array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'productfeed' => 'true',
-        );
+        $this->info('Alle programma\'s ophalen. Dit kan even duren...');
 
-        $this->info('Start importing programs into the database');
+        $this->daisycon
+//            ->allPages(false)
+            ->getPrograms();
 
-        while ($notLastPage) {
-
-            $APIdata = DaisyconHelper::getRestAPI("programs", $options);
-
-            if (is_array($APIdata)) {
-
-                $resultCount = count($APIdata['response']);
-
-                if ($resultCount > 0) {
-
-                    if ($page == 1) {
-                        $this->info('Clear database table');
-                        Program::truncate();
-                    }
-
-                    foreach ($APIdata['response'] as $program) {
-                        $program = (array)$program;
-                        $program['program_id'] = $program['id'];
-                        $program['description'] = $program['descriptions'][0]->description;
-                        $program['url'] = DaisyconHelper::changeProgramURL($program['url']);
-                        Program::create((array)$program);
-                    }
-
-                    $totalCount = Program::all()->count();
-
-                    $comment = sprintf('Page %d loaded with %d record(s); Total records: %d', $page, $resultCount, $totalCount);
-                    $this->comment($comment);
-
-                } else {
-                    $this->comment('No programs found');
-                }
-            }
-
-            if ($resultCount < $per_page) $notLastPage = false;
-            $options['page'] = $page++;
+        if (count(Subscription::all())) {
+            $this->info('Relaties met subscriptions maken');
+            Artisan::call('daisycon:relations');
         }
 
-        $count = Program::all()->count();
-        return $this->info($count . ' programs imported');
+        $this->info('Klaar');
 
     }
 

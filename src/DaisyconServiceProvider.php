@@ -2,12 +2,12 @@
 
 namespace Bahjaat\Daisycon;
 
+use Bahjaat\Daisycon\Commands\DaisyconFillDatabaseRelations;
 use Bahjaat\Daisycon\Commands\DaisyconFixData;
 use Bahjaat\Daisycon\Commands\DaisyconGetFeeds;
 use Bahjaat\Daisycon\Commands\DaisyconGetPrograms;
 use Bahjaat\Daisycon\Commands\DaisyconGetSubscriptions;
-use Bahjaat\Daisycon\Commands\DaisyconImportData;
-use Config;
+use Bahjaat\Daisycon\Commands\DaisyconGetProducts;
 use Illuminate\Support\ServiceProvider;
 
 class DaisyconServiceProvider extends ServiceProvider
@@ -41,10 +41,10 @@ class DaisyconServiceProvider extends ServiceProvider
         $this->app->register('Maatwebsite\Excel\ExcelServiceProvider');
         $this->app->alias('Excel', 'Maatwebsite\Excel\Facades\Excel');
 
-            $this->app->bind(
-                'Bahjaat\Daisycon\Repository\DataImportInterface',
-                'Bahjaat\Daisycon\Repository\\XmlDataImport'
-            );
+        $this->app->bind(
+            'Bahjaat\Daisycon\Repository\DataImportInterface',
+            'Bahjaat\Daisycon\Repository\\XmlDataImport'
+        );
 
         $this->app->make('Bahjaat\Daisycon\Repository\DataImportInterface');
 
@@ -52,8 +52,9 @@ class DaisyconServiceProvider extends ServiceProvider
             DaisyconGetFeeds::class,
             DaisyconGetPrograms::class,
             DaisyconGetSubscriptions::class,
-            DaisyconImportData::class,
-            DaisyconFixData::class
+            DaisyconGetProducts::class,
+            DaisyconFixData::class,
+            DaisyconFillDatabaseRelations::class,
         ]);
     }
 }

@@ -55,9 +55,9 @@ After all, you can import your programs, feeds and subscriptions into you own da
 
 ```bash
 php artisan daisycon:get-programs
+php artisan daisycon:get-subscriptions
 php artisan daisycon:get-feeds
 php artisan daisycon:import-data
-php artisan daisycon:get-subscriptions
 php artisan daisycon:fix-data
 ```
 
