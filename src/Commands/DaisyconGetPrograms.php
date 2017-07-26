@@ -46,21 +46,20 @@ class DaisyconGetPrograms extends Command
      */
     public function handle()
     {
-        $this->info('Database tabel leeghalen');
+        $this->info('Truncate program table');
         Program::truncate();
 
-        $this->info('Alle programma\'s ophalen. Dit kan even duren...');
+        $this->info('Importing all programs');
 
         $this->daisycon
-//            ->allPages(false)
             ->getPrograms();
 
-        if (count(Subscription::all())) {
-            $this->info('Relaties met subscriptions maken');
+        if (Subscription::count()) {
+            $this->info('Creating relations with programs');
             Artisan::call('daisycon:relations');
         }
 
-        $this->info('Klaar');
+        $this->info('Ready');
 
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use Bahjaat\Daisycon\Models\Subscription as Subscription;
+use Bahjaat\Daisycon\Models\Subscription;
 
 class DaisyconGetSubscriptions extends Command {
 
@@ -47,10 +47,10 @@ class DaisyconGetSubscriptions extends Command {
      */
     public function handle()
     {
-        $this->info('Database tabel leeghalen');
+        $this->info('Truncate subscriptions table');
         Subscription::truncate();
 
-        $this->info('Alle subscriptions ophalen. Dit kan even duren...');
+        $this->info('Importing all subscriptions.');
 
         $this->daisycon
             ->allPages(false)
@@ -61,7 +61,7 @@ class DaisyconGetSubscriptions extends Command {
             Artisan::call('daisycon:relations');
         }
 
-        $this->info('Klaar');
+        $this->info('Ready');
     }
 
 	/**
