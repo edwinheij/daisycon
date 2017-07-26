@@ -43,6 +43,10 @@ class DaisyconServiceProvider extends ServiceProvider
             'Bahjaat\Daisycon\Repository\\XmlDataImport'
         );
 
+//        $this->app->register(
+//            'Jenssegers\Date\Date'
+//        );
+
         $this->app->make('Bahjaat\Daisycon\Repository\DataImportInterface');
 
         $this->commands([

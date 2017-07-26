@@ -19,7 +19,8 @@
         "prewk/xml-string-streamer": "^0.7.2",
         "prewk/xml-string-streamer-guzzle": "^0.1.0",
         "openlss/lib-array2xml": "^0.5.1",
-        "umpirsky/country-list": "^2.0"
+        "umpirsky/country-list": "^2.0",
+        "jenssegers/date": "^3.2"
     },
     "autoload": {
         "psr-4": {
