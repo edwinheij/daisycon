@@ -50,7 +50,7 @@ class Productfeed extends Model
         return str_replace(
             ['#MEDIA_ID#', '#LOCALE_ID#'],
             [$media_id, $locale_id],
-            $url
+            $url . '&type=' . strtolower(config('daisycon.feed_type'))
         );
     }
 

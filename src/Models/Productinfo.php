@@ -2,6 +2,7 @@
 
 namespace Bahjaat\Daisycon\Models;
 
+use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,8 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 class Productinfo extends Model
 {
     protected $table = 'productinfo';
-
-    protected $guarded = [];
 
     protected $with = [
 //        'product' // no recusion
@@ -37,4 +36,5 @@ class Productinfo extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
 }

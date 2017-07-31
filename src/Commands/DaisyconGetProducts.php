@@ -4,6 +4,7 @@ use Bahjaat\Daisycon\Repository\DaisyconFeed;
 use Config;
 use Illuminate\Console\Command;
 
+use Illuminate\Console\OutputStyle;
 use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Stream;
 use Prewk\XmlStringStreamer\Parser;
@@ -17,6 +18,7 @@ use Bahjaat\Daisycon\Models\Program;
 use Bahjaat\Daisycon\Models\Subscription;
 
 use Bahjaat\Daisycon\Repository\DataImportInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class DaisyconGetProducts extends Command
 {
@@ -36,36 +38,19 @@ class DaisyconGetProducts extends Command
     protected $description = 'Import data from feeds into data table';
 
     /**
-     * The program ID
-     *
-     * @var integer
+     * @var \Bahjaat\Daisycon\Repository\DataImportInterface
      */
-    protected $program_id;
-
-    /**
-     * @var mixed
-     */
-    protected $feed;
+    private $data;
 
     /**
      * Create a new command instance.
      *
-     * @param \Bahjaat\Daisycon\Repository\DaisyconFeed $feed
+     * @param \Bahjaat\Daisycon\Repository\DataImportInterface $data
      */
-    public function __construct(DaisyconFeed $feed)
+    public function __construct(DataImportInterface $data)
     {
         parent::__construct();
-        $this->feed = $feed;
-    }
-
-    protected function getProgramID()
-    {
-        return $this->program_id;
-    }
-
-    protected function setProgramID($id)
-    {
-        $this->program_id = $id;
+        $this->data = $data;
     }
 
     /**
@@ -75,22 +60,46 @@ class DaisyconGetProducts extends Command
      */
     public function handle()
     {
-        $this->info('Importing products');
 
         $program_id = $this->argument('program_id');
 
         if (!empty($program_id)) {
+            $this->info('Importing products for program ' . $program_id);
+
             $programs = Program::whereId($program_id)->whereHas('subscription', function($query) {
                 return $query->approved();
             });
         } else {
+            $this->info('Importing products for all programs');
+
             $programs = Program::whereHas('subscription', function($query) {
                 return $query->approved();
             });
         }
 
+
         $programs->get()->each(function($program) {
-            $program->productfeeds->map(function ($productfeed) use ($program) {
+//        $this->info('Importing products for program ' . $program->id);
+
+//            $this->feed->import()
+            if ( ! $program->productfeeds()->count()) {
+                $this->info('No productfeeds for ' . $program->name);
+                return;
+            }
+
+            $this->data->import($program, $this);
+
+
+
+
+
+
+
+
+
+
+
+            /*$program->productfeeds->map(function ($productfeed) use ($program) {
                 $tableData = [
                     'Programma ID' => $program->id,
                     'Programmas' => $program->name,
@@ -103,7 +112,7 @@ class DaisyconGetProducts extends Command
 
                 $this->info('Products imported into the database: ' . $productfeed->products()->count());
                 $this->info('// --');
-            });
+            });*/
         });
 
     }

@@ -15,7 +15,7 @@ class CreateProductfeedsTable extends Migration
     {
         Schema::create('productfeeds', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('program_id')->nullable(); //->unsigned();
+            $table->unsignedInteger('program_id')->index()->nullable(); //->unsigned();
             $table->unsignedInteger('standard_id')->nullable(); //->unsigned();
             $table->unsignedInteger('currency_id')->nullable(); //->unsigned();
             $table->string('language_code')->nullable();

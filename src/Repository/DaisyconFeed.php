@@ -28,7 +28,7 @@ class DaisyconFeed
         $this->productfeed = $productfeed;
 
         try {
-            $url = $productfeed->url;
+            echo $url = $productfeed->url;
 
             $CHUNK_SIZE = 1024;
             $stream     = new Guzzle($url, $CHUNK_SIZE);

@@ -89,4 +89,24 @@ class DaisyconHelper
             $url
         );
     }
+
+    /**
+     * Return productinfo fields
+     *
+     * @return array
+     */
+    public static function getProductinfoFields()
+    {
+        $productInfoFields = [
+            'daisycon_unique_id',
+            'previous_daisycon_unique_id',
+            'data_hash',
+            'status',
+            'insert_date',
+            'update_date',
+            'delete_date'
+        ];
+
+        return $productInfoFields;
+    }
 }

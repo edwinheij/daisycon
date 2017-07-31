@@ -20,19 +20,15 @@ return [
 
     'sub_id' => '',
 
-    'timeout' => '10.0', // time when a single request will time out when requesting remote data
+    'timeout' => '600', // timeout in seconds when a single request will time out when requesting remote data
 
     'encoding' => 'UTF-8', // ISO-8859-1 / ISO-8859-15 / UTF-8 / UTF-16 / ASCII
 
 	'accept_html' => true, // (bool) true / false
 
-    /**
-     * feed_type is not used anymore because all feeds
-     * are xml after daisycon's last update.
-     */
-    // 'feed_type' => 'csv', // xml / csv; xmlatt not yet available
+    'feed_type' => 'csv', // json / xml / csv; xmlatt not yet available
 
-    'chunksize' => 500, // only used where feed_type = csv
+//    'chunksize' => 500, // only used where feed_type = csv
 
     /**
      * Here you can define the fields from the feed which you want to save to the database

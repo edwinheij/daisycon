@@ -2,8 +2,11 @@
 
 namespace Bahjaat\Daisycon\Repository;
 
+use Bahjaat\Daisycon\Models\Program;
+use Illuminate\Console\Command;
+
 interface DataImportInterface {
 
-    public function importData($url, $program_id, $feed_id, $custom_categorie);
+    public function import(Program $program, Command $command);
 
 }
