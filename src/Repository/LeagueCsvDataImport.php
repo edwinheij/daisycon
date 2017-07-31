@@ -31,9 +31,9 @@ class LeagueCsvDataImport implements DataImportInterface
      */
     public function importfeed(Productfeed $feed, Command $command)
     {
-        $fileLocation = storage_path() . '/' . $feed->program->id . '-' . $feed->id . '.csv';
+        $fileLocation = storage_path() . '/temp.csv';
 
-//        $this->downloadAndSaveFeed($feed->url, $fileLocation, $command);
+        $this->downloadAndSaveFeed($feed->url, $fileLocation, $command);
 
         $offset      = 1; // to skip header
         $batchAantal = 1000;
@@ -63,14 +63,11 @@ class LeagueCsvDataImport implements DataImportInterface
                 $insert                   = array_combine($header, $row);
                 $insert['productfeed_id'] = $feed->id;
 
-//                $pi = new Productinfo;
-//                dd($pi->getFillable());
-//                dd($insert);
                 foreach ($productinfoFields as $k => $field) {
                     $productinfoFields[$field] = $insert[$field];
                     unset($productinfoFields[$k]);
                 }
-//dd($productinfoFields);
+
                 Productinfo::forceCreate($productinfoFields);
                 Product::create($insert);
 
@@ -90,7 +87,7 @@ class LeagueCsvDataImport implements DataImportInterface
 
         if (File::exists($fileLocation)) {
             $command->info(sprintf("Deleting file '%s'", $fileLocation));
-//            File::delete($fileLocation);
+            File::delete($fileLocation);
         }
     }
 
