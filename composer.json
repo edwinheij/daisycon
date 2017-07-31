@@ -13,14 +13,15 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.4",
         "guzzlehttp/guzzle": "~6.0",
         "cviebrock/eloquent-sluggable": "^4.2",
-        "prewk/xml-string-streamer": "^0.7.2",
-        "prewk/xml-string-streamer-guzzle": "^0.1.0",
+        "prewk/xml-string-streamer": "^0.10",
+        "prewk/xml-string-streamer-guzzle": "^0.2",
         "openlss/lib-array2xml": "^0.5.1",
         "umpirsky/country-list": "^2.0",
-        "jenssegers/date": "^3.2"
+        "jenssegers/date": "^3.2",
+        "league/csv":"^8.0"
     },
     "autoload": {
         "psr-4": {
@@ -46,5 +47,8 @@
                 "Bahjaat\\Daisycon\\DaisyconServiceProvider"
             ]
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
