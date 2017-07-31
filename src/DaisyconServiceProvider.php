@@ -2,6 +2,7 @@
 
 namespace Bahjaat\Daisycon;
 
+use Bahjaat\Daisycon\Commands\DaisyconAll;
 use Bahjaat\Daisycon\Commands\DaisyconFillDatabaseRelations;
 use Bahjaat\Daisycon\Commands\DaisyconFixData;
 use Bahjaat\Daisycon\Commands\DaisyconGetFeeds;
@@ -70,6 +71,7 @@ class DaisyconServiceProvider extends ServiceProvider
             DaisyconGetSubscriptions::class,
             DaisyconGetProducts::class,
             DaisyconFillDatabaseRelations::class,
+            DaisyconAll::class,
         ]);
     }
 }

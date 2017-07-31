@@ -49,13 +49,13 @@ class DaisyconGetFeeds extends Command
         $this->info('Truncate productfeed table');
         Productfeed::truncate();
 
-        $this->info('Alle productfeeds ophalen. Dit kan even duren...');
+        $this->info('Importing productfeeds');
 
         $this->daisycon
             ->allPages(false)
             ->getProductfeeds();
 
-        $this->info('Klaar');
+        $this->info('Ready');
     }
 
     /**

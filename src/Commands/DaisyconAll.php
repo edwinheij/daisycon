@@ -39,10 +39,10 @@ class DaisyconAll extends Command
     {
         $this->info('Starting to get it all together! This may take a while...');
 
-        Artisan::call('daisycon:get-programs');
-        Artisan::call('daisycon:get-subscriptions');
-        Artisan::call('daisycon:get-feeds');
-        Artisan::call('daisycon:get-products');
+        $this->call('daisycon:get-programs');
+        $this->call('daisycon:get-subscriptions');
+        $this->call('daisycon:get-feeds');
+        $this->call('daisycon:get-products');
 
         $this->info('Finished gettings it all. Enjoy!');
     }
