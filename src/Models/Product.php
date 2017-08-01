@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use ProductMutators, Sluggable;
+    use Sluggable;
 
     protected $guarded = [];
 
@@ -23,7 +23,24 @@ class Product extends Model
     protected $with = ['productinfo'];
 
     protected $casts = [
-        'in_stock' => 'bool'
+        'has_airco'          => 'bool',
+        'has_barbecue'       => 'bool',
+        'has_child_chair'    => 'bool',
+        'has_dishwasher'     => 'bool',
+        'has_electricity'    => 'bool',
+        'has_garage'         => 'bool',
+        'has_garden'         => 'bool',
+        'has_heating'        => 'bool',
+        'has_internet'       => 'bool',
+        'has_livingroom'     => 'bool',
+        'has_microwave'      => 'bool',
+        'has_playground'     => 'bool',
+        'has_sauna'          => 'bool',
+        'has_swimmingpool'   => 'bool',
+        'has_telephone'      => 'bool',
+        'has_television'     => 'bool',
+        'has_washingmachine' => 'bool',
+        'in_stock'           => 'bool'
     ];
 
     protected static function boot()
@@ -38,17 +55,13 @@ class Product extends Model
     protected function fix()
     {
         ProductFixer::apply($this);
+
         return $this;
     }
 
     public function productinfo()
     {
-        return $this->hasOne(Productinfo::class);
-    }
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class, 'destination_country', 'short');
+        return $this->hasOne(Productinfo::class, 'daisycon_unique_id', 'daisycon_unique_id');
     }
 
     /**
@@ -59,9 +72,24 @@ class Product extends Model
     public function sluggable()
     {
         return [
-            'accommodation_name_slug' => [
+            'accommodation_name_slug'  => [
                 'source' => 'accommodation_name'
-            ]
+            ],
+            'destination_city_slug'    => [
+                'source' => 'destination_city',
+                'unique' => false
+            ],
+            'destination_country_slug' => [
+                'source' => 'destination_country',
+                'unique' => false
+            ],
+            'destination_region_slug'  => [
+                'source' => 'destination_region',
+                'unique' => false
+            ],
+            'title_slug'               => [
+                'source' => 'title',
+            ],
         ];
     }
 }

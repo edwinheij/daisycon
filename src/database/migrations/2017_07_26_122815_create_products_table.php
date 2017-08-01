@@ -64,13 +64,18 @@ class CreateProductsTable extends Migration
             $table->string('condition')->nullable();
             $table->string('currency')->nullable();
             $table->string('currency_symbol')->nullable();
+
+            $table->string('daisycon_unique_id')->nullable()->unique()->index();
+
             // daisycon_unique_id
             // daisycon_unique_id_modified
             // daisycon_unique_id_since
             // data_hash
             // delete_date
+
             $table->text('delivery_description')->nullable();
             $table->string('delivery_time')->nullable();
+
             $table->string('departure_city')->nullable()->index();
             $table->string('departure_country')->nullable();
             $table->date('departure_date')->nullable()->index();
@@ -79,12 +84,16 @@ class CreateProductsTable extends Migration
             $table->string('departure_longitude')->nullable();
             $table->string('departure_port')->nullable();
             $table->string('departure_times')->nullable();
+
             $table->text('description')->nullable();
             $table->string('description_short')->nullable();
+
             $table->string('destination_city')->nullable()->index();
+            $table->string('destination_city_slug')->nullable()->index();
             $table->text('destination_city_link')->nullable();
             $table->string('destination_continent')->nullable()->index();
             $table->string('destination_country')->nullable()->index();
+            $table->string('destination_country_slug')->nullable()->index();
             $table->text('destination_country_description')->nullable();
             $table->text('destination_country_link')->nullable();
             $table->string('destination_language')->nullable();
@@ -93,6 +102,7 @@ class CreateProductsTable extends Migration
             $table->string('destination_longitude')->nullable();
             $table->string('destination_port')->nullable();
             $table->string('destination_region')->nullable()->index();
+            $table->string('destination_region_slug')->nullable()->index();
             $table->text('destination_region_link')->nullable();
             $table->string('destination_zipcode')->nullable();
 
@@ -155,7 +165,8 @@ class CreateProductsTable extends Migration
             $table->string('sku')->nullable();
             // status
             $table->text('terms_conditions')->nullable();
-            $table->text('title')->nullable();
+            $table->string('title')->nullable();
+            $table->string('title_slug')->nullable()->index();
             $table->string('travel_tour_operator')->nullable();
 
             $table->string('travel_trip_type')->nullable();
@@ -165,6 +176,7 @@ class CreateProductsTable extends Migration
             $table->string('trip_holiday_type')->nullable();
 
             $table->string('trip_lastminute')->nullable();
+
             // update_date
 
             $table->unsignedTinyInteger('star_rating')->nullable()->index();

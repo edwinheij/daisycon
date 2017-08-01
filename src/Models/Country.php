@@ -7,21 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    use Sluggable;
-
     public $timestamps = false;
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable()
+    protected $guarded = [];
+
+    public function scopeShort($query, $value)
     {
-        return [
-            'country_slug' => [
-                'source' => 'country'
-            ]
-        ];
+        return $query->where('short', $value);
     }
 }
