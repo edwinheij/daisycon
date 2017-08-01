@@ -98,13 +98,19 @@ class DaisyconHelper
     public static function getProductinfoFields()
     {
         $productInfoFields = [
+            'product_id',
+            'program_id',
             'daisycon_unique_id',
+            'daisycon_unique_id',
+            'daisycon_unique_id_modified',
+            'daisycon_unique_id_since',
             'previous_daisycon_unique_id',
             'data_hash',
             'status',
             'insert_date',
             'update_date',
-            'delete_date'
+            'delete_date',
+            'last_modified'
         ];
 
         return $productInfoFields;

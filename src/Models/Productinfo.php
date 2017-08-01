@@ -16,8 +16,10 @@ class Productinfo extends Model
 //        'product' // no recusion
     ];
 
+    protected $guarded = [];
+
     protected $dates = [
-        'insert_date', 'update_date', 'delete_date'
+        'insert_date', 'update_date', 'delete_date', 'last_modified'
     ];
 
     public function setInsertDateAttribute($value) {

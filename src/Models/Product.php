@@ -12,25 +12,18 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $fillable = [
-        'productfeed_id',
-        'description', 'sku', 'link', 'price', 'price_old', 'title',
-        'accommodation_name', 'accommodation_type',
-        'duration_days', 'duration_nights',
-        'destination_city', 'destination_city_link',
-        'airport_departure',
-        'departure_date', 'destination_region', 'destination_country',
-        'travel_trip_type', 'star_rating', 'image',
-    ];
-
     protected $dates = [
-        'departure_date'
+        'accommodation_lowest_date',
+        'arrival_date',
+        'available_from',
+        'departure_date',
+        'departure_date_return',
     ];
 
     protected $with = ['productinfo'];
 
     protected $casts = [
-//        'price' => 'double'
+        'in_stock' => 'bool'
     ];
 
     protected static function boot()
