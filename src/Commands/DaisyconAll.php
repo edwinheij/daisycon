@@ -2,7 +2,7 @@
 
 namespace Bahjaat\Daisycon\Commands;
 
-use Artisan;
+use CountrycodesTableSeeder;
 use Illuminate\Console\Command;
 
 class DaisyconAll extends Command
@@ -39,10 +39,14 @@ class DaisyconAll extends Command
     {
         $this->info('Starting to get it all together! This may take a while...');
 
+        (new CountrycodesTableSeeder)->run();
+
         $this->call('daisycon:get-programs');
         $this->call('daisycon:get-subscriptions');
         $this->call('daisycon:get-feeds');
-        $this->call('daisycon:get-products');
+        $this->call('daisycon:get-products', [
+//            'program_id' => ..
+        ]);
 
         $this->info('Finished gettings it all. Enjoy!');
     }

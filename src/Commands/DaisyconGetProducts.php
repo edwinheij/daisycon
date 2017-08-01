@@ -1,24 +1,9 @@
 <?php namespace Bahjaat\Daisycon\Commands;
 
-use Bahjaat\Daisycon\Repository\DaisyconFeed;
-use Config;
+use Bahjaat\Daisycon\Models\Productinfo;
 use Illuminate\Console\Command;
-
-use Illuminate\Console\OutputStyle;
-use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\Stream;
-use Prewk\XmlStringStreamer\Parser;
-
-use Bahjaat\Daisycon\Helper\DaisyconHelper;
-
-use Bahjaat\Daisycon\Models\ActiveProgram;
-use Bahjaat\Daisycon\Models\Countrycode;
-use Bahjaat\Daisycon\Models\Data;
 use Bahjaat\Daisycon\Models\Program;
-use Bahjaat\Daisycon\Models\Subscription;
-
 use Bahjaat\Daisycon\Repository\DataImportInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class DaisyconGetProducts extends Command
 {
@@ -60,7 +45,6 @@ class DaisyconGetProducts extends Command
      */
     public function handle()
     {
-
         $program_id = $this->argument('program_id');
 
         if (!empty($program_id)) {
@@ -77,44 +61,15 @@ class DaisyconGetProducts extends Command
             });
         }
 
-
         $programs->get()->each(function($program) {
-//        $this->info('Importing products for program ' . $program->id);
 
-//            $this->feed->import()
             if ( ! $program->productfeeds()->count()) {
                 $this->info('No productfeeds for ' . $program->name);
                 return;
             }
 
             $this->data->import($program, $this);
-
-
-
-
-
-
-
-
-
-
-
-            /*$program->productfeeds->map(function ($productfeed) use ($program) {
-                $tableData = [
-                    'Programma ID' => $program->id,
-                    'Programmas' => $program->name,
-                    'Product count' => $productfeed->products,
-                ];
-
-                $this->table(array_keys($tableData), [array_values($tableData)]);
-
-                $this->feed->import($productfeed);
-
-                $this->info('Products imported into the database: ' . $productfeed->products()->count());
-                $this->info('// --');
-            });*/
         });
-
     }
 
 }
