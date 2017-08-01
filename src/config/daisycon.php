@@ -28,7 +28,13 @@ return [
 
     'feed_type' => 'csv', // json / xml / csv; xmlatt not yet available
 
-//    'chunksize' => 500, // only used where feed_type = csv
+    'chunksize' => 500, // only used where feed_type = csv
+
+    'missing_countries' => [
+
+        'AN' => 'Nederlandse Antillen'
+
+    ],
 
     /**
      * Here you can define the fields from the feed which you want to save to the database

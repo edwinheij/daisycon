@@ -1,17 +1,15 @@
 <?php
 
-use Bahjaat\Daisycon\Models\Country;
 use Bahjaat\Daisycon\Repository\ImportCountries;
 use Illuminate\Database\Seeder;
 
-class CountrycodesTableSeeder extends Seeder {
+class CountrycodesTableSeeder extends Seeder
+{
 
-	public function run()
-	{
-		Country::truncate();
-
+    public function run()
+    {
         $country = new ImportCountries();
         $country->run();
-	}
+    }
 
 }

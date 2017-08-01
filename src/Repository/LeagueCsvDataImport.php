@@ -5,6 +5,7 @@ namespace Bahjaat\Daisycon\Repository;
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Bahjaat\Daisycon\Models\Productinfo;
 use File;
+use Illuminate\Database\QueryException;
 use League\Csv\Reader;
 use Illuminate\Console\Command;
 use Bahjaat\Daisycon\Models\Product;
@@ -33,10 +34,17 @@ class LeagueCsvDataImport implements DataImportInterface
     {
         $fileLocation = storage_path() . '/temp.csv';
 
-        $this->downloadAndSaveFeed($feed->url, $fileLocation, $command);
+        $this->showTableDetails($feed, $command);
+
+        try {
+            $this->downloadAndSaveFeed($feed->url, $fileLocation, $command);
+        } catch (\Exception $e) {
+            $command->error($e->getMessage());
+            return;
+        }
 
         $offset      = 1; // to skip header
-        $batchAantal = 1000;
+        $batchAantal = config('daisycon.chunksize', 500);
 
         $csv = Reader::createFromPath($fileLocation);
         $csv->setDelimiter(';');
@@ -45,6 +53,7 @@ class LeagueCsvDataImport implements DataImportInterface
         $header = $csv->fetchOne();
 
         $creationCount = 0;
+
 
         while (true) {
             // Flushing the QueryLog before using too much memory
@@ -58,35 +67,77 @@ class LeagueCsvDataImport implements DataImportInterface
 
             $productinfoFields = DaisyconHelper::getProductinfoFields();
 
-            $csvResults = $csv->fetchAll(function ($row) use ($feed, $header, $productinfoFields, &$creationCount) {
-
+            $csvResults = $csv->fetchAll(function ($row) use (
+                $feed,
+                $header,
+                $productinfoFields,
+                $command,
+                &$creationCount
+            ) {
                 $insert                   = array_combine($header, $row);
                 $insert['productfeed_id'] = $feed->id;
 
                 foreach ($productinfoFields as $k => $field) {
-                    $productinfoFields[$field] = $insert[$field];
+                    if (array_key_exists($field, $insert)) {
+                        $productinfoFields[$field] = $insert[$field];
+                        unset($insert[$field]);
+                    }
                     unset($productinfoFields[$k]);
                 }
 
-                Productinfo::forceCreate($productinfoFields);
-                Product::create($insert);
+                $insert['daisycon_unique_id'] = $productinfoFields['daisycon_unique_id'];
 
-                $creationCount++;
+                $productinfoFields['program_id'] = $insert['id'];
+                unset($insert['id']);
+
+                try {
+                    $insert = array_filter($insert);
+
+                    foreach ($insert as $k => $v) {
+                        if ($v == 'true') {
+                            $insert[$k] = 1;
+                        }
+                        if ($v == 'false') {
+                            $insert[$k] = 0;
+                        }
+                    }
+
+                    $product = Product::updateOrCreate([
+                        'daisycon_unique_id' => $insert['daisycon_unique_id']
+                    ], $insert);
+
+                    $productinfoFields['program_id'] = $feed->program->id;
+                    $productinfoFields = array_filter($productinfoFields);
+
+                    Productinfo::updateOrCreate([
+                        'daisycon_unique_id' => $product->daisycon_unique_id
+                    ], $productinfoFields);
+
+                    $creationCount++;
+                } catch (QueryException $e) {
+                    $command->error($e->getMessage());
+                    ksort($insert);
+                    dd($insert);
+                }
             });
 
-            $aantalResultaten = count($csvResults);
-            $command->info("Totaal verwerkt: " . $creationCount . ' / ' . $feed->products);
-            $offset += $aantalResultaten;
+            $resultCount = count($csvResults);
+            $command->info("Products processed: " . $creationCount . ' / ' . $feed->products);
+            $offset += $resultCount;
 
             // force end
-            if ($aantalResultaten != $batchAantal) {
+            if ($resultCount != $batchAantal) {
                 break;
             }
 
         }
 
         if (File::exists($fileLocation)) {
-            $command->info(sprintf("Deleting file '%s'", $fileLocation));
+            if ($command->getOutput()->isVerbose()) {
+                $command->info(sprintf("Deleting file '%s'", $fileLocation));
+            } else {
+                $command->info('Deleting temporary file');
+            }
             File::delete($fileLocation);
         }
     }
@@ -115,7 +166,11 @@ class LeagueCsvDataImport implements DataImportInterface
             CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
         ));
 
-        $command->info(sprintf("Saving '%s' to '%s'", $url, $fileLocation));
+        if ($command->getOutput()->isVerbose()) {
+            $command->info(sprintf("Saving '%s' to '%s'", $url, $fileLocation));
+        } else {
+            $command->info('Saving temporary file');
+        }
         $response = curl_exec($curl);
 
         if ($response === false) {
@@ -123,5 +178,24 @@ class LeagueCsvDataImport implements DataImportInterface
         }
 
         return $response;
+    }
+
+    /**
+     * @param \Bahjaat\Daisycon\Models\Productfeed $feed
+     * @param \Illuminate\Console\Command          $command
+     */
+    protected function showTableDetails(Productfeed $feed, Command $command)
+    {
+        $command->table([
+            'Feed id',
+            'Program id',
+            'Program name'
+        ], [
+            [
+                $feed->id,
+                $feed->program->id,
+                $feed->program->name,
+            ]
+        ]);
     }
 }
