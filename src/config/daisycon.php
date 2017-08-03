@@ -6,19 +6,19 @@ return [
      * Important settings
      */
 
-    'username' => '', // Should be your emailaddress registered with Daisycon
+    'username' => env('DAISYCON_USERNAME', ''), // Should be your emailaddress registered with Daisycon
 
-    'password' => '', // Your password which belongs to the username above
+    'password' => env('DAISYCON_PASSWORD', ''), // Your password which belongs to the username above
 
-    'media_id' => 0,
+    'media_id' => env('DAISYCON_MEDIA_ID', 0),
 
-    'publisher_id' => 0, // https://services.daisycon.com/publishers
+    'publisher_id' => env('DAISYCON_PUBLISHER_ID', 0), // https://services.daisycon.com/publishers
 
     /**
      * Other settings
      */
 
-    'sub_id' => '',
+    'sub_id' => env('DAISYCON_SUB_ID', ''),
 
     'timeout' => '600', // timeout in seconds when a single request will time out when requesting remote data
 
@@ -32,7 +32,7 @@ return [
 
     'missing_countries' => [
 
-        'AN' => 'Nederlandse Antillen'
+        'NA' => 'Nederlandse Antillen'
 
     ],
 

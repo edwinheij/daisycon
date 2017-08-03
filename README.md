@@ -43,6 +43,15 @@ Really important attribute are:
 * media_id
 * publisher_id
 
+When using >= v2.0.6 you can also set your ```.env``` file with the following variables:
+
+```
+DAISYCON_USERNAME
+DAISYCON_PASSWORD
+DAISYCON_MEDIA_ID
+DAISYCON_PUBLISHER_ID
+```
+
 ## Seeding database
 For your convenience there are some database seed classes provided with the package.
 - The first one is adding some country(codes) into the databse.
