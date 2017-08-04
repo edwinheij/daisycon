@@ -102,6 +102,15 @@ class LeagueCsvDataImport implements DataImportInterface
                         }
                     }
 
+                    if (isset($insert['longitude'])) {
+                        $insert['destination_longitude'] = $insert['longitude'];
+                        unset($insert['longitude']);
+                    }
+                    if (isset($insert['latitude'])) {
+                        $insert['destination_latitude'] = $insert['latitude'];
+                        unset($insert['latitude']);
+                    }
+
                     $product = Product::updateOrCreate([
                         'daisycon_unique_id' => $insert['daisycon_unique_id']
                     ], $insert);
