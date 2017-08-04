@@ -106,6 +106,9 @@ class CreateProductsTable extends Migration
             $table->text('destination_region_link')->nullable();
             $table->string('destination_zipcode')->nullable();
 
+            $table->string('discount_amount')->nullable();
+            $table->string('discount_percentage')->nullable();
+
             $table->unsignedInteger('distance_to_bakery')->nullable();
             $table->unsignedInteger('distance_to_beach')->nullable();
             $table->unsignedInteger('distance_to_citycenter')->nullable();

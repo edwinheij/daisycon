@@ -116,8 +116,10 @@ class LeagueCsvDataImport implements DataImportInterface
                     $creationCount++;
                 } catch (QueryException $e) {
                     $command->error($e->getMessage());
+                    \Log::error($e->getMessage());
                     ksort($insert);
-                    dd($insert);
+                    \Log::error($insert);
+                    return;
                 }
             });
 
