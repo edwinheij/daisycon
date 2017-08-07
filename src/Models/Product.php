@@ -12,36 +12,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $dates = [
-        'accommodation_lowest_date',
-        'arrival_date',
-        'available_from',
-        'departure_date',
-        'departure_date_return',
-    ];
-
     protected $with = ['productinfo'];
-
-    protected $casts = [
-        'has_airco'          => 'bool',
-        'has_barbecue'       => 'bool',
-        'has_child_chair'    => 'bool',
-        'has_dishwasher'     => 'bool',
-        'has_electricity'    => 'bool',
-        'has_garage'         => 'bool',
-        'has_garden'         => 'bool',
-        'has_heating'        => 'bool',
-        'has_internet'       => 'bool',
-        'has_livingroom'     => 'bool',
-        'has_microwave'      => 'bool',
-        'has_playground'     => 'bool',
-        'has_sauna'          => 'bool',
-        'has_swimmingpool'   => 'bool',
-        'has_telephone'      => 'bool',
-        'has_television'     => 'bool',
-        'has_washingmachine' => 'bool',
-        'in_stock'           => 'bool'
-    ];
 
     protected static function boot()
     {
