@@ -4,13 +4,14 @@ namespace Bahjaat\Daisycon\Repository\ProductFixers;
 
 class ProductFixer
 {
-    public static function apply($model)
+    public static function fix($data)
     {
-        collect($model)->keys()->map(function($column) use ($model) {
+        collect($data)->keys()->map(function($column) use (&$data) {
             $class = __NAMESPACE__ . '\\' . ucfirst(camel_case($column)) . 'Fixer';
-            if (class_exists($class)) {
-                (new $class)->handle($model);
+            if (class_exists($class) && method_exists($class, 'fix')) {
+                $data = (new $class)->fix($data);
             }
         });
+        return $data;
     }
 }

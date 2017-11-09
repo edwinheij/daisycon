@@ -4,5 +4,5 @@ namespace Bahjaat\Daisycon\Repository\ProductFixers;
 
 interface Fixer
 {
-    public function handle($model);
+    public function fix($data);
 }

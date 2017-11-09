@@ -4,18 +4,20 @@ namespace Bahjaat\Daisycon\Repository\ProductFixers;
 
 class TravelTripTypeFixer implements Fixer
 {
-    protected $model;
+    protected $data;
 
-    public function handle($model)
+    public function fix($data)
     {
-        $this->model = $model;
+        $this->data = $data;
 
-        $this->fix();
+        $this->ConvertToFullType();
+
+        return $this->data;
     }
 
-    protected function fix()
+    protected function ConvertToFullType(): void
     {
-        $ttt = $newType = $this->model->travel_trip_type;
+        $ttt = $newType = $this->data['travel_trip_type'];
 
         switch (strtoupper($ttt)) {
             case "AI":
@@ -40,7 +42,7 @@ class TravelTripTypeFixer implements Fixer
                 // stay as it is
         }
 
-        $this->model->travel_trip_type = $newType;
+        $this->data['travel_trip_type'] = $newType;
     }
 
 }

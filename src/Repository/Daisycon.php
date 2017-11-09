@@ -143,9 +143,9 @@ class Daisycon
      * Response converteren
      *
      * @param object|array $response
-     * @param string $class
+     * @param string       $class
      *
-     * @throws \App\Daisycon\Exceptions\NoContentException
+     * @throws \Bahjaat\Daisycon\Repository\Exceptions\NoContentException
      */
     protected function handleResponse($response, $class) {
         if ($response->getStatusCode() == 204) {
