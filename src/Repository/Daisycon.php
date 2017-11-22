@@ -3,12 +3,15 @@
 namespace Bahjaat\Daisycon\Repository;
 
 use App;
+use Bahjaat\Daisycon\Models\Lead;
+use Bahjaat\Daisycon\Models\Leadrequirement;
 use Bahjaat\Daisycon\Models\Productfeed;
 use Config;
 use Bahjaat\Daisycon\Models\Program;
 use Bahjaat\Daisycon\Models\Subscription;
 use GuzzleHttp\Client as GuzzleClient;
 use Bahjaat\Daisycon\Repository\Exceptions\NoContentException;
+use Illuminate\Database\QueryException;
 
 class Daisycon
 {
@@ -18,6 +21,8 @@ class Daisycon
 
     protected $allPages = true;
 
+    protected $requestMethod = 'GET';
+
     /**
      * Daisycon constructor.
      *
@@ -26,7 +31,9 @@ class Daisycon
     public function __construct($options = [])
     {
         $publisher_id = Config::get("daisycon.publisher_id");
-        $uri          = "https://services.daisycon.com/publishers/{$publisher_id}/";
+        $sandbox      = Config::get("daisycon.sandbox") ? '-sandbox' : '';
+
+        $uri = "https://services{$sandbox}.daisycon.com/publishers/{$publisher_id}/";
 
         $settings = [
             'base_uri' => $uri,
@@ -34,15 +41,31 @@ class Daisycon
             'auth'     => $this->authentication(),
             'query'    => $options,
             'verify'   => App::environment() == 'local' ? true : false,
-            'debug'    => false, //App::environment() == 'local' ? true : false,
+            'debug'    => Config::get('app.debug'),
         ];
 
         $this->parameters = [
-            'page' => 1,
+            'page'     => 1,
             'per_page' => 100
         ];
 
         $this->guzzleClient = new GuzzleClient($settings);
+    }
+
+    /**
+     * Post leads
+     *
+     * @param $data
+     */
+    public function postLeads($data)
+    {
+        $uri = "leads";
+
+        $class = Lead::class;
+
+        $this->requestMethod = 'POST';
+
+        $this->doRequest($uri, $class, $data);
     }
 
     /**
@@ -53,8 +76,8 @@ class Daisycon
     public function getSubscriptions()
     {
         $media_id = Config::get('daisycon.media_id');
-        $uri = "media/{$media_id}/subscriptions";
-        $class = Subscription::class;
+        $uri      = "media/{$media_id}/subscriptions";
+        $class    = Subscription::class;
 
         $this->setParameter(['status' => 'approved']);
 
@@ -68,12 +91,12 @@ class Daisycon
      */
     public function getPrograms()
     {
-        $uri = 'programs';
+        $uri   = 'programs';
         $class = Program::class;
 
         $this->setParameter([
-            'media_id' => Config::get('daisycon.media_id'),
-            'productfeed' => 'true'
+            'media_id'    => Config::get('daisycon.media_id'),
+//            'productfeed' => 'true'
         ]);
 
         $this->doRequest($uri, $class);
@@ -86,12 +109,13 @@ class Daisycon
      *
      * @return void
      */
-    public function getProgram($id) {
-        $uri = 'programs/' . $id;
+    public function getProgram($id)
+    {
+        $uri   = 'programs/' . $id;
         $class = Program::class;
 
         $this->setParameter([
-            'media_id' => Config::get('daisycon.media_id'),
+            'media_id'    => Config::get('daisycon.media_id'),
             'productfeed' => 'true'
         ]);
 
@@ -105,7 +129,7 @@ class Daisycon
      */
     public function getProductfeeds()
     {
-        $uri = 'productfeeds.v2/program';
+        $uri   = 'productfeeds.v2/program';
         $class = Productfeed::class;
 
         $this->setParameter(['media_id' => Config::get('daisycon.media_id')]);
@@ -114,24 +138,50 @@ class Daisycon
     }
 
     /**
+     * Programma's ophalen
+     *
+     * @return void
+     */
+    public function getLeadrequirements()
+    {
+        $uri   = 'leadrequirements';
+        $class = Leadrequirement::class;
+
+        $response = $this->doRequest($uri, $class);
+    }
+
+    /**
      * Request uitvoeren naar Daisycon via APi
      *
      * @param string $uri
      * @param string $class
+     * @param        $data
      *
      * @return mixed
      */
-    protected function doRequest($uri, $class) {
+    protected function doRequest($uri, $class, $data = null)
+    {
         try {
-            $response = $this->guzzleClient->request('GET', $uri, [
-                'form_params' => $this->parameters
-            ]);
+            if (is_null($data)) {
+                $options = [
+                    'form_params' => $this->parameters
+                ];
+            } else {
+                $options = [
+                    'body' => $data
+                ];
+            }
+
+            $response = $this->guzzleClient->request($this->requestMethod, $uri, $options);
             $this->handleResponse($response, $class);
 
-            if (!$this->allPages) return true;
+            if ( ! $this->allPages) {
+                return true;
+            }
 
             // volgende pagina
             $this->parameters['page']++;
+
             return $this->doRequest($uri, $class);
 
         } catch (NoContentException $e) {
@@ -147,33 +197,64 @@ class Daisycon
      *
      * @throws \Bahjaat\Daisycon\Repository\Exceptions\NoContentException
      */
-    protected function handleResponse($response, $class) {
+    protected function handleResponse($response, $class)
+    {
         if ($response->getStatusCode() == 204) {
             throw new NoContentException();
         }
 
         $results = json_decode((string)$response->getBody());
 
-        $this->storeResults($results, $class);
+        $classShortname = (new \ReflectionClass($class))->getShortName();
+
+        if (method_exists($this, "store{$classShortname}")) {
+            call_user_func([$this, "store{$classShortname}"], $results, $class);
+        } else  {
+            $this->storeResults($results, $class);
+        }
+
+    }
+
+    protected function storeLeadrequirement($results, $class) {
+        collect($results)->map(function($result) {
+            Leadrequirement::where('program_id', $result->program_id)->delete();
+
+            foreach($result->questions as $question) {
+                Leadrequirement::firstOrCreate([
+                    'program_id' => $result->program_id,
+                    'question' => $question->question,
+                ],[
+                    'required' => $question->required
+                ]);
+            }
+
+        });
+
+        throw new NoContentException();
     }
 
     protected function storeResults($results, $class)
     {
-        foreach ($results as $result) {
-            $result = (array) $result;
+        try {
+            foreach ($results as $result) {
+                $result = (array)$result;
 
-/*
-            if (array_key_exists('id', $result)) {
-                $classShortname = strtolower((new \ReflectionClass($class))->getShortName());
-                $result[$classShortname . '_id'] = $result['id'];
-                unset($result['id']);
+                //            var_dump($result);
+                /*
+                            if (array_key_exists('id', $result)) {
+                                $classShortname = strtolower((new \ReflectionClass($class))->getShortName());
+                                $result[$classShortname . '_id'] = $result['id'];
+                                unset($result['id']);
+                            }
+                */
+
+                //            print_r($result);
+                //            die();
+
+                $class::create($result);
             }
-*/
-
-//            print_r($result);
-//            die();
-
-            $class::create($result);
+        } catch (QueryException $e) {
+            //
         }
     }
 
@@ -212,7 +293,8 @@ class Daisycon
      *
      * @return $this
      */
-    public function setParameter(array $parameter) {
+    public function setParameter(array $parameter)
+    {
         foreach ($parameter as $param => $value) {
             $this->parameters[$param] = $value;
         }

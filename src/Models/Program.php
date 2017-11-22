@@ -3,6 +3,7 @@
 namespace Bahjaat\Daisycon\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Program extends Model
@@ -38,6 +39,21 @@ class Program extends Model
     protected $with = [
 //        'productfeeds', 'productfeeds.products'
     ];
+
+    public function leaddetails()
+    {
+        return $this->hasOne(Lead::class);
+    }
+
+    public function scopeLeads(Builder $builder)
+    {
+        $builder->where('type', 'leadgeneration');
+    }
+
+    public function scopeProductfeeds(Builder $builder)
+    {
+        $builder->where('type', 'affiliatemarketing');
+    }
 
     public function setEnddateAttribute($enddate)
     {
