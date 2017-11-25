@@ -4,6 +4,7 @@ namespace Bahjaat\Daisycon\Repository;
 
 use Bahjaat\Daisycon\Helper\DaisyconHelper;
 use Bahjaat\Daisycon\Models\Productinfo;
+use Bahjaat\Daisycon\Repository\ProductFixers\ProductFixer;
 use File;
 use Illuminate\Database\QueryException;
 use League\Csv\Reader;
@@ -111,6 +112,11 @@ class LeagueCsvDataImport implements DataImportInterface
                         unset($insert['latitude']);
                     }
 
+//                    print_r($insert);
+                    $insert = ProductFixer::fix($insert);
+//                    print_r($insert);
+
+//                    dd();
                     $product = Product::updateOrCreate([
                         'daisycon_unique_id' => $insert['daisycon_unique_id']
                     ], $insert);

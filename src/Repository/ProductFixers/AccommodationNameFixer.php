@@ -4,20 +4,22 @@ namespace Bahjaat\Daisycon\Repository\ProductFixers;
 
 class AccommodationNameFixer implements Fixer
 {
-    protected $model;
+    protected $data;
 
-    public function handle($model)
+    public function fix($data)
     {
-        $this->model = $model;
+        $this->data = $data;
 
         $this->trimDoubleQuotes();
         $this->removeSku();
+
+        return $this->data;
     }
 
     protected function removeSku() {
-        $sku = $this->model->sku;
+        $sku = $this->data['sku'];
 
-        $accommodation_name = $this->model->accommodation_name;
+        $accommodation_name = $this->data['accommodation_name'];
 
         $split = explode(' ', $accommodation_name);
 
@@ -26,11 +28,12 @@ class AccommodationNameFixer implements Fixer
             $accommodation_name = implode(' ', $split);
         }
 
-        $this->model->accommodation_name = $accommodation_name;
+        $this->data['accommodation_name'] = $accommodation_name;
     }
 
     protected function trimDoubleQuotes()
     {
-        $this->model->accommodation_name = trim($this->model->accommodation_name, '"');
+        $this->data['accommodation_name'] = trim($this->data['accommodation_name'], '"');
     }
+
 }

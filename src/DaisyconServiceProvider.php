@@ -6,9 +6,11 @@ use Bahjaat\Daisycon\Commands\DaisyconAll;
 use Bahjaat\Daisycon\Commands\DaisyconFillDatabaseRelations;
 use Bahjaat\Daisycon\Commands\DaisyconFixData;
 use Bahjaat\Daisycon\Commands\DaisyconGetFeeds;
+use Bahjaat\Daisycon\Commands\DaisyconGetLeadrequirements;
 use Bahjaat\Daisycon\Commands\DaisyconGetPrograms;
 use Bahjaat\Daisycon\Commands\DaisyconGetSubscriptions;
 use Bahjaat\Daisycon\Commands\DaisyconGetProducts;
+use Bahjaat\Daisycon\Commands\DaisyconPostLeads;
 use Bahjaat\Daisycon\Models\Productinfo;
 use Bahjaat\Daisycon\Repository\JsonDataImport;
 use Bahjaat\Daisycon\Repository\LeagueCsvDataImport;
@@ -72,6 +74,8 @@ class DaisyconServiceProvider extends ServiceProvider
             DaisyconGetProducts::class,
             DaisyconFillDatabaseRelations::class,
             DaisyconAll::class,
+            DaisyconPostLeads::class,
+            DaisyconGetLeadrequirements::class,
         ]);
     }
 }

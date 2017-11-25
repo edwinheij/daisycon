@@ -9,35 +9,24 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DestinationCountryFixer implements Fixer
 {
-    protected $model;
+    protected $data;
 
-    public function handle($model)
+    public function fix($data)
     {
-        $this->model = $model;
+        $this->data = $data;
 
         $this->replaceWithFullCountry();
+
+        return $this->data;
     }
 
     protected function replaceWithFullCountry()
     {
-        $short_country = $this->model->destination_country;
+        $short_country = $this->data['destination_country'];
 
         try {
             $country = Country::short($short_country)->firstOrFail();
-            $this->model->destination_country = $country->country;
-
-            // Slug it again because it's changed
-            $destination_country_slug = SlugService::createSlug(
-                Product::class,
-                'destination_country_slug',
-                $country->country,
-                [
-                    'unique' => false
-                ]
-            );
-
-            $this->model->destination_country_slug = $destination_country_slug;
-
+            $this->data['destination_country'] = $country->country;
         } catch (ModelNotFoundException $e) {
             \Log::error(sprintf('%s not found in Country table', $short_country));
         }

@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.4",
         "guzzlehttp/guzzle": "~6.0",
-        "cviebrock/eloquent-sluggable": "^4.2",
+        "cviebrock/eloquent-sluggable": "^4.3",
         "prewk/xml-string-streamer": "^0.9",
         "prewk/xml-string-streamer-guzzle": "^0.2",
         "openlss/lib-array2xml": "^0.5.1",

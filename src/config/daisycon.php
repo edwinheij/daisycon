@@ -14,6 +14,8 @@ return [
 
     'publisher_id' => env('DAISYCON_PUBLISHER_ID', 0), // https://services.daisycon.com/publishers
 
+    'sandbox' => env('DAISYCON_SANDBOX', false), // enable sandbox (testomgeving)
+
     /**
      * Other settings
      */
