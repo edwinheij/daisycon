@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Bahjaat\Daisycon\Tests;
 
 // Todo
 
@@ -10,7 +10,7 @@ use Bahjaat\Daisycon\Models\Data;
  * Class DataTest
  * @coversDefaultClass Bahjaat\Daisycon\Models\Data
  */
-class DataTest extends \TestCase
+class DataTest extends TestCase
 {
     protected $data;
 
