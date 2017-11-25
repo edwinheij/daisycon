@@ -73,7 +73,7 @@ class Daisycon
 
         $this->setParameter([
             'media_id' => Config::get('daisycon.media_id'),
-            'productfeed' => 'true'
+//            'productfeed' => 'true'
         ]);
 
         $this->doRequest($uri, $class);
